@@ -100,6 +100,23 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         robot.lift.setTargetPosition(robot.lift.getCurrentPosition() - (LIFT_HEIGHT1 +LIFT_HEIGHT2));
     }
 
+    public void spinWheelNew(String side){
+        if (side == "red"){
+            for(int i = 100; i >=1; i--){
+                robot.spinner.setPower(SPINNER_SPEED/i);
+            }
+            sleep(2500);
+            robot.spinner.setPower(0);
+        }
+        else if(side == "blue"){
+            for(int i = 100; i >=1; i--){
+                robot.spinner.setPower(-SPINNER_SPEED/i);
+            }
+            sleep(2500);
+            robot.spinner.setPower(0);
+        }
+    }
+
     public void intake(int time){
         robot.intake.setPower(INTAKE_SPEED);
         sleep(time);

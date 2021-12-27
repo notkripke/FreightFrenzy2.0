@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 import java.util.Objects;
 
@@ -24,7 +25,7 @@ import java.util.Objects;
 @Config
 @Autonomous(group = "drive")
 public class MaxAngularVeloTuner extends LinearOpMode {
-    public static double RUNTIME = 4.0;
+    public static double RUNTIME = 5.0;
 
     private ElapsedTime timer;
     private double maxAngVelocity = 0.0;
@@ -34,6 +35,7 @@ public class MaxAngularVeloTuner extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.Components;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
@@ -11,7 +12,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-
+@Config
 public class CVPipeline extends OpenCvPipeline
 {
 
@@ -44,11 +45,11 @@ public class CVPipeline extends OpenCvPipeline
      */
 
 
-    static Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(100,300);
-    static Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(560,250);
-    static Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(1030,250);
+    static Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(1,431);
+    static Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(560,431);
+    static Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(1030,431);
     static int REGION_WIDTH = 250;
-    static int REGION_HEIGHT = 180;
+    static int REGION_HEIGHT = 288 ;
 
 
     Point region1_pointA = new Point(

@@ -167,6 +167,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         trajectorySequenceRunner.followTrajectorySequenceAsync(trajectorySequence);
     }
 
+
     public void followTrajectorySequence(TrajectorySequence trajectorySequence) {
         followTrajectorySequenceAsync(trajectorySequence);
         waitForIdle();
@@ -255,10 +256,10 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     @Override
     public void setMotorPowers(double v, double v1, double v2, double v3) {
-        leftFront.setPower(-v);
+        leftFront.setPower(v);
         leftRear.setPower(v1);
-        rightRear.setPower(v2);
-        rightFront.setPower(v3);
+        rightRear.setPower(-v2);
+        rightFront.setPower(-v3);
     }
 
     private double fl, fr, bl, br;
@@ -270,10 +271,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         bl = x - y - r;
         br = x + y - r;
 
-        leftFront.setPower(fl);
+        leftFront.setPower(-fl);
         rightFront.setPower(fr);
         leftRear.setPower(bl);
-        rightRear.setPower(br);
+        rightRear.setPower(-br);
     }
 
     @Override
@@ -292,6 +293,8 @@ public class SampleMecanumDrive extends MecanumDrive {
                 new MecanumVelocityConstraint(maxVel, trackWidth)
         ));
     }
+
+
 
     public static TrajectoryAccelerationConstraint getAccelerationConstraint(double maxAccel) {
         return new ProfileAccelerationConstraint(maxAccel);

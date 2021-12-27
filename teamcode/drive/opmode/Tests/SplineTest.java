@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
+import org.opencv.core.Mat;
 
 /*
  * This is an example of a more complex path to really test the tuning.
@@ -16,13 +18,16 @@ public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         waitForStart();
 
         if (isStopRequested()) return;
 
+        drive.setPoseEstimate(new Pose2d(0,0, Math.toRadians(90)));
+
         Trajectory traj = drive.trajectoryBuilder(new Pose2d())
-                .splineTo(new Vector2d(30, 30), 0)
+                .lineToLinearHeading(new Pose2d(30,30,Math.toRadians(180)))
                 .build();
 
         drive.followTrajectory(traj);
