@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
-
+import org.firstinspires.ftc.teamcode.drive.Components.RobotHardware;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.Components.Sensors;
 
@@ -18,25 +18,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
-@Config
-@TeleOp(group = "drive")
-public class TestTeleop extends LinearOpMode {
 
+@TeleOp(group = "drive")
+@Config
+public class TestTeleop extends LinearOpMode { // 192.168.43.1:8080/dash
+
+    RobotHardware robot = new RobotHardware(hardwareMap, telemetry);
     Sensors sensors = new Sensors(hardwareMap, telemetry);
 
-    public static double OUTTAKE_UP = 0;
-    public static double OUTTAKE_DOWN = .6;
-
-    static double LIFT_SPEED_MULTIPLIER = .5;
-
-
-    static double LIFT_CEILING = 3000;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry()); // telemetry uses
+                                                                                                 // FTC app and Dashboard
         DcMotor Intake1, Intake2, duck, lift;
         Servo outtake;
         outtake = hardwareMap.servo.get("outtake");
@@ -52,6 +46,8 @@ public class TestTeleop extends LinearOpMode {
         drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         String Lift_state = "stop";
+
+        final double LIFT_INIT = lift.getCurrentPosition();
 
         double LIFT_POS;
 
@@ -83,7 +79,7 @@ public class TestTeleop extends LinearOpMode {
             if(gamepad1.left_trigger < .15 && gamepad1.right_trigger < .15){
                 duck.setPower(0);
             }
-            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .5 && -LIFT_POS - LIFT_CEILING > LIFT_CEILING){
+            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .5 && -LIFT_POS - robot.LIFT_CEILING > robot.LIFT_CEILING){
                 Lift_state = "up";
             }
 
@@ -91,7 +87,7 @@ public class TestTeleop extends LinearOpMode {
                 Lift_state = "down";
             }
 
-            if((gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2) || -LIFT_POS - LIFT_CEILING <= LIFT_CEILING && Lift_state != "down"){
+            if((gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2) || -LIFT_POS - robot.LIFT_CEILING <= robot.LIFT_CEILING && Lift_state != "down"){
                 Lift_state = "stop";
             }
 
@@ -107,18 +103,19 @@ public class TestTeleop extends LinearOpMode {
                     lift.setPower(0);
                     break;
                 case "down":
-                    lift.setPower(-gamepad2.left_trigger * LIFT_SPEED_MULTIPLIER);
+                    lift.setPower(-gamepad2.left_trigger * robot.LIFT_SPEED_MULTIPLIER);
                     break;
                 case "up":
-                    lift.setPower(gamepad2.right_trigger * LIFT_SPEED_MULTIPLIER);
+                    lift.setPower(gamepad2.right_trigger * robot.LIFT_SPEED_MULTIPLIER);
             }
 
             telemetry.addData("Outtake Pos: ", outtake.getPosition());
             telemetry.addData("lift height: ", lift.getCurrentPosition());
-            telemetry.addData("Lift ceiling: ", LIFT_CEILING);
-            telemetry.addData("Dist. 'till ceiling: ", Math.abs(LIFT_CEILING - LIFT_POS));
+            telemetry.addData("Lift ceiling: ", robot.LIFT_CEILING);
+            telemetry.addData("Dist. 'till ceiling: ", Math.abs(robot.LIFT_CEILING - LIFT_POS));
             telemetry.addData("Distance sensor: ", sensors.getDistanceDist());
             telemetry.addData("Touch sensor: ", sensors.checkTouch());
+            telemetry.addData("Distance from init: ", Math.abs(lift.getCurrentPosition() - LIFT_INIT));
             telemetry.update();
 
             drive.setWeightedDrivePower(

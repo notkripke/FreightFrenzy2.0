@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @Config
 @TeleOp(group = "drive")
-public class AutomatedTeleop extends LinearOpMode {
+public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080/dash
 
     Sensors sensors = new Sensors(hardwareMap, telemetry);
 
@@ -28,7 +28,6 @@ public class AutomatedTeleop extends LinearOpMode {
     public static double OUTTAKE_DOWN = .6;
 
     static double LIFT_SPEED_MULTIPLIER = .5;
-
 
     static int LIFT_CEILING;
 
@@ -71,16 +70,16 @@ public class AutomatedTeleop extends LinearOpMode {
 
             LIFT_POS = lift.getCurrentPosition();
 
-            if(gamepad1.left_bumper){
+            if(gamepad1.left_bumper && sensors.getDistanceDist() >= 5){ //Intakes; NOT toggles, spin when held.
                 Intake1.setPower(.9);
             }
-            if(gamepad1.right_bumper){
+            if(gamepad1.right_bumper && sensors.getDistanceDist() >= 5){
                 Intake2.setPower(-.9);
             }
-            if(!gamepad1.left_bumper){
+            if(!gamepad1.left_bumper || sensors.getDistanceDist() <= 5){
                 Intake1.setPower(0);
             }
-            if(!gamepad1.right_bumper){
+            if(!gamepad1.right_bumper || sensors.getDistanceDist() <= 5){
                 Intake2.setPower(0);
             }
 
@@ -111,30 +110,36 @@ public class AutomatedTeleop extends LinearOpMode {
                 case "top":
                     if(LIFT_POS <= LIFT_CEILING && LIFT_POS >= LIFT_CEILING - 150){
                      lift.setPower(.02);
+                     outtake.setPosition(OUTTAKE_DOWN);
                     }
                     if(LIFT_POS < LIFT_CEILING - 150) {
                         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         lift.setTargetPosition(LIFT_CEILING - 100);
                         lift.setPower(1 * LIFT_SPEED_MULTIPLIER);
+                        outtake.setPosition(OUTTAKE_UP);
                     }
                     break;
                 case "shared":
                     if(LIFT_POS <= SHARED_HEIGHT && LIFT_POS >= SHARED_HEIGHT - 100){
                         lift.setPower(0.02);
+                        outtake.setPosition(OUTTAKE_DOWN);
                     }
                     if(LIFT_POS < SHARED_HEIGHT - 100) {
                         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         lift.setTargetPosition(SHARED_HEIGHT);
                         lift.setPower(1 * LIFT_SPEED_MULTIPLIER);
+                        outtake.setPosition(OUTTAKE_UP);
                     }
                     break;
                 case "bottom":
                     lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     if(sensors.checkTouch() <= .2){
                         lift.setPower(-1 * LIFT_SPEED_MULTIPLIER);
+                        outtake.setPosition(OUTTAKE_UP);
                     }
                     if(sensors.checkTouch() >= .2){
                         lift.setPower(0);
+                        outtake.setPosition(OUTTAKE_UP);
                     }
             }
 
