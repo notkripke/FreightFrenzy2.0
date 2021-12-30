@@ -179,20 +179,7 @@ public class NewTeleop extends GorillabotsCentral {
                     lift.setPower(gamepad2.right_trigger * LIFT_SPEED_MULTIPLIER);
             }
 
-            switch (swivel_state){
-                case "mid":
-                    servos.Swivel(.5 );
-                    dashboardTelemetry.addLine("Outtake Mid");
-                    break;
-                case "left":
-                    servos.Swivel(SWIVEL_LEFT);
-                    dashboardTelemetry.addLine("Outtake Left");
-                    break;
-                case "right":
-                    servos.Swivel(SWIVEL_RIGHT);
-                    dashboardTelemetry.addLine("Outtake Right");
-                    break;
-            }
+
 
             switch (intake_toggle) {
                 case ("off"):

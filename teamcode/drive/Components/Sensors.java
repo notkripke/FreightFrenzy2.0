@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.drive.Components;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,7 +19,7 @@ public class Sensors
     //public Rev2mDistanceSensor rangeF;
     //public Rev2mDistanceSensor rangeR;
     public Rev2mDistanceSensor dist;
-    public TouchSensor touch;
+    //public RevTouchSensor touch;
 
     public Sensors(HardwareMap hardwareMap, Telemetry telemetry)
     {
@@ -27,16 +30,16 @@ public class Sensors
         //rangeB = hardwareMap.get(Rev2mDistanceSensor.class, "rangeB");
         //rangeR = hardwareMap.get(Rev2mDistanceSensor.class, "rangeR");
         dist = hardwareMap.get(Rev2mDistanceSensor.class, "dist");
-        touch = hardwareMap.touchSensor.get("touch");
+        //touch = hardwareMap.get(RevTouchSensor.class,"touch");
     }
 
     public double getDistanceDist(){
         return dist.getDistance(DistanceUnit.INCH);
     }
 
-    public double checkTouch(){
-        return touch.getValue();
-    }
+    //public double checkTouch(){
+       // return touch.getValue();
+    //}
 
      //public double getDistanceB(){
        //return rangeB.getDistance(DistanceUnit.INCH);

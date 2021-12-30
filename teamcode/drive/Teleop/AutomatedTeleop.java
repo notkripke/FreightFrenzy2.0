@@ -84,7 +84,6 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
             }
 
 
-
             if(gamepad1.left_trigger >= 0.15){
                 duck.setPower(-gamepad1.left_trigger);
             }
@@ -133,14 +132,14 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
                     break;
                 case "bottom":
                     lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    if(sensors.checkTouch() <= .2){
+                    /*if(sensors.checkTouch() <= .2){
                         lift.setPower(-1 * LIFT_SPEED_MULTIPLIER);
                         outtake.setPosition(OUTTAKE_UP);
-                    }
-                    if(sensors.checkTouch() >= .2){
+                    }*/
+                    /*if(sensors.checkTouch() >= .2){
                         lift.setPower(0);
                         outtake.setPosition(OUTTAKE_UP);
-                    }
+                    }*/
             }
 
             telemetry.addData("Outtake Pos: ", outtake.getPosition());
@@ -148,7 +147,7 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
             telemetry.addData("Lift ceiling: ", LIFT_CEILING);
             telemetry.addData("Dist. 'till ceiling: ", Math.abs(LIFT_CEILING - LIFT_POS));
             telemetry.addData("Distance sensor: ", sensors.getDistanceDist());
-            telemetry.addData("Touch sensor: ", sensors.checkTouch());
+            //telemetry.addData("Touch sensor: ", sensors.checkTouch());
             telemetry.update();
 
             drive.setWeightedDrivePower(

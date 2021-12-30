@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.drive.Components.CVPipeline;
 import org.firstinspires.ftc.teamcode.drive.Components.RobotHardware;
 import org.firstinspires.ftc.teamcode.drive.Components.Sensors;
-import org.firstinspires.ftc.teamcode.drive.Components.Servos;
+//import org.firstinspires.ftc.teamcode.drive.Components.Servos;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -20,16 +21,21 @@ import static java.lang.Math.abs;
 
 //import org.firstinspires.ftc.teamcode.components.RevGyro;
 
-@Disabled
+@Config
 public abstract class GorillabotsCentral extends LinearOpMode {
 
     public Sensors sensors;
     public SampleMecanumDrive drive;
     public ElapsedTime timer;
     public OpenCvCamera webcam;
-    public Servos servos;
+    //public Servos servos;
     public CVPipeline Pipeline;
     public RobotHardware robot;
+
+    public static int LIFT_CEILING = 2300;
+    public static double LIFT_SPEED_MULTIPLIER = .8;
+    public static double OUTTAKE_UP = .025;
+    public static double OUTTAKE_DOWN = 0;
 
 
     public void initializeComponents()
@@ -42,15 +48,18 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        servos = new Servos(hardwareMap, telemetry);
+        //servos = new Servos(hardwareMap, telemetry);
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
         //pipeline = new EOCVtest();
         Pipeline = new CVPipeline();
         webcam.setPipeline(Pipeline);
+
+        robot.outtake.setPosition(OUTTAKE_UP);
+
         };
-    
+
 
     public void startVisionProcessing() {
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.drive.Components;
 
+/*import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+@Disabled
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -27,4 +29,4 @@ public class Servos {
 
 
 
-}
+}*/

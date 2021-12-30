@@ -29,7 +29,8 @@ public class sensorTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            telemetry.addData("distance: ", sensors.getDistanceR());
+            //telemetry.addData("distance: ", sensors.checkTouch());
+            telemetry.addData("Touch: ", sensors.getDistanceDist()); //6 threshold
             telemetry.update();
         }
     }}

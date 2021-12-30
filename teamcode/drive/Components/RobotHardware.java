@@ -15,16 +15,9 @@ public class RobotHardware
     public DcMotor lift, Intake1, Intake2, duck;
     public Servo outtake;
 
-    public static int LIFT_CEILING = 3000;
-    public static double LIFT_SPEED_MULTIPLIER = .5;
-    public static double OUTTAKE_UP = 0;
-    public static double OUTTAKE_DOWN = .6;
-
     public RobotHardware(HardwareMap hardwareMap, Telemetry telemetry)
     {
         tele = telemetry;
-
-
 
         lift = hardwareMap.dcMotor.get("lift");
         Intake1 = hardwareMap.dcMotor.get("intake1");
