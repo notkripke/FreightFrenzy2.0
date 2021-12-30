@@ -30,6 +30,7 @@ public class sensorTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             //telemetry.addData("distance: ", sensors.checkTouch());
+            telemetry.addData("Limit switch is pressed?: ", sensors.checkSwitch());
             telemetry.addData("Touch: ", sensors.getDistanceDist()); //6 threshold
             telemetry.update();
         }

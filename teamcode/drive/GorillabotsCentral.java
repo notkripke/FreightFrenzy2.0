@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -47,6 +49,9 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         sensors = new Sensors(hardwareMap,telemetry);
 
         drive = new SampleMecanumDrive(hardwareMap);
+        drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         //servos = new Servos(hardwareMap, telemetry);
 
@@ -77,6 +82,39 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         });
     }
 
+    public void raiseLift(int net_height, double speed){
+        final int lift_target = net_height + robot.lift.getCurrentPosition();
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        robot.lift.setTargetPosition(lift_target);
+        while(robot.lift.getCurrentPosition() < (lift_target * 0.8)){
+            robot.lift.setPower(speed);
+            telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
+        }
+        while(robot.lift.getCurrentPosition() < lift_target){
+            robot.lift.setPower(speed * 0.75);
+            telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
+        }
+        robot.lift.setPower(0);
+        telemetry.update();
+    }
+
+    public void lowerLift(double speed,int height_estimate){
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        final int target = robot.lift.getCurrentPosition() - height_estimate;
+
+        while(robot.lift.getCurrentPosition() > (target * .65) && sensors.checkSwitch() == false){
+            robot.lift.setPower(speed);
+        }
+        while(robot.lift.getCurrentPosition() > (target * .92) && sensors.checkSwitch() == false){
+            robot.lift.setPower(speed * 0.68);
+        }
+        robot.lift.setPower(0);
+    }
     public void stopVisionProcessing(){
         webcam.stopStreaming();
     }

@@ -20,6 +20,8 @@ public class duckTest extends GorillabotsCentral {
     @Override
     public void runOpMode() {
 
+        initializeComponents();
+
         waitForStart();
 
         ElapsedTime duck_timer = new ElapsedTime();
@@ -44,7 +46,8 @@ public class duckTest extends GorillabotsCentral {
                    duck_speed = 0;
                    break;
                case "red":
-                   duck_speed += .00004;
+                   duck_speed += .001;
+                   sleep(60);
                    duck_timer.reset();
                    if(duck_speed >= 1){
                        duck_speed = 1;
@@ -54,7 +57,8 @@ public class duckTest extends GorillabotsCentral {
                    }
                    break;
                case "blue":
-                   duck_speed -= .00004;
+                   duck_speed -= .001;
+                   sleep(60);
                    duck_timer.reset();
                    if(duck_speed <= -1){
                        duck_speed = -1;
