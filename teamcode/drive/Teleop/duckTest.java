@@ -46,8 +46,8 @@ public class duckTest extends GorillabotsCentral {
                    duck_speed = 0;
                    break;
                case "red":
-                   duck_speed += .001;
-                   sleep(60);
+                   duck_speed += .01;
+                   sleep(9);
                    duck_timer.reset();
                    if(duck_speed >= 1){
                        duck_speed = 1;
@@ -57,8 +57,8 @@ public class duckTest extends GorillabotsCentral {
                    }
                    break;
                case "blue":
-                   duck_speed -= .001;
-                   sleep(60);
+                   duck_speed -= .01;
+                   sleep(9);
                    duck_timer.reset();
                    if(duck_speed <= -1){
                        duck_speed = -1;

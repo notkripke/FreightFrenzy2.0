@@ -13,14 +13,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Sensors
 {
-    DigitalChannel LimitSwitch;
+   // DigitalChannel LimitSwitch;
     public Rev2mDistanceSensor dist;
     //public RevTouchSensor touch;
 
     public Sensors(HardwareMap hardwareMap, Telemetry telemetry)
     {
-        LimitSwitch = hardwareMap.get(DigitalChannel.class, "switch");
-        LimitSwitch.setMode(DigitalChannel.Mode.INPUT);
+        //LimitSwitch = hardwareMap.get(DigitalChannel.class, "switch");
+        //LimitSwitch.setMode(DigitalChannel.Mode.INPUT);
         dist = hardwareMap.get(Rev2mDistanceSensor.class, "dist");
     }
 
@@ -28,7 +28,7 @@ public class Sensors
         return dist.getDistance(DistanceUnit.INCH);
     }
 
-    public boolean checkSwitch(){
+    /*public boolean checkSwitch(){
         //return LimitSwitch.getState();
         boolean isPressed;
         if(LimitSwitch.getState() == true){
@@ -38,5 +38,5 @@ public class Sensors
             isPressed = true;
         }
         return isPressed;
-    }
+    }*/
 }

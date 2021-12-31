@@ -68,7 +68,7 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                 Lift_state = "down";
             }
 
-            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && sensors.checkSwitch() == false){
+            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
             }
 
@@ -106,7 +106,7 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             telemetry.addData("Lift ceiling: ", LIFT_CEILING);
             telemetry.addData("Dist. 'till ceiling: ", Math.abs(LIFT_CEILING - LIFT_POS));
             telemetry.addData("Distance sensor: ", sensors.getDistanceDist());
-            telemetry.addData("Limit switch is pressed?: ", sensors.checkSwitch());
+            //telemetry.addData("Limit switch is pressed?: ", sensors.checkSwitch());
             telemetry.addData("Distance from init: ", Math.abs(robot.lift.getCurrentPosition() - LIFT_INIT));
             telemetry.addData("Lift state: ", Lift_state);
             telemetry.update();

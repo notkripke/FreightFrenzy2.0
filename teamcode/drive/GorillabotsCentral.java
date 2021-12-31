@@ -63,7 +63,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
         robot.outtake.setPosition(OUTTAKE_UP);
 
-        };
+        }
 
 
     public void startVisionProcessing() {
@@ -107,11 +107,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
         final int target = robot.lift.getCurrentPosition() - height_estimate;
 
-        while(robot.lift.getCurrentPosition() > (target * .65) && sensors.checkSwitch() == false){
-            robot.lift.setPower(speed);
+        while(robot.lift.getCurrentPosition() > (target * .65) /*&& sensors.checkSwitch() == false*/){
+            robot.lift.setPower(-speed);
         }
-        while(robot.lift.getCurrentPosition() > (target * .92) && sensors.checkSwitch() == false){
-            robot.lift.setPower(speed * 0.68);
+        while(robot.lift.getCurrentPosition() > (target * .92) /*&& sensors.checkSwitch() == false*/){
+            robot.lift.setPower(-speed * 0.68);
         }
         robot.lift.setPower(0);
     }

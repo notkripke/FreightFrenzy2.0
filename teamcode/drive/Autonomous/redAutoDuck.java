@@ -21,7 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
  * This is an example of a more complex path to really test the tuning.
  */
 @Autonomous(group = "drive")
-public class redAutoDuck extends GorillabotsCentral {
+public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
     public void runOpMode() throws InterruptedException {
 

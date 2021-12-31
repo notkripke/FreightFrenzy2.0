@@ -19,20 +19,23 @@ import org.opencv.core.Mat;
 @Config
 public class testAuto extends GorillabotsCentral {
 
-    static double speed = 0.9;
-    static int height = 700;
+
+
+    static double speed = 0.70;
+    static int height = 2299;
 
     static double lower_speed = 0.6;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        initializeComponents();
+
         waitForStart();
 
         raiseLift(height, speed);
-
-        //WHEN READY: DO BELOW
-        //lowerLift(lower_speed, height);
+        sleep(2000);
+        lowerLift(lower_speed, height - 50);
 
     }
 }
