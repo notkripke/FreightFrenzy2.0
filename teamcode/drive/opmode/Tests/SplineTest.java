@@ -30,7 +30,7 @@ public class SplineTest extends LinearOpMode {// 192.168.43.1:8080/dash
                 //.splineToConstantHeading(new Vector2d(24, -24), Math.toRadians(0))
                 //.splineToLinearHeading(new Pose2d(48, -24, Math.toRadians(90)), Math.toRadians(0))
 
-                .lineToLinearHeading(new Pose2d(-20, -50, Math.toRadians(150)))
+                .lineToLinearHeading(new Pose2d(-16, -45, Math.toRadians(150)))
                 .build();
 
         drive.followTrajectory(traj);

@@ -15,23 +15,18 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.drive.Components.Sensors;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
 
 @Config
 @TeleOp(group = "drive")
-public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080/dash
+public class AutomatedTeleop extends GorillabotsCentral {         // 192.168.43.1:8080/dash
 
     Sensors sensors = new Sensors(hardwareMap, telemetry);
 
     public static double OUTTAKE_UP = 0;
     public static double OUTTAKE_DOWN = .6;
-
-    static double LIFT_SPEED_MULTIPLIER = .5;
-
-    static int LIFT_CEILING;
-
-    static int SHARED_HEIGHT;
 
 
     @Override
@@ -58,11 +53,9 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
 
         String Lift_state = "stop";
 
-        double LIFT_POS;
+        int LIFT_POS;
 
-        LIFT_CEILING = lift.getCurrentPosition() + 3000;
-
-        SHARED_HEIGHT = lift.getCurrentPosition() + 1500;
+        final int LIFT_INIT = lift.getCurrentPosition();
 
         waitForStart();
 
@@ -112,9 +105,7 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
                      outtake.setPosition(OUTTAKE_DOWN);
                     }
                     if(LIFT_POS < LIFT_CEILING - 150) {
-                        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        lift.setTargetPosition(LIFT_CEILING - 100);
-                        lift.setPower(1 * LIFT_SPEED_MULTIPLIER);
+                        raiseLift(LIFT_CEILING - 100, LIFT_SPEED);
                         outtake.setPosition(OUTTAKE_UP);
                     }
                     break;
@@ -124,22 +115,13 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
                         outtake.setPosition(OUTTAKE_DOWN);
                     }
                     if(LIFT_POS < SHARED_HEIGHT - 100) {
-                        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        lift.setTargetPosition(SHARED_HEIGHT);
-                        lift.setPower(1 * LIFT_SPEED_MULTIPLIER);
+                        raiseLift(SHARED_HEIGHT, LIFT_SPEED);
                         outtake.setPosition(OUTTAKE_UP);
                     }
                     break;
                 case "bottom":
-                    lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                    /*if(sensors.checkTouch() <= .2){
-                        lift.setPower(-1 * LIFT_SPEED_MULTIPLIER);
-                        outtake.setPosition(OUTTAKE_UP);
-                    }*/
-                    /*if(sensors.checkTouch() >= .2){
-                        lift.setPower(0);
-                        outtake.setPosition(OUTTAKE_UP);
-                    }*/
+                    outtake.setPosition(OUTTAKE_UP);
+                    lowerLift(LIFT_SPEED * .9, LIFT_POS - LIFT_INIT);
             }
 
             telemetry.addData("Outtake Pos: ", outtake.getPosition());
@@ -147,7 +129,6 @@ public class AutomatedTeleop extends LinearOpMode {         // 192.168.43.1:8080
             telemetry.addData("Lift ceiling: ", LIFT_CEILING);
             telemetry.addData("Dist. 'till ceiling: ", Math.abs(LIFT_CEILING - LIFT_POS));
             telemetry.addData("Distance sensor: ", sensors.getDistanceDist());
-            //telemetry.addData("Touch sensor: ", sensors.checkTouch());
             telemetry.update();
 
             drive.setWeightedDrivePower(

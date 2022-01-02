@@ -35,9 +35,10 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     public RobotHardware robot;
 
     public static int LIFT_CEILING = 2300;
-    public static double LIFT_SPEED_MULTIPLIER = .8;
+    public static double LIFT_SPEED = .8;
     public static double OUTTAKE_UP = .025;
     public static double OUTTAKE_DOWN = 0;
+    public static int SHARED_HEIGHT = 1250;
 
 
     public void initializeComponents()
