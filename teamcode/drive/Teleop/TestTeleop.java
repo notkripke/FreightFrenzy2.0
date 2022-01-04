@@ -94,10 +94,10 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    robot.lift.setPower(gamepad2.left_trigger * LIFT_SPEED_MULTIPLIER);
+                    robot.lift.setPower(gamepad2.left_trigger);
                     break;
                 case "up":
-                    robot.lift.setPower(-gamepad2.right_trigger * LIFT_SPEED_MULTIPLIER);
+                    robot.lift.setPower(-gamepad2.right_trigger);
                     break;
             }
 
