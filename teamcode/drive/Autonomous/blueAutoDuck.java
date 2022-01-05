@@ -41,7 +41,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .lineToConstantHeading(new Vector2d(-55, -55))
                 .build();
 
-        Trajectory PARK = drive.trajectoryBuilder(TO_DUCK.end(), false)
+        Trajectory PARK = drive.trajectoryBuilder(DUCK_BACKUP.end(), false)
                 .splineToLinearHeading(new Pose2d(-60, -35.5, Math.toRadians(0)), Math.toRadians(180))
                 .build();
         //************************VISION PROCESSING**************************************************************
