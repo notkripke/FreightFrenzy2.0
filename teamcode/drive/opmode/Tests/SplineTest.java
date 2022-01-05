@@ -30,13 +30,13 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-16.5, -46, Math.toRadians(165))) //-20, -43, 150
+                .lineToLinearHeading(new Pose2d(-16.5, -47.5, Math.toRadians(165))) //-20, -43, 150
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, -60, Math.toRadians(40)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, -61.5, Math.toRadians(40)), Math.toRadians(180))
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-61.5, -63))
+                .lineToConstantHeading(new Vector2d(-61.5, -64.5))
                 .build();
 
 
