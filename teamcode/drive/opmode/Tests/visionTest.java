@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.Tests;
+package org.firstinspires.ftc.teamcodeGIT.teamcode.drive.opmode.Tests;
 
 
 import android.graphics.Bitmap;
@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.function.Consumer;
 import org.firstinspires.ftc.robotcore.external.function.Continuation;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
-import org.firstinspires.ftc.teamcode.drive.Components.CVPipeline;
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -53,7 +53,7 @@ public class visionTest extends LinearOpMode {
         webcam.setPipeline(Pipeline);
 
         webcam.openCameraDevice();
-        dashboard.getInstance().startCameraStream(webcam, 24);
+        FtcDashboard.getInstance().startCameraStream(webcam, 24);
 
         webcam.setPipeline(Pipeline);
 

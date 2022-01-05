@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.Autonomous;
+package org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Autonomous;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.drive.Components.CVPipeline;
-import org.firstinspires.ftc.teamcode.drive.GorillabotsCentral;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.drive.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
 import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
