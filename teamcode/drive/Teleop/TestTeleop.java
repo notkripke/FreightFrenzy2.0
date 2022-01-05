@@ -64,15 +64,15 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             if(gamepad1.left_trigger < .15 && gamepad1.right_trigger < .15){
                 robot.duck.setPower(0);
             }
-            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && CEILING > LIFT_POS){//liftpos - ceiling < ceiling
+            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2){//liftpos - ceiling < ceiling
                 Lift_state = "down";
             }
 
-            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2  /*sensors.checkSwitch() == false*/){
+            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && CEILING > LIFT_POS  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
             }
 
-            if((gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2) || CEILING < LIFT_POS && Lift_state != "down"){
+            if(((gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2) || CEILING < LIFT_POS) && Lift_state != "down"){
                 Lift_state = "stop";
             }
 
