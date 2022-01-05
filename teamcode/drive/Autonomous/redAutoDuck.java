@@ -29,16 +29,16 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         //****************************TRAJECTORIES************************************************
 
-        Trajectory TO_HUB = drive.trajectoryBuilder(startPose, true)
-                .lineToLinearHeading(new Pose2d(-20, -50, Math.toRadians(150)))
+        Trajectory TO_HUB = drive.trajectoryBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(-16.5, -46, Math.toRadians(165)))
                 .build();
 
         Trajectory TO_DUCK = drive.trajectoryBuilder(TO_HUB.end(), false)
-                .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(355)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, -60, Math.toRadians(40)), Math.toRadians(180))
                 .build();
 
         Trajectory DUCK_BACKUP = drive.trajectoryBuilder(TO_DUCK.end(), false)
-                .lineToConstantHeading(new Vector2d(-55, -55))
+                .lineToConstantHeading(new Vector2d(-61.5, -63))
                 .build();
 
         Trajectory PARK = drive.trajectoryBuilder(DUCK_BACKUP.end(), false)

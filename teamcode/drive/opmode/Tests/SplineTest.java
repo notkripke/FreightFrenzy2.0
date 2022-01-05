@@ -24,7 +24,7 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         if (isStopRequested()) return;
 
-        Pose2d startPose = new Pose2d(-34, -61, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-34, -63.5, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
 
