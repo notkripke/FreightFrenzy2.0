@@ -32,8 +32,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
     public static int LIFT_CEILING = 2300;
     public static double LIFT_SPEED = .8;
-    public static double OUTTAKE_UP = .025;
-    public static double OUTTAKE_DOWN = 0;
+    public static double OUTTAKE_UP = .25;
+    public static double OUTTAKE_DOWN = 0.01;
     public static int SHARED_HEIGHT = 1250;
 
 
@@ -80,10 +80,10 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     }
 
     public void raiseLift(int net_height, double speed){
-        final int lift_target = net_height + robot.lift.getCurrentPosition();
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        final int lift_target = net_height + robot.lift.getCurrentPosition();
 
         robot.lift.setTargetPosition(lift_target);
         while(robot.lift.getCurrentPosition() < (lift_target * 0.8)){

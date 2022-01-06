@@ -23,6 +23,8 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
     public void runOpMode() throws InterruptedException {
 
+        initializeComponents();
+
         Pose2d startPose = new Pose2d(-34, -63.5, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
@@ -42,15 +44,9 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         //************************VISION PROCESSING**************************************************************
 
-        CVPipeline Pipeline;
-        OpenCvCamera webcam;
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
-        //pipeline = new EOCVtest();
-        Pipeline = new CVPipeline();
-        webcam.setPipeline(Pipeline);
+
+
         webcam.openCameraDevice();
-        webcam.setPipeline(Pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override

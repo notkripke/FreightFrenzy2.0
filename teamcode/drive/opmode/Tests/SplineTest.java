@@ -30,34 +30,38 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-16.5, -47.5, Math.toRadians(165))) //-20, -43, 150
+                .lineToLinearHeading(new Pose2d(-16.5, -45, Math.toRadians(165))) //raise y
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, -61.5, Math.toRadians(40)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, -62.5, Math.toRadians(40)), Math.toRadians(180))
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-59.5, -64.5))
+                .lineToConstantHeading(new Vector2d(-58.5, -66.5))
                 .build();
 
 
 
-        robot.outtake.setPosition(OUTTAKE_UP);
         drive.followTrajectory(traj);
-        sleep(1000);
+        raiseLift(2300, -.7);//raise
+        robot.outtake.setPosition(OUTTAKE_DOWN);
+        sleep(600);
+        robot.outtake.setPosition(OUTTAKE_UP);
+        robot.outtake.setPosition(OUTTAKE_DOWN);
+        robot.outtake.setPosition(OUTTAKE_UP);
+        lowerLift(.7, 1800);
         drive.followTrajectory(traj2);
         drive.followTrajectory(traj3);
-        drive.turn(Math.toRadians(10));
-        robot.duck.setPower(.4);
-        sleep(300);
-        robot.duck.setPower(.75);
-        sleep(300);
+        robot.duck.setPower(0.4);
+        sleep(150);
+        robot.duck.setPower(.7);
+        sleep(100);
         robot.duck.setPower(1);
-        sleep(1500);
+        sleep(2000);
         robot.duck.setPower(0);
-        Trajectory PARK = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                .splineToLinearHeading(new Pose2d(-63.5, -41, Math.toRadians(0)), Math.toRadians(180))
+        Trajectory PARK3 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
+                .splineToLinearHeading(new Pose2d(-64.2, -41, Math.toRadians(0)), Math.toRadians(180))
                 .build();
-        drive.followTrajectory(PARK);
+        drive.followTrajectory(PARK3);
 
 
         sleep(2000);
