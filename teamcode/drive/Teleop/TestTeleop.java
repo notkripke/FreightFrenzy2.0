@@ -42,11 +42,17 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             LIFT_POS = robot.lift.getCurrentPosition();
 
 
-            if(gamepad1.left_bumper){
+            if(gamepad1.left_bumper && !gamepad1.y){
                 robot.Intake1.setPower(1);
             }
-            if(gamepad1.right_bumper){
+            if(gamepad1.right_bumper && !gamepad1.y){
                 robot.Intake2.setPower(-1);
+            }
+            if(gamepad1.left_bumper && gamepad1.y){
+                robot.Intake1.setPower(-1);
+            }
+            if(gamepad1.right_bumper && gamepad1.y){
+                robot.Intake2.setPower(1);
             }
             if(!gamepad1.left_bumper){
                 robot.Intake1.setPower(0);
