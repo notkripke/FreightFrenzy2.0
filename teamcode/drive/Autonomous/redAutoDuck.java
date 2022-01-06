@@ -46,18 +46,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
 
 
-        webcam.openCameraDevice();
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(1280,720, OpenCvCameraRotation.UPSIDE_DOWN);
-            }
-            @Override
-            public void onError(int errorCode) {
-            }
-        });
+        startVisionProcessing();
 
         while (!isStarted() && !isStopRequested()){
             telemetry.addData("Position: ", Pipeline.getAnalysis());
