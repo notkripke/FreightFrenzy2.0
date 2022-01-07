@@ -64,7 +64,5 @@ public class testAuto extends GorillabotsCentral {// 192.168.43.1:8080/dash
         drive.followTrajectory(park2);
 
 
-        sleep(2000);
-
     }
 }

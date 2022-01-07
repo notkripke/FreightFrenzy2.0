@@ -63,8 +63,5 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .build();
         drive.followTrajectory(PARK3);
 
-
-        sleep(2000);
-
     }
 }
