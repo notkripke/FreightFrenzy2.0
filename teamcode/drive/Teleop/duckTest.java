@@ -30,10 +30,10 @@ public class duckTest extends GorillabotsCentral {
 
         while (opModeIsActive()) {
 
-           if(gamepad1.left_trigger >.4 && duck_trigger == "off"){
+           if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
                duck_trigger = "red";
            }
-           if(gamepad1.right_trigger > .4 && duck_trigger == "off"){
+           if(gamepad1.right_trigger > .4 && gamepad1.left_trigger > .4){
                duck_trigger = "blue";
            }
            if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
@@ -55,7 +55,7 @@ public class duckTest extends GorillabotsCentral {
                    break;
                case "blue":
                    if(duckPower.milliseconds() < 775) {
-                       robot.duck.setPower(duckPower.milliseconds()/800);
+                       robot.duck.setPower(-duckPower.milliseconds()/800);
                    }
                    if(duckPower.milliseconds() >= 775){
                        robot.duck.setPower(-1);
