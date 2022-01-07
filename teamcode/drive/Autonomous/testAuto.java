@@ -30,7 +30,7 @@ public class testAuto extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(2, -47.5, Math.toRadians(220)))
+                .lineToLinearHeading(new Pose2d(2, -45, Math.toRadians(220)))
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
                 .splineToLinearHeading(new Pose2d(16, -66, Math.toRadians(0)), Math.toRadians(350))
