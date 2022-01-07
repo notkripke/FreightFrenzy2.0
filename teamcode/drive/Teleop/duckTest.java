@@ -22,53 +22,45 @@ public class duckTest extends GorillabotsCentral {
 
         initializeComponents();
 
-        waitForStart();
+        ElapsedTime duckPower = new ElapsedTime();
 
-        ElapsedTime duck_timer = new ElapsedTime();
-
-        //boolean duck_trigger = false;
         String duck_trigger = "off";
 
-        float duck_speed = 0;
+        waitForStart();
 
         while (opModeIsActive()) {
 
            if(gamepad1.left_trigger >.4 && duck_trigger == "off"){
                duck_trigger = "red";
            }
-
            if(gamepad1.right_trigger > .4 && duck_trigger == "off"){
                duck_trigger = "blue";
+           }
+           if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
+               duck_trigger = "off";
            }
 
            switch(duck_trigger){
                case "off":
-                   duck_speed = 0;
+                   robot.duck.setPower(0);
+                   duckPower.reset();
                    break;
                case "red":
-                   duck_speed += .01;
-                   sleep(9);
-                   duck_timer.reset();
-                   if(duck_speed >= 1){
-                       duck_speed = 1;
-                       if(duck_timer.time() >= 2.5){
-                           duck_trigger = "off";
-                       }
+                   if(duckPower.milliseconds() < 775) {
+                       robot.duck.setPower(duckPower.milliseconds()/800);
+                   }
+                   if(duckPower.milliseconds() >= 775){
+                       robot.duck.setPower(1);
                    }
                    break;
                case "blue":
-                   duck_speed -= .01;
-                   sleep(9);
-                   duck_timer.reset();
-                   if(duck_speed <= -1){
-                       duck_speed = -1;
-                       if(duck_timer.time() >= 2.5){
-                           duck_trigger = "off";
-                       }
+                   if(duckPower.milliseconds() < 775) {
+                       robot.duck.setPower(duckPower.milliseconds()/800);
                    }
+                   if(duckPower.milliseconds() >= 775){
+                       robot.duck.setPower(-1);
+                   }
+                   break;
            }
-
-           robot.duck.setPower(duck_speed);
-
         }
     }}

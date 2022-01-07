@@ -115,8 +115,4 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     public void stopVisionProcessing(){
         webcam.stopStreaming();
     }
-
-
-
-
 }
