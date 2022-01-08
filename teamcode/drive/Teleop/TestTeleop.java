@@ -111,7 +111,8 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             telemetry.addData("Dist. 'till ceiling: ", Math.abs(LIFT_CEILING - LIFT_POS));
             telemetry.addData("Distance sensor: ", sensors.getDistanceDist());
             //telemetry.addData("Limit switch is pressed?: ", sensors.checkSwitch());
-            telemetry.addData("Distance from init: ", Math.abs(robot.lift.getCurrentPosition() - LIFT_INIT));
+            telemetry.addData("Distance from init: ", Math.abs(LIFT_POS - LIFT_INIT));
+            telemetry.addData("Lift init: ", LIFT_INIT);
             telemetry.addData("Lift state: ", Lift_state);
             telemetry.update();
 

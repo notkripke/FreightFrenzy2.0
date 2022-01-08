@@ -30,7 +30,7 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-16.5, -45, Math.toRadians(165))) //raise y
+                .lineToLinearHeading(new Pose2d(-16.5, -46.5, Math.toRadians(165))) //raise y
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
                 .splineToLinearHeading(new Pose2d(-30, -62.5, Math.toRadians(40)), Math.toRadians(180))
@@ -42,13 +42,14 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
 
         drive.followTrajectory(traj);
-        raiseLift(2300, -.7);//raise
+        raiseLift(2350, -.7);//raise
+        sleep(2000);
         robot.outtake.setPosition(OUTTAKE_DOWN);
         sleep(600);
         robot.outtake.setPosition(OUTTAKE_UP);
         robot.outtake.setPosition(OUTTAKE_DOWN);
         robot.outtake.setPosition(OUTTAKE_UP);
-        lowerLift(.7, 1800);
+        lowerLift(.7, 2200);
         drive.followTrajectory(traj2);
         drive.followTrajectory(traj3);
         robot.duck.setPower(0.4);

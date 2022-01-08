@@ -29,21 +29,16 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         drive.setPoseEstimate(startPose);
 
-        //****************************TRAJECTORIES************************************************
-
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-16.5, -47.5, Math.toRadians(165))) //-20, -43, 150
+                .lineToLinearHeading(new Pose2d(-16.5, -47.5, Math.toRadians(165))) //raise y
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, -61.5, Math.toRadians(40)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, -62.5, Math.toRadians(40)), Math.toRadians(180))
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-59.5, -64.5))
+                .lineToConstantHeading(new Vector2d(-58.5, -66.5))
                 .build();
-
-        //************************VISION PROCESSING**************************************************************
-
 
 
         startVisionProcessing();
@@ -64,13 +59,13 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         switch(Pipeline.getPos()){
             case 1:
                 drive.followTrajectory(traj);
-                raiseLift(600, .9);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                sleep(600);
+                raiseLift(1350, .9);
+                robot.outtake.setPosition(OUTTAKE_UP * 0.2);
+                sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 590);
+                lowerLift(.7, 1300);
                 drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
                 robot.duck.setPower(0.4);
@@ -81,20 +76,20 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-63.5, -41, Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-64.5, -41, Math.toRadians(0)), Math.toRadians(180))
                         .build();
                 drive.followTrajectory(PARK);
                 break;
 
             case 2:
                 drive.followTrajectory(traj);
-                raiseLift(1400, .9);
+                raiseLift(1800, .9);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
-                sleep(600);
+                sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1400);
+                lowerLift(.7, 1799);
                 drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
                 robot.duck.setPower(0.4);
@@ -105,13 +100,14 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK2 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-63.5, -41, Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-64.5, -41, Math.toRadians(0)), Math.toRadians(180))
                         .build();
                 drive.followTrajectory(PARK2);
                 break;
             case 3:
                 drive.followTrajectory(traj);
-                raiseLift(2300, .9);
+                raiseLift(2350, -.7);//raise
+                sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(600);
                 robot.outtake.setPosition(OUTTAKE_UP);
@@ -128,7 +124,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK3 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-63.5, -41, Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-64.2, -41, Math.toRadians(0)), Math.toRadians(180))
                         .build();
                 drive.followTrajectory(PARK3);
                 break;
