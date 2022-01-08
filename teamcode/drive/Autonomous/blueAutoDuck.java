@@ -23,6 +23,8 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
     public void runOpMode() throws InterruptedException {
 
+        initializeComponents();
+
         Pose2d startPose = new Pose2d(-34, 63.5, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
@@ -30,39 +32,21 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         //****************************TRAJECTORIES************************************************
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-16.5, 47.5, Math.toRadians(-15)))
+                .lineToLinearHeading(new Pose2d(-16.5, 47.5, Math.toRadians(345)))
                 .build();
 
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, 61.5, Math.toRadians(220)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, 62.5, Math.toRadians(220)), Math.toRadians(0))
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
                 .lineToConstantHeading(new Vector2d(-59.5, 64.5))
                 .build();
 
-        //************************VISION PROCESSING**************************************************************
 
-        CVPipeline Pipeline;
-        OpenCvCamera webcam;
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
-        //pipeline = new EOCVtest();
-        Pipeline = new CVPipeline();
-        webcam.setPipeline(Pipeline);
-        webcam.openCameraDevice();
-        webcam.setPipeline(Pipeline);
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                webcam.startStreaming(1280,720, OpenCvCameraRotation.UPSIDE_DOWN);
-            }
-            @Override
-            public void onError(int errorCode) {
-            }
-        });
+        startVisionProcessing();
+
+        //************************VISION PROCESSING**************************************************************
 
         while (!isStarted() && !isStopRequested()){
             telemetry.addData("Position: ", Pipeline.getAnalysis());
@@ -80,13 +64,14 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         switch(Pipeline.getPos()){
             case 1:
                 drive.followTrajectory(traj);
-                raiseLift(600, .9);
+                raiseLift(1350, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
-                sleep(600);
+                sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 590);
+                lowerLift(.7, 1300);
                 drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
                 robot.duck.setPower(0.4);
@@ -97,20 +82,21 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-63.5, 41, Math.toRadians(180)), Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(-64.5, 41, Math.toRadians(180)), Math.toRadians(0))
                         .build();
                 drive.followTrajectory(PARK);
                 break;
 
             case 2:
                 drive.followTrajectory(traj);
-                raiseLift(1400, .9);
+                raiseLift(1800, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
-                sleep(600);
+                sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1400);
+                lowerLift(.7, 1799);
                 drive.followTrajectory(traj2);
                 drive.followTrajectory(traj3);
                 robot.duck.setPower(0.4);
@@ -121,13 +107,14 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK2 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-63.5, 41, Math.toRadians(180)), Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(-64.5, 41, Math.toRadians(180)), Math.toRadians(0))
                         .build();
                 drive.followTrajectory(PARK2);
                 break;
             case 3:
                 drive.followTrajectory(traj);
-                raiseLift(2300, .9);
+                raiseLift(2350, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(600);
                 robot.outtake.setPosition(OUTTAKE_UP);
@@ -144,7 +131,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK3 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-63.5, 41, Math.toRadians(180)), Math.toRadians(270))
+                        .splineToLinearHeading(new Pose2d(-64.5, 41, Math.toRadians(180)), Math.toRadians(0))
                         .build();
                 drive.followTrajectory(PARK3);
                 break;

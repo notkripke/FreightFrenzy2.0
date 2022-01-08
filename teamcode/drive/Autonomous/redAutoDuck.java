@@ -60,6 +60,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
             case 1:
                 drive.followTrajectory(traj);
                 raiseLift(1350, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_UP * 0.2);
                 sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
@@ -84,6 +85,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
             case 2:
                 drive.followTrajectory(traj);
                 raiseLift(1800, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
@@ -106,8 +108,8 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 break;
             case 3:
                 drive.followTrajectory(traj);
-                raiseLift(2350, -.7);//raise
-                sleep(2000);
+                raiseLift(2350, .9);//raise
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(600);
                 robot.outtake.setPosition(OUTTAKE_UP);
