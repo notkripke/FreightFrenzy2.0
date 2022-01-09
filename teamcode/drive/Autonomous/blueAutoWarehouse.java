@@ -31,16 +31,16 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-4, 45.5, Math.toRadians(30)))
+                .lineToLinearHeading(new Pose2d(-4, 45.5, Math.toRadians(337)))
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(11, 67.5, Math.toRadians(0)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(11, 69.5, Math.toRadians(0)), Math.toRadians(0))
                 .build();
         Trajectory park1 = drive.trajectoryBuilder(traj2.end())
-                .forward(24)
+                .forward(32)
                 .build();
         Trajectory park2 = drive.trajectoryBuilder(park1.end())
-                .strafeLeft(22)
+                .strafeRight(22)
                 .build();
 
 
@@ -63,21 +63,23 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
             case 1:
                 drive.followTrajectory(traj);
                 raiseLift(1350, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_UP * 0.2);
                 sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1300);
+                lowerLift(.7, 1325);
                 drive.followTrajectory(traj2);
+                drive.turn(Math.toRadians(16));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
-
                 break;
 
             case 2:
                 drive.followTrajectory(traj);
                 raiseLift(1800, .9);
+                sleep(500);
                 robot.outtake.setPosition(OUTTAKE_UP * .2);
                 sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
@@ -85,9 +87,9 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 1799);
                 drive.followTrajectory(traj2);
+                drive.turn(Math.toRadians(16));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
-
                 break;
             case 3:
                 drive.followTrajectory(traj);
@@ -100,9 +102,9 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 2300);
                 drive.followTrajectory(traj2);
+                drive.turn(Math.toRadians(16));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
-
                 break;
 
         }
