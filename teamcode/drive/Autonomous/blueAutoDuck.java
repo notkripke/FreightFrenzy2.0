@@ -25,6 +25,8 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         initializeComponents();
 
+        final long INITIAL_PAUSE = 0;
+
         Pose2d startPose = new Pose2d(-34, 63.5, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
@@ -63,6 +65,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         switch(Pipeline.getPos()){
             case 1:
+                sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
                 raiseLift(1290, .9);
                 sleep(500);
@@ -88,6 +91,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 break;
 
             case 2:
+                sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
                 raiseLift(1800, .9);
                 sleep(500);
@@ -112,6 +116,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 drive.followTrajectory(PARK2);
                 break;
             case 3:
+                sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
                 raiseLift(2350, .9);
                 sleep(1500);
