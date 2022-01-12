@@ -71,6 +71,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 1325);
                 drive.followTrajectory(traj2);
+                drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 break;
@@ -86,6 +87,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 1799);
                 drive.followTrajectory(traj2);
+                drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 break;
@@ -100,6 +102,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 2300);
                 drive.followTrajectory(traj2);
+                drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 break;
