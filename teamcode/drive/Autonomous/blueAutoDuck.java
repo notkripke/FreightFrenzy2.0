@@ -34,20 +34,35 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         //****************************TRAJECTORIES************************************************
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-19, 45.66, Math.toRadians(37.5)))
+                .lineToLinearHeading(new Pose2d(-19.5, 45.66, Math.toRadians(29.5)))
+                .build();
+        Trajectory traj1b = drive.trajectoryBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(-19.5, 44.5, Math.toRadians(29.5)))
                 .build();
 
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, 51.5, Math.toRadians(0)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, 53.5, Math.toRadians(0)), Math.toRadians(180))
+                .build();
+        Trajectory traj2b = drive.trajectoryBuilder(traj1b.end())
+                .splineToLinearHeading(new Pose2d(-30, 53.5, Math.toRadians(0)), Math.toRadians(180))
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-54.5, 56))
+                .lineToConstantHeading(new Vector2d(-58.5, 57))
+                .build();
+        Trajectory traj3b = drive.trajectoryBuilder(traj2b.end())
+                .lineToConstantHeading(new Vector2d(-60, 57.5))
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                .splineToLinearHeading(new Pose2d(-49, 26, Math.toRadians(90)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-49, 31, Math.toRadians(90)), Math.toRadians(270))
+                .build();
+        Trajectory traj4b = drive.trajectoryBuilder(traj3b.end())
+                .splineToLinearHeading(new Pose2d(-49, 31, Math.toRadians(90)), Math.toRadians(270))
                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
+                .strafeLeft(18)
+                .build();
+        Trajectory traj5b = drive.trajectoryBuilder(traj4.end())
                 .strafeLeft(18)
                 .build();
 
@@ -72,17 +87,17 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         switch(Pipeline.getPos()){
             case 1:
                 sleep(INITIAL_PAUSE);
-                drive.followTrajectory(traj);
-                raiseLift(1490, .9);
+                drive.followTrajectory(traj1b);
+                raiseLift(1050, .9);
                 sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1475);
-                drive.followTrajectory(traj2);
-                drive.followTrajectory(traj3);
+                lowerLift(.7, 1012);
+                drive.followTrajectory(traj2b);
+                drive.followTrajectory(traj3b);
                 robot.duck.setPower(-0.4);
                 sleep(150);
                 robot.duck.setPower(-.7);
@@ -90,8 +105,8 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 robot.duck.setPower(-1);
                 sleep(2000);
                 robot.duck.setPower(0);
-                drive.followTrajectory(traj4);
-                drive.followTrajectory(traj5);
+                drive.followTrajectory(traj4b);
+                drive.followTrajectory(traj5b);
                 break;
 
             case 2:

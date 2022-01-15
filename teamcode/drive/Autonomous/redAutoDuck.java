@@ -33,22 +33,22 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-18.5, -47.5, Math.toRadians(160))) //raise y
+                .lineToLinearHeading(new Pose2d(-18.5, -46, Math.toRadians(160))) //raise y
                 .build();
         Trajectory traj1b = drive.trajectoryBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(-17.5, -44, Math.toRadians(160)))
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, -59.5, Math.toRadians(90)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, -53.5, Math.toRadians(90)), Math.toRadians(180))
                 .build();
         Trajectory traj2b = drive.trajectoryBuilder(traj1b.end())
-                .splineToLinearHeading(new Pose2d(-30, -55.5, Math.toRadians(90)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-30, -53.5, Math.toRadians(90)), Math.toRadians(180))
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-61.5, -62.5))
+                .lineToConstantHeading(new Vector2d(-61.5, -64))
                 .build();
         Trajectory traj3b = drive.trajectoryBuilder(traj2b.end())
-                .lineToConstantHeading(new Vector2d(-60.5, -66))
+                .lineToConstantHeading(new Vector2d(-61.5, -64))
                 .build();
 
 
@@ -89,7 +89,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-65.2, -43, Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-66.2, -43, Math.toRadians(0)), Math.toRadians(180))
                         .build();
                 drive.followTrajectory(PARK);
                 break;
@@ -115,7 +115,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK2 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-65.2, -41, Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-66.2, -41, Math.toRadians(0)), Math.toRadians(180))
                         .build();
                 drive.followTrajectory(PARK2);
                 break;
@@ -140,7 +140,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(2000);
                 robot.duck.setPower(0);
                 Trajectory PARK3 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                        .splineToLinearHeading(new Pose2d(-65.2, -41, Math.toRadians(0)), Math.toRadians(180))
+                        .splineToLinearHeading(new Pose2d(-66.2, -41, Math.toRadians(0)), Math.toRadians(180))
                         .build();
                 drive.followTrajectory(PARK3);
                 break;
