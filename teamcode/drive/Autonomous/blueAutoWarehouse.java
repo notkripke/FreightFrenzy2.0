@@ -33,10 +33,10 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-4, 45.5, Math.toRadians(337)))
+                .lineToLinearHeading(new Pose2d(-4, 45.5, Math.toRadians(347)))
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(11, 69.5, Math.toRadians(0)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(11.5, 71, Math.toRadians(0)), Math.toRadians(0))
                 .build();
         Trajectory park1 = drive.trajectoryBuilder(traj2.end())
                 .forward(32)
@@ -74,7 +74,7 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 1325);
                 drive.followTrajectory(traj2);
-                drive.turn(Math.toRadians(16));
+                drive.turn(Math.toRadians(20));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 break;
@@ -91,7 +91,7 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 1799);
                 drive.followTrajectory(traj2);
-                drive.turn(Math.toRadians(16));
+                drive.turn(Math.toRadians(20));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 break;
@@ -107,7 +107,7 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 robot.outtake.setPosition(OUTTAKE_UP);
                 lowerLift(.7, 2300);
                 drive.followTrajectory(traj2);
-                drive.turn(Math.toRadians(16));
+                drive.turn(Math.toRadians(20));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 break;
