@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
-import org.opencv.core.Mat;
+//import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -33,7 +33,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-4, -45.5, Math.toRadians(210)))
+                .lineToLinearHeading(new Pose2d(-4, -45, Math.toRadians(210)))
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
                 .splineToLinearHeading(new Pose2d(11, -67.5, Math.toRadians(180)), Math.toRadians(0))
@@ -100,7 +100,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 drive.followTrajectory(traj);
                 raiseLift(2350, -.7);//raise
                 sleep(2000);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
+                robot.outtake.setPosition(OUTTAKE_UP*0.1);
                 sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);

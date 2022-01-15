@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
-import org.opencv.core.Mat;
+//import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -48,16 +48,16 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .build();
 
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-58.5, 57))
+                .lineToConstantHeading(new Vector2d(-58.5, 59))
                 .build();
         Trajectory traj3b = drive.trajectoryBuilder(traj2b.end())
                 .lineToConstantHeading(new Vector2d(-60, 57.5))
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                .splineToLinearHeading(new Pose2d(-49, 31, Math.toRadians(90)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-49, 32.5, Math.toRadians(90)), Math.toRadians(270))
                 .build();
         Trajectory traj4b = drive.trajectoryBuilder(traj3b.end())
-                .splineToLinearHeading(new Pose2d(-49, 31, Math.toRadians(90)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-49, 32, Math.toRadians(90)), Math.toRadians(270))
                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
                 .strafeLeft(18)
@@ -112,7 +112,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
             case 2:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(1950, .9);
+                raiseLift(1800, .9);
                 sleep(500);
                 robot.outtake.setPosition(OUTTAKE_DOWN * .2);
                 sleep(1200);

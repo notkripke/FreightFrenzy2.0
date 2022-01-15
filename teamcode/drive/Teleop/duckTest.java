@@ -47,18 +47,18 @@ public class duckTest extends GorillabotsCentral {
                    duckPower.reset();
                    break;
                case "red":
-                   if(duckPower.milliseconds() < 775) {
-                       robot.duck.setPower(duckPower.milliseconds()/800);
+                   if(duckPower.milliseconds() < 625) {
+                       robot.duck.setPower(duckPower.milliseconds()/650);
                    }
-                   if(duckPower.milliseconds() >= 775){
+                   if(duckPower.milliseconds() >= 625){
                        robot.duck.setPower(1);
                    }
                    break;
                case "blue":
-                   if(duckPower.milliseconds() < 775) {
-                       robot.duck.setPower(-duckPower.milliseconds()/800);
+                   if(duckPower.milliseconds() < 625) {
+                       robot.duck.setPower(-duckPower.milliseconds()/650);
                    }
-                   if(duckPower.milliseconds() >= 775){
+                   if(duckPower.milliseconds() >= 625){
                        robot.duck.setPower(-1);
                    }
                    break;

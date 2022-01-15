@@ -5,6 +5,8 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
@@ -13,7 +15,6 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLoc
 @TeleOp(group = "drive")
 @Config
 public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
-
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -28,6 +29,10 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
         drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
         String Lift_state = "stop";
+
+        ElapsedTime duckPower = new ElapsedTime();
+
+        String duck_trigger = "off";
 
         final double LIFT_INIT = robot.lift.getCurrentPosition();
 
@@ -61,15 +66,16 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                 robot.Intake2.setPower(0);
             }
 
-            if(gamepad1.left_trigger >= 0.15){
-                robot.duck.setPower(-gamepad1.left_trigger);
+            if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
+                duck_trigger = "red";
             }
-            if(gamepad1.right_trigger >= 0.15){
-                robot.duck.setPower(gamepad1.right_trigger);
+            if(gamepad1.right_trigger > .4 && gamepad1.left_trigger > .4){
+                duck_trigger = "blue";
             }
-            if(gamepad1.left_trigger < .15 && gamepad1.right_trigger < .15){
-                robot.duck.setPower(0);
+            if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
+                duck_trigger = "off";
             }
+
             if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2){//liftpos - ceiling < ceiling
                 Lift_state = "down";
             }
@@ -102,6 +108,29 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     break;
                 case "up":
                     robot.lift.setPower(-gamepad2.right_trigger);
+                    break;
+            }
+
+            switch(duck_trigger){
+                case "off":
+                    robot.duck.setPower(0);
+                    duckPower.reset();
+                    break;
+                case "red":
+                    if(duckPower.milliseconds() < 625) {
+                        robot.duck.setPower(duckPower.milliseconds()/650);
+                    }
+                    if(duckPower.milliseconds() >= 625){
+                        robot.duck.setPower(1);
+                    }
+                    break;
+                case "blue":
+                    if(duckPower.milliseconds() < 625) {
+                        robot.duck.setPower(-duckPower.milliseconds()/650);
+                    }
+                    if(duckPower.milliseconds() >= 625){
+                        robot.duck.setPower(-1);
+                    }
                     break;
             }
 
