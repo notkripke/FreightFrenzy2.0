@@ -54,10 +54,17 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .lineToConstantHeading(new Vector2d(-60, 57.5))
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
+<<<<<<< Updated upstream
                 .splineToLinearHeading(new Pose2d(-49, 32.5, Math.toRadians(90)), Math.toRadians(270))
                 .build();
         Trajectory traj4b = drive.trajectoryBuilder(traj3b.end())
                 .splineToLinearHeading(new Pose2d(-49, 32, Math.toRadians(90)), Math.toRadians(270))
+=======
+                .splineToLinearHeading(new Pose2d(-49, 30, Math.toRadians(90)), Math.toRadians(270))
+                .build();
+        Trajectory traj4b = drive.trajectoryBuilder(traj3b.end())
+                .splineToLinearHeading(new Pose2d(-49, 30, Math.toRadians(90)), Math.toRadians(270))
+>>>>>>> Stashed changes
                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
                 .strafeLeft(18)
@@ -100,10 +107,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 drive.followTrajectory(traj3b);
                 robot.duck.setPower(-0.4);
                 sleep(150);
-                robot.duck.setPower(-.7);
+                robot.duck.setPower(-.5);
                 sleep(100);
-                robot.duck.setPower(-1);
-                sleep(2000);
+                sleep(4000);
                 robot.duck.setPower(0);
                 drive.followTrajectory(traj4b);
                 drive.followTrajectory(traj5b);
@@ -124,10 +130,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 drive.followTrajectory(traj3);
                 robot.duck.setPower(-0.4);
                 sleep(150);
-                robot.duck.setPower(-.7);
+                robot.duck.setPower(-.5);
                 sleep(100);
-                robot.duck.setPower(-1);
-                sleep(2000);
+                sleep(4000);
                 robot.duck.setPower(0);
                 drive.followTrajectory(traj4);
                 drive.followTrajectory(traj5);
@@ -147,10 +152,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 drive.followTrajectory(traj3);
                 robot.duck.setPower(-0.4);
                 sleep(150);
-                robot.duck.setPower(-.7);
+                robot.duck.setPower(-.5);
                 sleep(100);
-                robot.duck.setPower(-1);
-                sleep(2000);
+                sleep(4000);
                 robot.duck.setPower(0);
                 drive.followTrajectory(traj4);
                 drive.followTrajectory(traj5);
