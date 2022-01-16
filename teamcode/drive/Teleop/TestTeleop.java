@@ -69,7 +69,7 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
                 duck_trigger = "red";
             }
-            if(gamepad1.right_trigger > .4 && gamepad1.left_trigger > .4){
+            if(gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4){
                 duck_trigger = "blue";
             }
             if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){

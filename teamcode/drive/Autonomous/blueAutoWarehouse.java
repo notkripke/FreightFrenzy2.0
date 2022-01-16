@@ -82,14 +82,14 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
             case 2:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(1800, .9);
+                raiseLift(1950, .9);
                 sleep(500);
                 robot.outtake.setPosition(OUTTAKE_UP * .2);
                 sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1799);
+                lowerLift(.7, 1949);
                 drive.followTrajectory(traj2);
                 drive.turn(Math.toRadians(20));
                 drive.followTrajectory(park1);

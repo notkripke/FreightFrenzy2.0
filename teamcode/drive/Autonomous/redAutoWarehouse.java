@@ -39,10 +39,10 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 .splineToLinearHeading(new Pose2d(11, -67.5, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         Trajectory park1 = drive.trajectoryBuilder(traj2.end())
-                .back(32)
+                .back(35)
                 .build();
         Trajectory park2 = drive.trajectoryBuilder(park1.end())
-                .strafeRight(30)
+                .strafeLeft(5)
                 .build();
 
 
@@ -65,14 +65,14 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
             case 1:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(1450, .9);
+                raiseLift(1140, .9);
                 sleep(500);
                 robot.outtake.setPosition(OUTTAKE_UP * 0.35);
                 sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1425);
+                lowerLift(.7, 1315);
                 drive.followTrajectory(traj2);
                 drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
@@ -82,14 +82,14 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
             case 2:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(1880, .9);
+                raiseLift(1800, .9);
                 sleep(500);
-                robot.outtake.setPosition(OUTTAKE_UP * .3);
+                robot.outtake.setPosition(OUTTAKE_UP * .2);
                 sleep(1200);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
                 robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1879);
+                lowerLift(.7, 1799);
                 drive.followTrajectory(traj2);
                 drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
