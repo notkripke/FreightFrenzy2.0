@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.RobotHardware;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
@@ -36,6 +37,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     public static double OUTTAKE_DOWN = 0.01;
     public static int SHARED_HEIGHT = 1250;
 
+    public String loadState = "NOTHING LOADED";
 
     public void initializeComponents()
     {
@@ -112,6 +114,29 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         }
         robot.lift.setPower(0);
     }
+
+    public String freightCheck() {
+        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 3.5){
+            loadState = "NOTHING LOADED";
+        }
+        if(sensors.dist.getDistance(DistanceUnit.INCH) < 3.5){
+            loadState = "LOADED";
+        }
+
+        return loadState;
+    }
+
+    public void intakeToDist() {
+        if(freightCheck() == "NOTHING LOADED"){
+            robot.Intake1.setPower(1);
+            robot.Intake2.setPower(1);
+        }
+        if(freightCheck() == "LOADED"){
+            robot.Intake1.setPower(0);
+            robot.Intake2.setPower(0);
+        }
+    }
+
     public void stopVisionProcessing(){
         webcam.stopStreaming();
     }

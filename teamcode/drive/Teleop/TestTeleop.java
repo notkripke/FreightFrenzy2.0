@@ -46,7 +46,7 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
             LIFT_POS = robot.lift.getCurrentPosition();
 
-
+            /*
             if(gamepad1.left_bumper && !gamepad1.y){
                 robot.Intake1.setPower(1);
             }
@@ -64,6 +64,11 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             }
             if(!gamepad1.right_bumper){
                 robot.Intake2.setPower(0);
+            }
+            */
+
+            if(gamepad1.left_bumper || gamepad1.right_bumper){
+                intakeToDist();
             }
 
             if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
@@ -136,12 +141,8 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
             telemetry.addData("Outtake Pos: ", robot.outtake.getPosition());
             telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
-            telemetry.addData("Lift ceiling: ", LIFT_CEILING);
-            telemetry.addData("Dist. 'till ceiling: ", Math.abs(LIFT_CEILING - LIFT_POS));
-            telemetry.addData("Distance sensor: ", sensors.getDistanceDist());
-            //telemetry.addData("Limit switch is pressed?: ", sensors.checkSwitch());
+            telemetry.addData("Freight? ", freightCheck());
             telemetry.addData("Distance from init: ", Math.abs(LIFT_POS - LIFT_INIT));
-            telemetry.addData("Lift init: ", LIFT_INIT);
             telemetry.addData("Lift state: ", Lift_state);
             telemetry.update();
 

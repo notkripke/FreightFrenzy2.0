@@ -28,6 +28,8 @@ public class Sensors
         return dist.getDistance(DistanceUnit.INCH);
     }
 
+
+
     /*public boolean checkSwitch(){
         //return LimitSwitch.getState();
         boolean isPressed;
