@@ -67,8 +67,16 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             }
             */
 
-            if(gamepad1.left_bumper || gamepad1.right_bumper){
+            if(gamepad1.left_bumper){
                 intakeToDist();
+            }
+            if(gamepad1.right_bumper){
+                robot.Intake1.setPower(-1);
+                robot.Intake2.setPower(1);
+            }
+            if(!gamepad1.left_bumper && !gamepad1.right_bumper){
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
             }
 
             if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
