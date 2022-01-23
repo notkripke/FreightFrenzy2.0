@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Teleop;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -45,27 +46,6 @@ public class TestTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
         while (!isStopRequested()) {
 
             LIFT_POS = robot.lift.getCurrentPosition();
-
-            /*
-            if(gamepad1.left_bumper && !gamepad1.y){
-                robot.Intake1.setPower(1);
-            }
-            if(gamepad1.right_bumper && !gamepad1.y){
-                robot.Intake2.setPower(-1);
-            }
-            if(gamepad1.left_bumper && gamepad1.y){
-                robot.Intake1.setPower(-1);
-            }
-            if(gamepad1.right_bumper && gamepad1.y){
-                robot.Intake2.setPower(1);
-            }
-            if(!gamepad1.left_bumper){
-                robot.Intake1.setPower(0);
-            }
-            if(!gamepad1.right_bumper){
-                robot.Intake2.setPower(0);
-            }
-            */
 
             if(gamepad1.left_bumper){
                 intakeToDist();
