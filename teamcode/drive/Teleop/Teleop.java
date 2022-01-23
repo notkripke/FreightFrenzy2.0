@@ -29,6 +29,12 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
+        ElapsedTime drive_timer = new ElapsedTime();
+
+        boolean drive_check = false;
+
+        String drive_state = "normal";
+
         String Lift_state = "stop";
 
         ElapsedTime duckPower = new ElapsedTime();
@@ -134,19 +140,49 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             telemetry.addData("Lift state: ", Lift_state);
             telemetry.update();
 
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
-                    )
-            );
+            if(gamepad1.a && drive_timer.time() >= 0.4){
+                drive_timer.reset();
+                drive_check =! drive_check;
+            }
 
-            drive.update();
+            if(drive_check){
+                drive_state = "gap";
+            }
+            if(!drive_check){
+                drive_state = "normal";
+            }
+
+            switch(drive_state){
+                case "normal":
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                    break;
+                case "gap":
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x + 0.35,
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+            }
+
+            telemetry.addData("Drive state: ", drive_state);
+            telemetry.update();
+
+        }
 
         }
     }
-
-}
+    
 
 
