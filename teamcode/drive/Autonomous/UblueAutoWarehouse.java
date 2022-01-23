@@ -86,7 +86,7 @@ public class UblueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 drive.followTrajectory(intake);
-                creepIntake("forwards", 6000);
+                creepIntake("backwards", 6000);
                 robot.Intake1.setPower(-1);
                 robot.Intake2.setPower(1);
                 drive.followTrajectory(finalpark);
@@ -111,7 +111,7 @@ public class UblueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 drive.followTrajectory(intake);
-                creepIntake("forwards", 6000);
+                creepIntake("backwards", 6000);
                 robot.Intake1.setPower(-1);
                 robot.Intake2.setPower(1);
                 drive.followTrajectory(finalpark);
@@ -135,7 +135,7 @@ public class UblueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
                 drive.followTrajectory(intake);
-                creepIntake("forwards", 6000);
+                creepIntake("backwards", 6000);
                 robot.Intake1.setPower(-1);
                 robot.Intake2.setPower(1);
                 drive.followTrajectory(finalpark);
