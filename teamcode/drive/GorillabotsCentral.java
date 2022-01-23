@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcodeGIT.teamcode.drive;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -135,6 +136,37 @@ public abstract class GorillabotsCentral extends LinearOpMode {
             robot.Intake1.setPower(0);
             robot.Intake2.setPower(0);
         }
+    }
+
+    public void creepIntake(String direction, double timer){
+        ElapsedTime intake_timer = new ElapsedTime();
+        intake_timer.reset();
+        while(freightCheck() == "NOTHING LOADED" && intake_timer.milliseconds() <= timer){
+            robot.Intake1.setPower(1);
+            robot.Intake2.setPower(-1);
+            if(direction == "forwards"){
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                0.18,
+                                0,
+                                0
+                        )
+                );
+                drive.update();
+            }
+            if(direction == "backwards"){
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.18,
+                                0,
+                                0
+                        )
+                );
+                drive.update();
+            }
+        }
+        robot.Intake2.setPower(0);
+        robot.Intake1.setPower(0);
     }
 
     public void stopVisionProcessing(){
