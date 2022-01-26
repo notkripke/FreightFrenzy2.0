@@ -44,6 +44,13 @@ public class UredAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
         Trajectory park2 = drive.trajectoryBuilder(park1.end())
                 .strafeLeft(5)
                 .build();
+        Trajectory intake = drive.trajectoryBuilder(park2.end())
+                .lineToLinearHeading(new Pose2d(67, -62, Math.toRadians(270)))
+                .build();
+        Trajectory finalpark = drive.trajectoryBuilder(intake.end())
+                .lineToLinearHeading(new Pose2d(67, 62, Math.toRadians(270)))
+                .strafeLeft(16)
+                .build();
 
 
         startVisionProcessing();
@@ -77,6 +84,14 @@ public class UredAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
+                drive.followTrajectory(intake);
+                creepIntake("forwards", 6000);
+                robot.Intake1.setPower(-1);
+                robot.Intake2.setPower(1);
+                drive.followTrajectory(finalpark);
+                sleep(500);
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
                 break;
 
             case 2:
@@ -94,6 +109,14 @@ public class UredAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
+                drive.followTrajectory(intake);
+                creepIntake("forwards", 6000);
+                robot.Intake1.setPower(-1);
+                robot.Intake2.setPower(1);
+                drive.followTrajectory(finalpark);
+                sleep(500);
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
                 break;
             case 3:
                 sleep(INITIAL_PAUSE);
@@ -110,6 +133,14 @@ public class UredAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
                 drive.turn(Math.toRadians(-10));
                 drive.followTrajectory(park1);
                 drive.followTrajectory(park2);
+                drive.followTrajectory(intake);
+                creepIntake("forwards", 6000);
+                robot.Intake1.setPower(-1);
+                robot.Intake2.setPower(1);
+                drive.followTrajectory(finalpark);
+                sleep(500);
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
                 break;
 
         }
