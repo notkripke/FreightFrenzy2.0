@@ -78,10 +78,10 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2){//liftpos - ceiling < ceiling
                 Lift_state = "down";
             }
-            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && CEILING > LIFT_POS  /*sensors.checkSwitch() == false*/){
+            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && LIFT_POS < CEILING  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
             }
-            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 || CEILING < LIFT_POS && Lift_state != "down"){
+            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 || LIFT_POS > CEILING && Lift_state != "down"){
                 Lift_state = "stop";
             }
 
@@ -103,10 +103,10 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    robot.lift.setPower(gamepad2.left_trigger);
+                    robot.lift.setPower(-gamepad2.left_trigger);
                     break;
                 case "up":
-                    robot.lift.setPower(-gamepad2.right_trigger);
+                    robot.lift.setPower(gamepad2.right_trigger);
                     break;
             }
 
@@ -134,10 +134,11 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             }
 
             telemetry.addData("Outtake Pos: ", robot.outtake.getPosition());
-            telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
+            telemetry.addData("lift height: ", LIFT_POS);
             telemetry.addData("Freight? ", freightCheck());
-            telemetry.addData("Distance from init: ", Math.abs(LIFT_POS - LIFT_INIT));
+            telemetry.addData("Distance from init: ", LIFT_POS - LIFT_INIT);
             telemetry.addData("Lift state: ", Lift_state);
+            telemetry.addData("Ceiling", CEILING);
             telemetry.update();
 
             if(gamepad1.a && drive_timer.time() >= 0.4){
