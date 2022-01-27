@@ -116,6 +116,21 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         robot.lift.setPower(0);
     }
 
+    public void raiseLiftTeleop(int init_height){
+        double s = 94*(Math.sqrt(2) * sensors.getDistanceSideDist()+
+                                                    (2*Math.sqrt(2))); //S   C   A   L   E
+        double target = init_height + s;
+        int targetint = (int) Math.round(target);
+        robot.lift.setTargetPosition(targetint);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        while(robot.lift.getCurrentPosition() < targetint && target < 2450){
+            robot.lift.setPower(0.85);
+        }
+        robot.lift.setPower(0);
+        robot.outtake.setPosition(OUTTAKE_DOWN);
+    }
+
     public String freightCheck() {
         if(sensors.dist.getDistance(DistanceUnit.INCH) >= 3.5){
             loadState = "NOTHING LOADED";

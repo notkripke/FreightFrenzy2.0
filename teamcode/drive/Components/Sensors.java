@@ -15,6 +15,7 @@ public class Sensors
 {
    // DigitalChannel LimitSwitch;
     public Rev2mDistanceSensor dist;
+    public Rev2mDistanceSensor sidedist;
     //public RevTouchSensor touch;
 
     public Sensors(HardwareMap hardwareMap, Telemetry telemetry)
@@ -22,23 +23,12 @@ public class Sensors
         //LimitSwitch = hardwareMap.get(DigitalChannel.class, "switch");
         //LimitSwitch.setMode(DigitalChannel.Mode.INPUT);
         dist = hardwareMap.get(Rev2mDistanceSensor.class, "dist");
+        sidedist = hardwareMap.get(Rev2mDistanceSensor.class, "sidedist");
     }
 
     public double getDistanceDist(){
         return dist.getDistance(DistanceUnit.INCH);
     }
+    public double getDistanceSideDist() {return dist.getDistance(DistanceUnit.INCH);}
 
-
-
-    /*public boolean checkSwitch(){
-        //return LimitSwitch.getState();
-        boolean isPressed;
-        if(LimitSwitch.getState() == true){
-            isPressed = false;
-        }
-        else{
-            isPressed = true;
-        }
-        return isPressed;
-    }*/
 }
