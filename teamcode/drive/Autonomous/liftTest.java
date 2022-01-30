@@ -30,13 +30,12 @@ public class liftTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
             double target = init_height + s;
             int targetint = (int) Math.round(target);
             telemetry.addData("Target: ", targetint);
+            telemetry.addData("Distance: ", sensors.getDistanceSideDist());
             telemetry.update();
         }
 
 
         waitForStart();
-
-        if (isStopRequested()) return;
 
         raiseLiftTeleop(init_height);
 

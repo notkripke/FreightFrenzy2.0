@@ -34,7 +34,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
     public static int LIFT_CEILING = 2300;
     public static double LIFT_SPEED = .8;
-    public static double OUTTAKE_UP = .25;
+    public static double OUTTAKE_UP = .35;
     public static double OUTTAKE_DOWN = 0.01;
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = true;
@@ -118,14 +118,13 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     }
 
     public void raiseLiftTeleop(int init_height){
-        double s = 94*(Math.sqrt(2) * sensors.getDistanceSideDist()+
-                                                    (2*Math.sqrt(2))); //S   C   A   L   E
+        double s = 94*(Math.sqrt(2) * sensors.getDistanceSideDist()+ (2*Math.sqrt(2))); //S   C   A   L   E
         double target = init_height + s;
         int targetint = (int) Math.round(target);
         robot.lift.setTargetPosition(targetint);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while(robot.lift.getCurrentPosition() < targetint && target < 2450 && !LIFT_OVERRIDE){
+        while((robot.lift.getCurrentPosition() < targetint) && (target < 2450) && !LIFT_OVERRIDE){
             if(gamepad2.left_trigger > .2 || gamepad2.right_trigger > .2 || gamepad2.y){
                 LIFT_OVERRIDE = true;
             }
