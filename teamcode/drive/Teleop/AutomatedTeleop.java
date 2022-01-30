@@ -41,6 +41,8 @@ public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/d
 
         String duck_trigger = "off";
 
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         final int LIFT_INIT = robot.lift.getCurrentPosition();
 
         final double CEILING = LIFT_INIT + LIFT_CEILING;
@@ -110,10 +112,10 @@ public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/d
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    robot.lift.setPower(gamepad2.left_trigger);
+                    robot.lift.setPower(-gamepad2.left_trigger);
                     break;
                 case "up":
-                    robot.lift.setPower(-gamepad2.right_trigger);
+                    robot.lift.setPower(gamepad2.right_trigger);
                     break;
             }
 

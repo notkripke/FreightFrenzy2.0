@@ -22,22 +22,23 @@ public class liftTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
     public void runOpMode() throws InterruptedException {
         initializeComponents();
 
-        int init_height = robot.lift.getCurrentPosition();
+        int Init_height = robot.lift.getCurrentPosition();
 
         while(!isStarted() && !isStopRequested()) {
             double s = 94 * (Math.sqrt(2) * sensors.getDistanceSideDist() +
                     (2 * Math.sqrt(2))); //S   C   A   L   E
-            double target = init_height + s;
+            double target = Init_height + s;
             int targetint = (int) Math.round(target);
             telemetry.addData("Target: ", targetint);
             telemetry.addData("Distance: ", sensors.getDistanceSideDist());
+            telemetry.addData("liftheight: ", robot.lift.getCurrentPosition());
             telemetry.update();
         }
 
 
         waitForStart();
 
-        raiseLiftTeleop(init_height);
+        raiseLiftTeleop(Init_height);
 
     }
 }

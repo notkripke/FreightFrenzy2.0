@@ -29,6 +29,6 @@ public class Sensors
     public double getDistanceDist(){
         return dist.getDistance(DistanceUnit.INCH);
     }
-    public double getDistanceSideDist() {return dist.getDistance(DistanceUnit.INCH);}
+    public double getDistanceSideDist() {return sidedist.getDistance(DistanceUnit.INCH);}
 
 }
