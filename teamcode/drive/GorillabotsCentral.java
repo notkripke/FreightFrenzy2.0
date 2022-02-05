@@ -32,6 +32,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     public CVPipeline Pipeline;
     public RobotHardware robot;
 
+    public double lemniscate = 2.6220575542;
+
     public static int LIFT_CEILING = 2430;
     public static double LIFT_SPEED = .8;
     public static double OUTTAKE_UP = .35;
@@ -193,5 +195,25 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
     public void stopVisionProcessing(){
         webcam.stopStreaming();
+    }
+
+    public double cosh(double x){
+        return (Math.exp(x) + Math.exp(-x))/2;
+    };
+
+    public double sinlemn(double x){
+        double[] storage = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+        for(int n = 0; n <= 10; n++){
+            storage[n] = Math.sin(Math.PI*x*(2*n+1)/lemniscate)/((2*n+1)*cosh(Math.PI*(n+0.5)));
+        }
+
+        double sum = 0;
+
+        for(int i = 0; i < storage.length; i++){
+            sum += storage[i];
+        }
+
+        return Math.tan(2*sum);
     }
 }
