@@ -85,6 +85,37 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         });
     }
 
+    public void LED(String leds){
+        if(leds == "all"){
+            sensors.flLED.setState(true);
+            sensors.frLED.setState(true);
+            sensors.blLED.setState(true);
+            sensors.brLED.setState(true);
+        }
+        else if(leds == "back"){
+            sensors.brLED.setState(true);
+            sensors.blLED.setState(true);
+        }
+        else if(leds == "front"){
+            sensors.frLED.setState(true);
+            sensors.flLED.setState(true);
+        }
+        else if(leds == "left"){
+            sensors.flLED.setState(true);
+            sensors.blLED.setState(true);
+        }
+        else if(leds == "right"){
+            sensors.frLED.setState(true);
+            sensors.brLED.setState(true);
+        }
+        else if(leds == "none" || leds == "off"){
+            sensors.frLED.setState(false);
+            sensors.flLED.setState(false);
+            sensors.brLED.setState(false);
+            sensors.blLED.setState(false);
+        }
+    }
+
     public void raiseLift(int net_height, double speed){
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

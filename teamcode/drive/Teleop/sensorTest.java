@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 @TeleOp(group="main", name="sensorTest")
 
 @Config
-public class sensorTest extends LinearOpMode {
+public class sensorTest extends GorillabotsCentral {
 
 
 
@@ -32,6 +32,12 @@ public class sensorTest extends LinearOpMode {
 
             //telemetry.addData("distance: ", sensors.checkTouch());
             //telemetry.addData("Limit switch is pressed?: ", sensors.checkSwitch());
+            if(freightCheck() == "LOADED"){
+                LED("all");
+            }
+            if(freightCheck() != "LOADED"){
+                LED("none");
+            }
             telemetry.addData("Touch: ", sensors.getDistanceDist()); //6 threshold
             telemetry.update();
         }
