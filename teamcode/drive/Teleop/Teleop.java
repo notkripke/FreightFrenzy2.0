@@ -54,6 +54,12 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             LIFT_POS = robot.lift.getCurrentPosition();
 
             if(gamepad1.left_bumper){
+                if(freightCheck() == "LOADED"){
+                    LED("all");
+                }
+                if(freightCheck() != "LOADED"){
+                    LED("none");
+                }
                 intakeToDist();
             }
             if(gamepad1.right_bumper){
@@ -132,6 +138,7 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     }
                     break;
             }
+
 
             telemetry.addData("Outtake Pos: ", robot.outtake.getPosition());
             telemetry.addData("lift height: ", LIFT_POS);

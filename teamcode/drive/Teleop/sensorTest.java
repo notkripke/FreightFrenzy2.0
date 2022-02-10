@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
-@Disabled
 @TeleOp(group="main", name="sensorTest")
 
 @Config
@@ -23,8 +22,7 @@ public class sensorTest extends GorillabotsCentral {
     @Override
     public void runOpMode() {
 
-        Sensors sensors;
-        sensors = new Sensors(hardwareMap, telemetry);
+        initializeComponents();
 
         waitForStart();
 

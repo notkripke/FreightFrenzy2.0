@@ -184,7 +184,11 @@ public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/d
 
                     drive.update();
             }
-
+            double s = 94 * (Math.sqrt(2) * sensors.getDistanceSideDist() +
+                    (2 * Math.sqrt(2))); //S   C   A   L   E
+            double target = LIFT_INIT + s;
+            int targetint = (int) Math.round(target);
+            telemetry.addData("Target: ", targetint);
             telemetry.addData("Drive state: ", drive_state);
             telemetry.update();
 

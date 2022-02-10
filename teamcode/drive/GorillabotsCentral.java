@@ -7,9 +7,11 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.internal.android.dx.util.Output;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.RobotHardware;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
@@ -36,8 +38,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
     public static int LIFT_CEILING = 2430;
     public static double LIFT_SPEED = .8;
-    public static double OUTTAKE_UP = .35;
-    public static double OUTTAKE_DOWN = 0.01;
+    public static double OUTTAKE_UP = .27;
+    public static double OUTTAKE_DOWN = 0.145;
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = false;
 
@@ -86,29 +88,56 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     }
 
     public void LED(String leds){
+
         if(leds == "all"){
+            sensors.blLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.brLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.flLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.frLED.setMode(DigitalChannel.Mode.OUTPUT);
             sensors.flLED.setState(true);
             sensors.frLED.setState(true);
             sensors.blLED.setState(true);
             sensors.brLED.setState(true);
         }
+
         else if(leds == "back"){
+            sensors.blLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.brLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.flLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.frLED.setMode(DigitalChannel.Mode.INPUT);
             sensors.brLED.setState(true);
             sensors.blLED.setState(true);
         }
         else if(leds == "front"){
+            sensors.blLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.brLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.flLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.frLED.setMode(DigitalChannel.Mode.OUTPUT);
             sensors.frLED.setState(true);
             sensors.flLED.setState(true);
         }
+
         else if(leds == "left"){
+            sensors.blLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.brLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.flLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.frLED.setMode(DigitalChannel.Mode.INPUT);
             sensors.flLED.setState(true);
             sensors.blLED.setState(true);
         }
         else if(leds == "right"){
+            sensors.brLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.frLED.setMode(DigitalChannel.Mode.OUTPUT);
+            sensors.blLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.flLED.setMode(DigitalChannel.Mode.INPUT);
             sensors.frLED.setState(true);
             sensors.brLED.setState(true);
         }
         else if(leds == "none" || leds == "off"){
+            sensors.blLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.brLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.flLED.setMode(DigitalChannel.Mode.INPUT);
+            sensors.frLED.setMode(DigitalChannel.Mode.INPUT);
             sensors.frLED.setState(false);
             sensors.flLED.setState(false);
             sensors.brLED.setState(false);
@@ -174,6 +203,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     public String freightCheck() {
         if(sensors.dist.getDistance(DistanceUnit.INCH) >= 3.5){
             loadState = "NOTHING LOADED";
+
         }
         if(sensors.dist.getDistance(DistanceUnit.INCH) < 3.5){
             loadState = "LOADED";
