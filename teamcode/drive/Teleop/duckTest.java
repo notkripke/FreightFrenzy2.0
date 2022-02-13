@@ -28,6 +28,7 @@ public class duckTest extends GorillabotsCentral {
         double angVel = 0;
         double angAcc = 0;
 
+        double maxVelCaro = 435*0.10472*0.2135;
         double r = 0.15;
         double u = 0.626;
 
@@ -41,31 +42,23 @@ public class duckTest extends GorillabotsCentral {
 
         while (opModeIsActive()) {
             if(mode == "measure") {
-                if (gamepad1.left_trigger > .4 && gamepad1.right_trigger < .4) {
+                boolean stopCheck = false;
+
+                if (gamepad1.left_trigger > .4 && gamepad1.right_trigger < .4 && !stopCheck) {
                     robot.duck.setPower(duckPower.milliseconds() / accConst);
 
-                    angVel = 6.97559232 * duckPower.milliseconds() / accConst;
-                    angAcc = 6.97559232 * (1000 / accConst);
+                    angVel = maxVelCaro * duckPower.milliseconds() / accConst;
+                    angAcc = maxVelCaro * (1000 / accConst);
 
-                    telemetry.addData("Angular Velocity: ", angVel);
-                    telemetry.addData("Angular Acceleration: ", angAcc);
-                    telemetry.addData("Time: ", duckPower.milliseconds());
-                    telemetry.update();
-                }
-                if (gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4) {
-                    if (duckPower.milliseconds() != 0) {
-                        angVel = 6.97559232 * duckPower.milliseconds() / accConst;
-                        angAcc = 6.97559232 * (1000 / accConst);
+                    if(gamepad1.x){
+                        stopCheck = false;
                     }
-
-                    robot.duck.setPower(0);
-                    duckPower.reset();
-
-                    telemetry.addData("Angular Velocity: ", angVel);
-                    telemetry.addData("Angular Acceleration: ", angAcc);
-                    telemetry.addData("Time: ", duckPower.milliseconds());
-                    telemetry.update();
                 }
+
+                telemetry.addData("Angular Velocity: ", angVel);
+                telemetry.addData("Angular Acceleration: ", angAcc);
+                telemetry.addData("Time: ", duckPower.milliseconds());
+                telemetry.update();
             }
 
             if(mode == "test") {
