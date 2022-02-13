@@ -15,7 +15,6 @@ import org.opencv.core.Mat;
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Disabled
 @Autonomous(group = "drive")
 public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
@@ -26,45 +25,30 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         if (isStopRequested()) return;
 
-        Pose2d startPose = new Pose2d(-34, -63.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(12, -63.5, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
 
+
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-16.5, -46.5, Math.toRadians(165))) //raise y
+                .back(30)
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, -62.5, Math.toRadians(40)), Math.toRadians(180))
+                .strafeRight(24)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-58.5, -66.5))
+                .lineToLinearHeading(new Pose2d(0, 30, Math.toRadians(180)))
+                .splineToConstantHeading(new Vector2d(6, 30), Math.toRadians(180))
                 .build();
 
 
 
         drive.followTrajectory(traj);
-        raiseLift(2350, -.7);//raise
-        sleep(2000);
-        robot.outtake.setPosition(OUTTAKE_DOWN);
-        sleep(600);
-        robot.outtake.setPosition(OUTTAKE_UP);
-        robot.outtake.setPosition(OUTTAKE_DOWN);
-        robot.outtake.setPosition(OUTTAKE_UP);
-        lowerLift(.7, 2200);
+        sleep(500);
         drive.followTrajectory(traj2);
+        sleep(500);
         drive.followTrajectory(traj3);
-        robot.duck.setPower(0.4);
-        sleep(150);
-        robot.duck.setPower(.7);
-        sleep(100);
-        robot.duck.setPower(1);
-        sleep(2000);
-        robot.duck.setPower(0);
-        Trajectory PARK3 = drive.trajectoryBuilder(drive.getPoseEstimate(), false)
-                .splineToLinearHeading(new Pose2d(-64.2, -41, Math.toRadians(0)), Math.toRadians(180))
-                .build();
-        drive.followTrajectory(PARK3);
 
     }
 }
