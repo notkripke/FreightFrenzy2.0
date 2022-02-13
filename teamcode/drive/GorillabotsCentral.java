@@ -38,8 +38,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {
 
     public static int LIFT_CEILING = 2430;
     public static double LIFT_SPEED = .8;
-    public static double OUTTAKE_UP = .27;
-    public static double OUTTAKE_DOWN = 0.145;
+    public static double OUTTAKE_UP = .36;
+    public static double OUTTAKE_DOWN = 0.22;
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = false;
 
@@ -201,11 +201,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {
     }
 
     public String freightCheck() {
-        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 3.5){
+        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
             loadState = "NOTHING LOADED";
 
         }
-        if(sensors.dist.getDistance(DistanceUnit.INCH) < 3.5){
+        if(sensors.dist.getDistance(DistanceUnit.INCH) < 5.5){
             loadState = "LOADED";
         }
 
