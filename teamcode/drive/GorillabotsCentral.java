@@ -186,8 +186,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {
         robot.lift.setTargetPosition(targetint);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.outtake.setPosition(OUTTAKE_UP);
         while((robot.lift.getCurrentPosition() < targetint) && (target < 2450) && !LIFT_OVERRIDE){
+            robot.outtake.setPosition(OUTTAKE_UP);
             if(gamepad2.left_trigger > .2 || gamepad2.right_trigger > .2 || gamepad2.y){
                LIFT_OVERRIDE = true;
             }

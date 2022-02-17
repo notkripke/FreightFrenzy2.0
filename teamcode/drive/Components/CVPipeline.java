@@ -45,9 +45,9 @@ public class CVPipeline extends OpenCvPipeline
      */
 
 
-    static Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(1,431);
-    static Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(560,431);
-    static Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(1030,431);
+    static Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(1,131);
+    static Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(560,131);
+    static Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(1030,131);
     static int REGION_WIDTH = 250;
     static int REGION_HEIGHT = 288 ;
 
