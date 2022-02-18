@@ -44,10 +44,22 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         Trajectory hub1 = drive.trajectoryBuilder(duck2.end())
                 .lineToLinearHeading(new Pose2d(-12, -55.5, Math.toRadians(0)))
                 .build();
-        Trajectory hub2 = drive.trajectoryBuilder(hub1.end())
-                .lineToConstantHeading(new Vector2d(-12, -50))
+        Trajectory hub2a = drive.trajectoryBuilder(hub1.end())
+                .lineToConstantHeading(new Vector2d(-12, -48))
                 .build();
-        Trajectory park1 = drive.trajectoryBuilder(new Pose2d(-12, -50, Math.toRadians(180)))
+        Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(180)))
+                .strafeLeft(16.5)
+                .build();
+        Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
+                .lineToConstantHeading(new Vector2d(-12, -48))
+                .build();
+        Trajectory park1b = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(180)))
+                .strafeLeft(16.5)
+                .build();
+        Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
+                .lineToConstantHeading(new Vector2d(-12, -48))
+                .build();
+        Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(180)))
                 .strafeLeft(16.5)
                 .build();
 
@@ -90,7 +102,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 robot.duck.setPower(0);
                 drive.followTrajectory(hub1);
                 sleep(SLEEP_TIME);
-                drive.followTrajectory(hub2);
+                drive.followTrajectory(hub2a);
                 sleep(SLEEP_TIME);
                 drive.turn(Math.toRadians(-180));
                 sleep(SLEEP_TIME+1000);
@@ -99,7 +111,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 robot.lift.setPower(-0.65);
                 sleep(1600);
                 robot.lift.setPower(0);*/
-                drive.followTrajectory(park1);
+                drive.followTrajectory(park1a);
                 drive.setWeightedDrivePower(
                         new Pose2d(
                                 -0.5,
@@ -113,10 +125,74 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 break;
 
             case 2:
-
+                sleep(INITIAL_PAUSE);
+                drive.followTrajectory(duck1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck2);
+                sleep(SLEEP_TIME);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(500);
+                robot.duck.setPower(0.75);
+                sleep(1000);
+                robot.duck.setPower(0);
+                drive.followTrajectory(hub1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub2b);
+                sleep(SLEEP_TIME);
+                drive.turn(Math.toRadians(-180));
+                sleep(SLEEP_TIME+1000);
+                /*raiseLiftTeleop(INIT_HEIGHT);
+                sleep(600);
+                robot.lift.setPower(-0.65);
+                sleep(1600);
+                robot.lift.setPower(0);*/
+                drive.followTrajectory(park1b);
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.5,
+                                0.35,
+                                0
+                        )
+                );
+                sleep(900);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                creepIntake("back", 3000);
                 break;
             case 3:
-
+                sleep(INITIAL_PAUSE);
+                drive.followTrajectory(duck1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck2);
+                sleep(SLEEP_TIME);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(500);
+                robot.duck.setPower(0.75);
+                sleep(1000);
+                robot.duck.setPower(0);
+                drive.followTrajectory(hub1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub2c);
+                sleep(SLEEP_TIME);
+                drive.turn(Math.toRadians(-180));
+                sleep(SLEEP_TIME+1000);
+                /*raiseLiftTeleop(INIT_HEIGHT);
+                sleep(600);
+                robot.lift.setPower(-0.65);
+                sleep(1600);
+                robot.lift.setPower(0);*/
+                drive.followTrajectory(park1c);
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.5,
+                                0.35,
+                                0
+                        )
+                );
+                sleep(900);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                creepIntake("back", 3000);
                 break;
 
         }
