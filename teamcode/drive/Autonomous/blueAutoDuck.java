@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
-import org.opencv.core.Mat;
+//import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -26,56 +26,65 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         initializeComponents();
 
         final long INITIAL_PAUSE = 0;
+        final long SLEEP_TIME = 400;
+        final int INIT_HEIGHT = robot.lift.getCurrentPosition();
 
         Pose2d startPose = new Pose2d(-34, 63.5, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
-        //****************************TRAJECTORIES************************************************
 
-        Trajectory traj = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-19.5, 45.66, Math.toRadians(23.5)))
+        Trajectory duck1 = drive.trajectoryBuilder(startPose)
+                .back(4.5)
                 .build();
-        Trajectory traj1b = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-19.5, 44.5, Math.toRadians(25.5)))
+        Trajectory duck2 = drive.trajectoryBuilder(duck1.end())
+                .lineToLinearHeading(new Pose2d(-57.5, 60, Math.toRadians(225)))
                 .build();
-
-        Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(-30, 53.5, Math.toRadians(0)), Math.toRadians(180))
+        Trajectory duck3 = drive.trajectoryBuilder(duck2.end())
+                .lineToConstantHeading(new Vector2d(-57.5, 61))
                 .build();
-        Trajectory traj2b = drive.trajectoryBuilder(traj1b.end())
-                .splineToLinearHeading(new Pose2d(-30, 53.5, Math.toRadians(0)), Math.toRadians(180))
+        Trajectory duck4 = drive.trajectoryBuilder(duck3.end())
+                .lineToConstantHeading(new Vector2d(-57.5, 55))
                 .build();
 
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToConstantHeading(new Vector2d(-58.5, 55))
+        Trajectory hub1 = drive.trajectoryBuilder(duck4.end())
+                .lineToLinearHeading(new Pose2d(-12, 55.5, Math.toRadians(180)))
                 .build();
-        Trajectory traj3b = drive.trajectoryBuilder(traj2b.end())
-                .lineToConstantHeading(new Vector2d(-60, 58))
+        Trajectory hub2a = drive.trajectoryBuilder(hub1.end())
+                .lineToConstantHeading(new Vector2d(-12, 48))
                 .build();
-        Trajectory traj4 = drive.trajectoryBuilder(traj3.end())
-                .splineToLinearHeading(new Pose2d(-49, 30, Math.toRadians(90)), Math.toRadians(270))
+        Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, 48, Math.toRadians(0)))
+                .strafeLeft(16.5)
                 .build();
-        Trajectory traj4b = drive.trajectoryBuilder(traj3b.end())
-                .splineToLinearHeading(new Pose2d(-49, 31.5, Math.toRadians(90)), Math.toRadians(270))
+        Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
+                .lineToConstantHeading(new Vector2d(-12, 48))
                 .build();
-        Trajectory traj5 = drive.trajectoryBuilder(traj4.end())
-                .strafeLeft(18)
+        Trajectory park1b = drive.trajectoryBuilder(new Pose2d(-12, 48, Math.toRadians(0)))
+                .strafeLeft(16.5)
                 .build();
-        Trajectory traj5b = drive.trajectoryBuilder(traj4b.end())
-                .strafeLeft(18)
+        Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
+                .lineToConstantHeading(new Vector2d(-12, 49.5))
                 .build();
-
+        Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(0)))
+                .strafeLeft(16.5)
+                .build();
 
         startVisionProcessing();
-
-        //************************VISION PROCESSING**************************************************************
 
         while (!isStarted() && !isStopRequested()){
             telemetry.addData("Position: ", Pipeline.getAnalysis());
             telemetry.addData("Avg1: ", Pipeline.getAvg1());
             telemetry.addData("Avg2: ", Pipeline.getAvg2());
             telemetry.addData("Avg3: ", Pipeline.getAvg3());
+            if(Pipeline.getPos() == 1){
+                LED("right");
+            }
+            if(Pipeline.getPos() == 2){
+                LED("back");
+            }
+            if(Pipeline.getPos() == 3){
+                LED("left");
+            }
             telemetry.update();
         }
 
@@ -87,70 +96,156 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
         switch(Pipeline.getPos()){
             case 1:
                 sleep(INITIAL_PAUSE);
-                drive.followTrajectory(traj1b);
-                raiseLift(1150, .9);
-                sleep(500);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                sleep(2000);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1112);
-                drive.followTrajectory(traj2b);
-                drive.followTrajectory(traj3b);
-                robot.duck.setPower(-0.4);
-                sleep(150);
-                robot.duck.setPower(-.5);
-                sleep(100);
-                sleep(4000);
+                drive.followTrajectory(duck1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck2);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck3);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(650);//550
+                robot.duck.setPower(0.55);
+                sleep(1600);//1600
                 robot.duck.setPower(0);
-                drive.followTrajectory(traj4b);
-                drive.followTrajectory(traj5b);
+                drive.followTrajectory(duck4);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub2a);
+                sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(700);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(650);
+                robot.lift.setPower(0);
+                sleep(200);
+                drive.turn(Math.toRadians(180));
+                drive.followTrajectory(park1a);
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.5,
+                                0.4,
+                                0
+                        )
+                );
+                sleep(1600);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                creepIntake("forwards", 8500);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                sleep(SLEEP_TIME);
+                robot.Intake1.setPower(0.75);
+                robot.Intake2.setPower(0.75);
+                sleep(6000);
                 break;
 
             case 2:
                 sleep(INITIAL_PAUSE);
-                drive.followTrajectory(traj);
-                raiseLift(1950, .9);
-                sleep(500);
-                robot.outtake.setPosition(OUTTAKE_DOWN * .2);
-                sleep(1200);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1939);
-                drive.followTrajectory(traj2);
-                drive.followTrajectory(traj3);
-                robot.duck.setPower(-0.4);
-                sleep(150);
-                robot.duck.setPower(-.5);
-                sleep(100);
-                sleep(4000);
+                drive.followTrajectory(duck1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck2);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck3);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(650);//550
+                robot.duck.setPower(0.55);
+                sleep(1600);//1600
                 robot.duck.setPower(0);
-                drive.followTrajectory(traj4);
-                drive.followTrajectory(traj5);
+                drive.followTrajectory(duck4);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub2a);
+                sleep(SLEEP_TIME);
+                /*raiseLiftTeleop(INIT_HEIGHT);
+                sleep(600);
+                robot.lift.setPower(-0.65);
+                sleep(1600);
+                robot.lift.setPower(0);*/
+                robot.lift.setPower(.8);
+                sleep(950);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(900);
+                robot.lift.setPower(0);
+                sleep(200);
+                drive.turn(Math.toRadians(180));
+                drive.followTrajectory(park1a);
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.5,
+                                0.4,
+                                0
+                        )
+                );
+                sleep(1600);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                creepIntake("backwards", 8500);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                sleep(SLEEP_TIME);
+                robot.Intake1.setPower(0.75);
+                robot.Intake2.setPower(0.75);
+                sleep(6000);
                 break;
             case 3:
                 sleep(INITIAL_PAUSE);
-                drive.followTrajectory(traj);
-                raiseLift(2350, .9);
-                sleep(1500);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                sleep(1600);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 2350);
-                drive.followTrajectory(traj2);
-                drive.followTrajectory(traj3);
-                robot.duck.setPower(-0.4);
-                sleep(150);
-                robot.duck.setPower(-.5);
-                sleep(100);
-                sleep(4000);
+                drive.followTrajectory(duck1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck2);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck3);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(650);//550
+                robot.duck.setPower(0.55);
+                sleep(1600);//1600
                 robot.duck.setPower(0);
-                drive.followTrajectory(traj4);
-                drive.followTrajectory(traj5);
+                drive.followTrajectory(duck4);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub1);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(hub2c);
+                sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(1150);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(1100);
+                robot.lift.setPower(0);
+                sleep(200);
+                drive.turn(Math.toRadians(180));
+                drive.followTrajectory(park1a);
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.5,
+                                0.4,
+                                0
+                        )
+                );
+                sleep(1600);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                creepIntake("backwards", 8500);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                sleep(SLEEP_TIME);
+                robot.Intake1.setPower(0.75);
+                robot.Intake2.setPower(0.75);
+                sleep(6000);
                 break;
 
         }
