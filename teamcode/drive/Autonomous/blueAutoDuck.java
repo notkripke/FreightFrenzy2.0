@@ -38,35 +38,35 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .back(4.5)
                 .build();
         Trajectory duck2 = drive.trajectoryBuilder(duck1.end())
-                .lineToLinearHeading(new Pose2d(-57.5, 60, Math.toRadians(225)))
+                .lineToLinearHeading(new Pose2d(-62, 55, Math.toRadians(315)))
                 .build();
         Trajectory duck3 = drive.trajectoryBuilder(duck2.end())
-                .lineToConstantHeading(new Vector2d(-57.5, 61))
+                .lineToConstantHeading(new Vector2d(-62, 56.5))
                 .build();
         Trajectory duck4 = drive.trajectoryBuilder(duck3.end())
-                .lineToConstantHeading(new Vector2d(-57.5, 55))
+                .lineToConstantHeading(new Vector2d(-57.5, 52.5))
                 .build();
 
         Trajectory hub1 = drive.trajectoryBuilder(duck4.end())
-                .lineToLinearHeading(new Pose2d(-12, 55.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-12, 55.5, Math.toRadians(0)))
                 .build();
         Trajectory hub2a = drive.trajectoryBuilder(hub1.end())
                 .lineToConstantHeading(new Vector2d(-12, 48))
                 .build();
-        Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, 48, Math.toRadians(0)))
+        Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, 51, Math.toRadians(0)))
                 .strafeLeft(16.5)
                 .build();
         Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
                 .lineToConstantHeading(new Vector2d(-12, 48))
                 .build();
-        Trajectory park1b = drive.trajectoryBuilder(new Pose2d(-12, 48, Math.toRadians(0)))
+        Trajectory park1b = drive.trajectoryBuilder(new Pose2d(-12, 49, Math.toRadians(0)))
                 .strafeLeft(16.5)
                 .build();
         Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
-                .lineToConstantHeading(new Vector2d(-12, 49.5))
+                .lineToConstantHeading(new Vector2d(-12, 52))
                 .build();
         Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(0)))
-                .strafeLeft(16.5)
+                .strafeLeft(18.5)
                 .build();
 
         startVisionProcessing();
@@ -102,9 +102,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.55);
+                robot.duck.setPower(-0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -113,8 +113,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2a);
                 sleep(SLEEP_TIME);
+                //drive.turn(Math.toRadians(180));
                 robot.lift.setPower(.8);
-                sleep(700);
+                sleep(650);
                 robot.lift.setPower(0);
                 sleep(400);
                 robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
@@ -122,14 +123,13 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(650);
+                sleep(610);
                 robot.lift.setPower(0);
                 sleep(200);
-                drive.turn(Math.toRadians(180));
                 drive.followTrajectory(park1a);
                 drive.setWeightedDrivePower(
                         new Pose2d(
-                                -0.5,
+                                0.5,
                                 0.4,
                                 0
                         )
@@ -139,8 +139,8 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 creepIntake("forwards", 8500);
                 drive.setWeightedDrivePower(new Pose2d(0,0,0));
                 sleep(SLEEP_TIME);
-                robot.Intake1.setPower(0.75);
-                robot.Intake2.setPower(0.75);
+                robot.Intake1.setPower(-0.75);
+                robot.Intake2.setPower(-0.75);
                 sleep(6000);
                 break;
 
@@ -152,9 +152,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.55);
+                robot.duck.setPower(-0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -163,11 +163,7 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2a);
                 sleep(SLEEP_TIME);
-                /*raiseLiftTeleop(INIT_HEIGHT);
-                sleep(600);
-                robot.lift.setPower(-0.65);
-                sleep(1600);
-                robot.lift.setPower(0);*/
+                //drive.turn(Math.toRadians(180));
                 robot.lift.setPower(.8);
                 sleep(950);
                 robot.lift.setPower(0);
@@ -180,22 +176,21 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(900);
                 robot.lift.setPower(0);
                 sleep(200);
-                drive.turn(Math.toRadians(180));
                 drive.followTrajectory(park1a);
                 drive.setWeightedDrivePower(
                         new Pose2d(
-                                -0.5,
+                                0.5,
                                 0.4,
                                 0
                         )
                 );
                 sleep(1600);
                 drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                creepIntake("backwards", 8500);
+                creepIntake("forwards", 8500);
                 drive.setWeightedDrivePower(new Pose2d(0,0,0));
                 sleep(SLEEP_TIME);
-                robot.Intake1.setPower(0.75);
-                robot.Intake2.setPower(0.75);
+                robot.Intake1.setPower(-0.75);
+                robot.Intake2.setPower(-0.75);
                 sleep(6000);
                 break;
             case 3:
@@ -206,9 +201,9 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.55);
+                robot.duck.setPower(-0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -217,34 +212,34 @@ public class blueAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2c);
                 sleep(SLEEP_TIME);
+                //drive.turn(Math.toRadians(180));
                 robot.lift.setPower(.8);
-                sleep(1150);
+                sleep(1495);
                 robot.lift.setPower(0);
                 sleep(400);
-                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
-                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1);
+                sleep(2000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(1100);
+                sleep(1490);
                 robot.lift.setPower(0);
                 sleep(200);
-                drive.turn(Math.toRadians(180));
                 drive.followTrajectory(park1a);
                 drive.setWeightedDrivePower(
                         new Pose2d(
-                                -0.5,
+                                0.5,
                                 0.4,
                                 0
                         )
                 );
                 sleep(1600);
                 drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                creepIntake("backwards", 8500);
+                creepIntake("forwards", 8500);
                 drive.setWeightedDrivePower(new Pose2d(0,0,0));
                 sleep(SLEEP_TIME);
-                robot.Intake1.setPower(0.75);
-                robot.Intake2.setPower(0.75);
+                robot.Intake1.setPower(-0.75);
+                robot.Intake2.setPower(-0.75);
                 sleep(6000);
                 break;
 

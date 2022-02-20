@@ -33,17 +33,13 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
 
-                .lineToLinearHeading(new Pose2d(-4, -45, Math.toRadians(210)))
-                .build();
+
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .splineToLinearHeading(new Pose2d(11, -67.5, Math.toRadians(180)), Math.toRadians(0))
-                .build();
+
         Trajectory park1 = drive.trajectoryBuilder(traj2.end())
-                .back(35)
-                .build();
+
         Trajectory park2 = drive.trajectoryBuilder(park1.end())
-                .strafeLeft(5)
-                .build();
+                
 
 
         startVisionProcessing();

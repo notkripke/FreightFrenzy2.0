@@ -63,7 +63,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .strafeLeft(16.5)
                 .build();
         Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
-                .lineToConstantHeading(new Vector2d(-12, -49.5))
+                .lineToLinearHeading(new Pose2d(-10, -55.5, Math.toRadians(0)))
                 .build();
         Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(180)))
                 .strafeLeft(16.5)
@@ -104,7 +104,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 robot.duck.setPower(0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.55);
+                robot.duck.setPower(0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -124,7 +124,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(700);
                 robot.lift.setPower(0);
                 sleep(400);
-                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(1000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
@@ -160,7 +160,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 robot.duck.setPower(0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.55);
+                robot.duck.setPower(0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -215,7 +215,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 robot.duck.setPower(0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.55);
+                robot.duck.setPower(0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -232,7 +232,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(1600);
                 robot.lift.setPower(0);*/
                 robot.lift.setPower(.8);
-                sleep(1150);
+                sleep(1495);
                 robot.lift.setPower(0);
                 sleep(400);
                 robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
@@ -240,7 +240,7 @@ public class redAutoDuck extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(1100);
+                sleep(1490);
                 robot.lift.setPower(0);
                 sleep(200);
                 drive.followTrajectory(park1a);
