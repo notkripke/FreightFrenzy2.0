@@ -26,12 +26,14 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
         initializeComponents();
 
         final long INITIAL_PAUSE = 0;
+        final long SLEEP_TIME = 400;
 
         Pose2d startPose = new Pose2d(12, -63.5, Math.toRadians(270));
 
         drive.setPoseEstimate(startPose);
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
+<<<<<<< HEAD
 
 
         Trajectory traj2 = drive.trajectoryBuilder(traj.end())
@@ -40,6 +42,43 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
 
         Trajectory park2 = drive.trajectoryBuilder(park1.end())
 
+=======
+                .back(14)
+                .build();
+
+        Trajectory traj2 = drive.trajectoryBuilder(new Pose2d(12, -49.5, Math.toRadians(180)))
+                .forward(20)
+                .build();
+        Trajectory traj3a = drive.trajectoryBuilder(traj2.end())
+                .lineToLinearHeading(new Pose2d(-12, -49, Math.toRadians(180)))
+                .build();
+
+        Trajectory park1a = drive.trajectoryBuilder(traj3a.end())
+                .strafeLeft(16)
+                .build();
+
+        Trajectory park2a = drive.trajectoryBuilder(park1a.end())
+                .lineToConstantHeading(new Vector2d(38, -78))
+                .build();
+        Trajectory traj3b = drive.trajectoryBuilder(traj2.end())
+                .lineToLinearHeading(new Pose2d(-12, -49, Math.toRadians(180)))
+                .build();
+
+        Trajectory park1b = drive.trajectoryBuilder(traj3b.end())
+                .strafeLeft(16)
+                .build();
+
+        Trajectory park2b = drive.trajectoryBuilder(park1b.end())
+                .lineToConstantHeading(new Vector2d(38, -78))
+                .build();
+        Trajectory park3 = drive.trajectoryBuilder(new Pose2d(38, -67.5, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(38, -38, Math.toRadians(270)))
+                .build();
+        Trajectory park4 = drive.trajectoryBuilder(park3.end())
+                .strafeLeft(36)
+                .build();
+                
+>>>>>>> bef0bda... Remade redAutoWarehouse
 
 
         startVisionProcessing();
@@ -61,51 +100,105 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
             case 1:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(1140, .9);
-                sleep(500);
-                robot.outtake.setPosition(OUTTAKE_UP * 0.35);
-                sleep(2000);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1315);
+                sleep(SLEEP_TIME);
+                drive.turn(Math.toRadians(-90));
                 drive.followTrajectory(traj2);
-                drive.turn(Math.toRadians(-10));
-                drive.followTrajectory(park1);
-                drive.followTrajectory(park2);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(traj3a);
+                robot.lift.setPower(.8);
+                sleep(700);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(650);
+                robot.lift.setPower(0);
+                sleep(200);
+                drive.followTrajectory(park1a);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park2a);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park3);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park4);
+                creepIntake("forwards", 6000);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                sleep(SLEEP_TIME);
+                robot.Intake1.setPower(0.75);
+                robot.Intake2.setPower(0.75);
+                sleep(6000);
                 break;
 
             case 2:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(1800, .9);
-                sleep(500);
-                robot.outtake.setPosition(OUTTAKE_UP * .2);
-                sleep(1200);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 1799);
+                sleep(SLEEP_TIME);
+                drive.turn(Math.toRadians(-90));
                 drive.followTrajectory(traj2);
-                drive.turn(Math.toRadians(-10));
-                drive.followTrajectory(park1);
-                drive.followTrajectory(park2);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(traj3a);
+                robot.lift.setPower(.8);
+                sleep(950);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(900);
+                robot.lift.setPower(0);
+                sleep(200);
+                drive.followTrajectory(park1a);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park2a);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park3);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park4);
+                creepIntake("forwards", 6000);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                sleep(SLEEP_TIME);
+                robot.Intake1.setPower(0.75);
+                robot.Intake2.setPower(0.75);
+                sleep(6000);
                 break;
             case 3:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(traj);
-                raiseLift(2350, -.7);//raise
-                sleep(2000);
-                robot.outtake.setPosition(OUTTAKE_UP*0.1);
-                sleep(1200);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-                robot.outtake.setPosition(OUTTAKE_UP);
-                lowerLift(.7, 2300);
+                sleep(SLEEP_TIME);
+                drive.turn(Math.toRadians(-90));
                 drive.followTrajectory(traj2);
-                drive.turn(Math.toRadians(-10));
-                drive.followTrajectory(park1);
-                drive.followTrajectory(park2);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(traj3b);
+                robot.lift.setPower(.8);
+                sleep(1495);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(1490);
+                robot.lift.setPower(0);
+                sleep(200);
+                drive.followTrajectory(park1b);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park2b);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park3);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(park4);
+                creepIntake("forwards", 6000);
+                drive.setWeightedDrivePower(new Pose2d(0,0,0));
+                sleep(SLEEP_TIME);
+                robot.Intake1.setPower(0.75);
+                robot.Intake2.setPower(0.75);
+                sleep(6000);
                 break;
 
         }
