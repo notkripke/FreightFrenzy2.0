@@ -33,6 +33,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
         drive.setPoseEstimate(startPose);
 
         Trajectory traj = drive.trajectoryBuilder(startPose)
+<<<<<<< Updated upstream
                 .back(14)
                 .build();
 
@@ -68,6 +69,16 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 .strafeLeft(36)
                 .build();
                 
+=======
+
+
+        Trajectory traj2 = drive.trajectoryBuilder(traj.end())
+
+        Trajectory park1 = drive.trajectoryBuilder(traj2.end())
+
+        Trajectory park2 = drive.trajectoryBuilder(park1.end())
+
+>>>>>>> Stashed changes
 
 
         startVisionProcessing();
