@@ -81,7 +81,7 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                 duck_trigger = "off";
             }
 
-            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2){//liftpos - ceiling < ceiling
+            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && !sensors.touch.isPressed()){//liftpos - ceiling < ceiling
                 Lift_state = "down";
             }
             if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && LIFT_POS < CEILING  /*sensors.checkSwitch() == false*/){
@@ -109,7 +109,9 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    robot.lift.setPower(-gamepad2.left_trigger);
+                    if(!sensors.touch.isPressed()) {
+                        robot.lift.setPower(-gamepad2.left_trigger);
+                    }
                     break;
                 case "up":
                     robot.lift.setPower(gamepad2.right_trigger);
