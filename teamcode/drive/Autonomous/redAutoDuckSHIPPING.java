@@ -69,7 +69,7 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 .strafeLeft(1)
                 .build();
         Trajectory park2 = drive.trajectoryBuilder(park1c.end())
-                .splineToSplineHeading(new Pose2d(-72, -31, Math.toRadians(90)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-63, -31, Math.toRadians(90)), Math.toRadians(90))
                 .build();
 
         startVisionProcessing();
