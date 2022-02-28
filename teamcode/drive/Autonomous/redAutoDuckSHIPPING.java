@@ -54,7 +54,7 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 .lineToConstantHeading(new Vector2d(-12, -48))
                 .build();
         Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(180)))
-                .strafeLeft(16.5)
+                .strafeLeft(8.5)
                 .build();
         Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
                 .lineToConstantHeading(new Vector2d(-12, -48))
@@ -65,8 +65,11 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
         Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
                 .lineToLinearHeading(new Pose2d(-10, -55.5, Math.toRadians(0)))
                 .build();
-        Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, -48, Math.toRadians(180)))
-                .strafeLeft(16.5)
+        Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, -55.5, Math.toRadians(180)))
+                .strafeLeft(1)
+                .build();
+        Trajectory park2 = drive.trajectoryBuilder(park1c.end())
+                .splineToSplineHeading(new Pose2d(-72, -31, Math.toRadians(90)), Math.toRadians(90))
                 .build();
 
         startVisionProcessing();
@@ -133,21 +136,8 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 robot.lift.setPower(0);
                 sleep(200);
                 drive.followTrajectory(park1a);
-                drive.setWeightedDrivePower(
-                        new Pose2d(
-                                -0.5,
-                                0.4,
-                                0
-                        )
-                );
-                sleep(1600);
-                drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                creepIntake("backwards", 8500);
-                drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                sleep(SLEEP_TIME);
-                robot.Intake1.setPower(0.75);
-                robot.Intake2.setPower(0.75);
-                sleep(6000);
+                sleep(400);
+                drive.followTrajectory(park2);
                 break;
 
             case 2:
@@ -189,21 +179,8 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 robot.lift.setPower(0);
                 sleep(200);
                 drive.followTrajectory(park1a);
-                drive.setWeightedDrivePower(
-                        new Pose2d(
-                                -0.5,
-                                0.4,
-                                0
-                        )
-                );
-                sleep(1600);
-                drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                creepIntake("backwards", 8500);
-                drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                sleep(SLEEP_TIME);
-                robot.Intake1.setPower(0.75);
-                robot.Intake2.setPower(0.75);
-                sleep(6000);
+                sleep(400);
+                drive.followTrajectory(park2);
                 break;
             case 3:
                 sleep(INITIAL_PAUSE);
@@ -244,21 +221,8 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 robot.lift.setPower(0);
                 sleep(200);
                 drive.followTrajectory(park1a);
-                drive.setWeightedDrivePower(
-                        new Pose2d(
-                                -0.5,
-                                0.4,
-                                0
-                        )
-                );
-                sleep(1600);
-                drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                creepIntake("backwards", 8500);
-                drive.setWeightedDrivePower(new Pose2d(0,0,0));
-                sleep(SLEEP_TIME);
-                robot.Intake1.setPower(0.75);
-                robot.Intake2.setPower(0.75);
-                sleep(6000);
+                sleep(400);
+                drive.followTrajectory(park2);
                 break;
 
         }
