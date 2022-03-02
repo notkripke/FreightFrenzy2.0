@@ -103,6 +103,9 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             if(gamepad2.b){
                 robot.outtake.setPosition(OUTTAKE_DOWN);
             }
+            if(gamepad2.x){
+                robot.outtake.setPosition(OUTTAKE_TILT);
+            }
 
             switch (Lift_state){
                 case "stop":
