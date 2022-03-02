@@ -21,7 +21,7 @@ public class Sensors
     public DigitalChannel frLED;
     public DigitalChannel blLED;
     public DigitalChannel brLED;
-    public RevTouchSensor touch;
+    public TouchSensor touch;
 
     public Sensors(HardwareMap hardwareMap, Telemetry telemetry)
     {
@@ -33,7 +33,7 @@ public class Sensors
         flLED = hardwareMap.get(DigitalChannel.class, "flLED");
         blLED = hardwareMap.get(DigitalChannel.class, "blLED");
         brLED = hardwareMap.get(DigitalChannel.class, "brLED");
-        touch = hardwareMap.get(RevTouchSensor.class, "Touch");
+        touch = hardwareMap.get(TouchSensor.class, "touch");
     }
 
     public double getDistanceDist(){

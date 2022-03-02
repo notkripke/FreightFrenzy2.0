@@ -26,7 +26,7 @@ public class blueAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/
         initializeComponents();
 
         final long INITIAL_PAUSE = 0;
-        final long SLEEP_TIME = 400;
+        final long SLEEP_TIME = 150;
 
         Pose2d startPose = new Pose2d(12, 63.5, Math.toRadians(90));
 

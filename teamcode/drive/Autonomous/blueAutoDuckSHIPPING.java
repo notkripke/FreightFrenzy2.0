@@ -26,7 +26,7 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
         initializeComponents();
 
         final long INITIAL_PAUSE = 0;
-        final long SLEEP_TIME = 400;
+        final long SLEEP_TIME = 150;
         final int INIT_HEIGHT = robot.lift.getCurrentPosition();
 
         Pose2d startPose = new Pose2d(-34, 63.5, Math.toRadians(90));
@@ -44,7 +44,7 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 .lineToConstantHeading(new Vector2d(-62, 56.5))
                 .build();
         Trajectory duck4 = drive.trajectoryBuilder(duck3.end())
-                .lineToConstantHeading(new Vector2d(-57.5, 52.5))
+                .lineToConstantHeading(new Vector2d(-57.5, 50))//52.5
                 .build();
 
         Trajectory hub1 = drive.trajectoryBuilder(duck4.end())
@@ -54,7 +54,7 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 .lineToConstantHeading(new Vector2d(-12, 48))
                 .build();
         Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, 51, Math.toRadians(0)))
-                .strafeLeft(8.5)
+                .strafeLeft(14)
                 .build();
         Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
                 .lineToConstantHeading(new Vector2d(-12, 48))
@@ -63,13 +63,13 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 .strafeLeft(16.5)
                 .build();
         Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
-                .lineToConstantHeading(new Vector2d(-12, 52))
+                .lineToConstantHeading(new Vector2d(-10, 52))
                 .build();
         Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, 48, Math.toRadians(0)))
                 .strafeLeft(1)
                 .build();
-        Trajectory park2 = drive.trajectoryBuilder(park1c.end())
-                .splineToSplineHeading(new Pose2d(-63, 31, Math.toRadians(90)), Math.toRadians(90))
+        Trajectory park2 = drive.trajectoryBuilder(park1a.end())
+                .lineToLinearHeading(new Pose2d(-60, -31, Math.toRadians(90)))
                 .build();
 
         startVisionProcessing();

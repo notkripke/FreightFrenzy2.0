@@ -19,7 +19,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 @Autonomous(group = "drive")
-public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:8080/dash
+public class redAutoDuckTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -44,11 +44,11 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 .lineToConstantHeading(new Vector2d(-57.5, -61))
                 .build();
         Trajectory duck4 = drive.trajectoryBuilder(duck3.end())
-                .lineToConstantHeading(new Vector2d(-57.5, -55))
+                .lineToLinearHeading(new Pose2d(-52.5, -51, Math.toRadians(180)))
                 .build();
 
         Trajectory hub1 = drive.trajectoryBuilder(duck4.end())
-                .lineToLinearHeading(new Pose2d(-12, -55.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-12, -55.5, Math.toRadians(180)))
                 .build();
         Trajectory hub2a = drive.trajectoryBuilder(hub1.end())
                 .lineToConstantHeading(new Vector2d(-12, -48))
@@ -117,7 +117,6 @@ public class redAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:808
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2a);
                 sleep(SLEEP_TIME);
-                drive.turn(Math.toRadians(-190));
                 sleep(SLEEP_TIME);
                 /*raiseLiftTeleop(INIT_HEIGHT);
                 sleep(600);
