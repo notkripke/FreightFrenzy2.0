@@ -36,13 +36,13 @@ public class sensorTest extends GorillabotsCentral {
             if(freightCheck() != "LOADED"){
                 LED("none");
             }
-            if (sensors.touch.getValue() > 0.3){
+            if (sensors.liftBot.getState()){
                 telemetry.addData("touch", "is pressed");
             }
-            if (sensors.touch.getValue() <= 0.3){
+            if (!sensors.liftBot.getState()){
                 telemetry.addData("touch", "is not pressed");
             }
-            telemetry.addData("touch", sensors.touch.getValue());
+            telemetry.addData("touch", sensors.liftBot.getState());
             telemetry.update();
         }
     }}

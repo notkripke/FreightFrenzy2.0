@@ -41,6 +41,9 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
         String duck_trigger = "off";
 
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         final double LIFT_INIT = robot.lift.getCurrentPosition();
 
         final double CEILING = LIFT_INIT + LIFT_CEILING;
@@ -81,13 +84,13 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                 duck_trigger = "off";
             }
 
-            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && !sensors.touch.isPressed()){//liftpos - ceiling < ceiling
+            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && sensors.liftBot.getState()){//liftpos - ceiling < ceiling
                 Lift_state = "down";
             }
             if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && LIFT_POS < CEILING  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
             }
-            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 || LIFT_POS > CEILING && Lift_state != "down"){
+            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 && Lift_state != "down"){
                 Lift_state = "stop";
             }
 
@@ -112,15 +115,20 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    if(!sensors.liftBot.getState()) {
+                    if(sensors.liftBot.getState()) {
                         robot.lift.setPower(-gamepad2.left_trigger);
                     }
-                    if(sensors.liftBot.getState()){
+                    if(!sensors.liftBot.getState()){
                         robot.lift.setPower(0);
                     }
                     break;
                 case "up":
-                    robot.lift.setPower(gamepad2.right_trigger);
+                    if(LIFT_POS >= CEILING) {
+                        robot.lift.setPower(0);
+                    }
+                    if(LIFT_POS < LIFT_CEILING) {
+                        robot.lift.setPower(gamepad2.right_trigger);
+                    }
                     break;
             }
 

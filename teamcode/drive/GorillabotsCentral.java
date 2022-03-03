@@ -36,7 +36,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
     public double lemniscate = 2.6220575542;
 
-    public static int LIFT_CEILING = 2430;
+    public static int LIFT_CEILING = 2999;
     public static double LIFT_SPEED = .8;
     public static double OUTTAKE_TILT = .36;
     public static double OUTTAKE_UP = .315;
