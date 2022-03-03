@@ -112,8 +112,11 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    if(!sensors.touch.isPressed()) {
+                    if(!sensors.liftBot.getState()) {
                         robot.lift.setPower(-gamepad2.left_trigger);
+                    }
+                    if(sensors.liftBot.getState()){
+                        robot.lift.setPower(0);
                     }
                     break;
                 case "up":
@@ -128,7 +131,7 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     break;
                 case "red":
                     if(duckPower.milliseconds() < 475) {
-                        robot.duck.setPower(duckPower.milliseconds()/500);
+                        robot.duck.setPower(duckPower.milliseconds()/650);//500
                     }
                     if(duckPower.milliseconds() >= 475){
                         robot.duck.setPower(1);
@@ -136,7 +139,7 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     break;
                 case "blue":
                     if(duckPower.milliseconds() < 475) {
-                        robot.duck.setPower(-duckPower.milliseconds()/500);
+                        robot.duck.setPower(-duckPower.milliseconds()/650);//500
                     }
                     if(duckPower.milliseconds() >= 475){
                         robot.duck.setPower(-1);
