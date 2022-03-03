@@ -29,13 +29,15 @@ public class duckTest extends GorillabotsCentral {
         double angAcc = 0;
 
         double maxVelCaro = 435*0.10472*0.2135;
-        double r = 0.15;
+        double r = 5.5;
         double u = 0.626;
 
         double k = Math.PI/lemniscate;
 
-        String duck = "off";
+        double max = Math.sqrt(6.13/r);
+        double time = 1000*Math.asin(1/max)/(k*max);
 
+        String duck = "off";
         String mode = "sine";
 
         double sinConst = Math.sqrt(9.8*u/r);
@@ -108,18 +110,18 @@ public class duckTest extends GorillabotsCentral {
                         duckPower.reset();
                         break;
                     case "red":
-                        if(duckPower.milliseconds() < 382) {
-                            robot.duck.setPower(1.55*Math.sin(1.55*k*duckPower.milliseconds()/1000));
+                        if(duckPower.milliseconds() < time) {
+                            robot.duck.setPower(max*Math.sin(max*k*duckPower.milliseconds()/1000));
                         }
-                        if(duckPower.milliseconds() >= 382){
+                        if(duckPower.milliseconds() >= time){
                             robot.duck.setPower(1);
                         }
                         break;
                     case "blue":
-                        if(duckPower.milliseconds() < 382) {
-                            robot.duck.setPower(-1.55*Math.sin(1.55*k*duckPower.milliseconds()/1000));
+                        if(duckPower.milliseconds() < time) {
+                            robot.duck.setPower(-max*Math.sin(max*k*duckPower.milliseconds()/1000));
                         }
-                        if(duckPower.milliseconds() >= 382){
+                        if(duckPower.milliseconds() >= time){
                             robot.duck.setPower(-1);
                         }
                         break;

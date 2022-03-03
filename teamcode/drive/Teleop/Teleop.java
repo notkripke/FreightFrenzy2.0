@@ -138,18 +138,18 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     duckPower.reset();
                     break;
                 case "red":
-                    if(duckPower.milliseconds() < 475) {
-                        robot.duck.setPower(duckPower.milliseconds()/650);//500
+                    if(duckPower.milliseconds() < 795) {
+                        robot.duck.setPower(duckPower.milliseconds()/800);//500
                     }
-                    if(duckPower.milliseconds() >= 475){
+                    if(duckPower.milliseconds() >= 795){
                         robot.duck.setPower(1);
                     }
                     break;
                 case "blue":
-                    if(duckPower.milliseconds() < 475) {
-                        robot.duck.setPower(-duckPower.milliseconds()/650);//500
+                    if(duckPower.milliseconds() < 795) {
+                        robot.duck.setPower(-duckPower.milliseconds()/800);//500
                     }
-                    if(duckPower.milliseconds() >= 475){
+                    if(duckPower.milliseconds() >= 795){
                         robot.duck.setPower(-1);
                     }
                     break;
