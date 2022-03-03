@@ -32,7 +32,11 @@ public class duckTest extends GorillabotsCentral {
         double r = 0.15;
         double u = 0.626;
 
-        String mode = "measure";
+        double k = Math.PI/lemniscate;
+
+        String duck = "red";
+
+        String mode = "sine";
 
         double sinConst = Math.sqrt(9.8*u/r);
 
@@ -61,7 +65,7 @@ public class duckTest extends GorillabotsCentral {
                 telemetry.update();
             }
 
-            if(mode == "test") {
+            if(mode == "lemntest") {
                 if (gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4) {
                     double speed = sinlemn(sinConst * duckPower.milliseconds());
                     if(speed < 0.95) {
@@ -87,13 +91,39 @@ public class duckTest extends GorillabotsCentral {
                     telemetry.addData("Time: ", duckPower.milliseconds());
                 }
             }
+            if(mode == "sine"){
+                switch(duck){
+                    case "off":
+                        robot.duck.setPower(0);
+                        duckPower.reset();
+                        break;
+                    case "red":
+                        if(duckPower.seconds() < 382) {
+                            robot.duck.setPower(1.55*Math.sin(1.55*k*duckPower.milliseconds()*1000));
+                        }
+                        if(duckPower.milliseconds() >= 382){
+                            robot.duck.setPower(1);
+                        }
+                        break;
+                    case "blue":
+                        if(duckPower.milliseconds() < 382) {
+                            robot.duck.setPower(-1.55*Math.sin(1.55*k*duckPower.milliseconds()*1000));
+                        }
+                        if(duckPower.milliseconds() >= 382){
+                            robot.duck.setPower(-1);
+                        }
+                        break;
+                }
+            }
 
+            /*
             if(gamepad1.a) {
                 mode = "test";
             }
             if(gamepad1.b){
                 mode = "measure";
             }
+            */
 
            drive.setWeightedDrivePower(
                    new Pose2d(
