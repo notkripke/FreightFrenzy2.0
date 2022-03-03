@@ -92,6 +92,16 @@ public class duckTest extends GorillabotsCentral {
                 }
             }
             if(mode == "sine"){
+                if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
+                    duck = "red";
+                }
+                if(gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4){
+                    duck = "blue";
+                }
+                if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
+                    duck = "off";
+                }
+
                 switch(duck){
                     case "off":
                         robot.duck.setPower(0);
