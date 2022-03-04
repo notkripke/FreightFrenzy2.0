@@ -35,7 +35,7 @@ public class duckTest extends GorillabotsCentral {
 
         double k = Math.PI/lemniscate;
 
-        double max = Math.sqrt(6.13/r);
+        double max = 0.8*Math.sqrt(6.13/r);
         double time = 1000*Math.asin(1/max)/(k*max);
 
         String duck = "off";
