@@ -44,32 +44,28 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 .lineToConstantHeading(new Vector2d(-62, 56.5))
                 .build();
         Trajectory duck4 = drive.trajectoryBuilder(duck3.end())
-                .lineToConstantHeading(new Vector2d(-57.5, 50))//52.5
+                //.lineToLinearHeading(new Pose2d(-45, -51, Math.toRadians(90)))//-45x
+                .splineToLinearHeading(new Pose2d(-64, 43, Math.toRadians(90)), Math.toRadians(140))
                 .build();
 
         Trajectory hub1 = drive.trajectoryBuilder(duck4.end())
-                .lineToLinearHeading(new Pose2d(-12, 55.5, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-35, 30, Math.toRadians(90)))
                 .build();
         Trajectory hub2a = drive.trajectoryBuilder(hub1.end())
-                .lineToConstantHeading(new Vector2d(-12, 48))
+                .lineToLinearHeading(new Pose2d(-31, 25, Math.toRadians(100)))
                 .build();
-        Trajectory park1a = drive.trajectoryBuilder(new Pose2d(-12, 51, Math.toRadians(0)))
-                .strafeLeft(14)
-                .build();
+
         Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
                 .lineToConstantHeading(new Vector2d(-12, 48))
                 .build();
-        Trajectory park1b = drive.trajectoryBuilder(new Pose2d(-12, 49, Math.toRadians(0)))
-                .strafeLeft(16.5)
-                .build();
+
         Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
-                .lineToConstantHeading(new Vector2d(-10, 52))
+                .lineToLinearHeading(new Pose2d(-36.5, 25, Math.toRadians(100)))//-55.5y
                 .build();
-        Trajectory park1c = drive.trajectoryBuilder(new Pose2d(-12, 48, Math.toRadians(0)))
-                .strafeLeft(1)
-                .build();
-        Trajectory park2 = drive.trajectoryBuilder(park1a.end())
-                .lineToLinearHeading(new Pose2d(-60, -31, Math.toRadians(90)))
+
+        Trajectory park2 = drive.trajectoryBuilder(hub2c.end())
+                .lineToLinearHeading(new Pose2d(-63, 37, Math.toRadians(90)))
+                //.splineToSplineHeading(new Pose2d(-63, -31, Math.toRadians(90)), Math.toRadians(90))
                 .build();
 
         startVisionProcessing();
@@ -105,31 +101,35 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(-0.4);
+                robot.duck.setPower(0.4);
                 sleep(650);//550
-                robot.duck.setPower(-0.4);
+                robot.duck.setPower(0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
+                robot.Intake1.setPower(-1);
+                robot.Intake2.setPower(1);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub1);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2a);
                 sleep(SLEEP_TIME);
-                //drive.turn(Math.toRadians(180));
+                /*raiseLiftTeleop(INIT_HEIGHT);
+                sleep(600);
+                robot.lift.setPower(-0.65);
+                sleep(1600);
+                robot.lift.setPower(0);*/
                 robot.lift.setPower(.8);
-                sleep(650);
+                sleep(670);
                 robot.lift.setPower(0);
                 sleep(400);
-                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
                 sleep(1000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(610);
+                sleep(630);
                 robot.lift.setPower(0);
-                sleep(200);
-                drive.followTrajectory(park1a);
                 sleep(400);
                 drive.followTrajectory(park2);
                 break;
@@ -142,9 +142,9 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(-0.4);
+                robot.duck.setPower(0.4);
                 sleep(650);//550
-                robot.duck.setPower(-0.4);
+                robot.duck.setPower(0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -153,7 +153,11 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2a);
                 sleep(SLEEP_TIME);
-                //drive.turn(Math.toRadians(180));
+                /*raiseLiftTeleop(INIT_HEIGHT);
+                sleep(600);
+                robot.lift.setPower(-0.65);
+                sleep(1600);
+                robot.lift.setPower(0);*/
                 robot.lift.setPower(.8);
                 sleep(950);
                 robot.lift.setPower(0);
@@ -165,8 +169,6 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 robot.lift.setPower(-0.8);
                 sleep(900);
                 robot.lift.setPower(0);
-                sleep(200);
-                drive.followTrajectory(park1a);
                 sleep(400);
                 drive.followTrajectory(park2);
                 break;
@@ -178,9 +180,9 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(-0.4);
+                robot.duck.setPower(0.4);
                 sleep(650);//550
-                robot.duck.setPower(-0.4);
+                robot.duck.setPower(0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -189,20 +191,22 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub2c);
                 sleep(SLEEP_TIME);
-                //drive.turn(Math.toRadians(180));
+                /*raiseLiftTeleop(INIT_HEIGHT);
+                sleep(600);
+                robot.lift.setPower(-0.65);
+                sleep(1600);
+                robot.lift.setPower(0);*/
                 robot.lift.setPower(.8);
-                sleep(1495);
+                sleep(1540);//1495
                 robot.lift.setPower(0);
                 sleep(400);
-                robot.outtake.setPosition(OUTTAKE_DOWN*1);
-                sleep(2000);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(1490);
+                sleep(1350);
                 robot.lift.setPower(0);
-                sleep(200);
-                drive.followTrajectory(park1a);
                 sleep(400);
                 drive.followTrajectory(park2);
                 break;
