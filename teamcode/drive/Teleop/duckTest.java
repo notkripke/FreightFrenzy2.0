@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Teleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 
 @TeleOp(group="main", name="duckTest")
-
+@Disabled
 @Config
 public class duckTest extends GorillabotsCentral {
 

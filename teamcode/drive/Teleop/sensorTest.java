@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 @TeleOp(group="main", name="sensorTest")
-
+@Disabled
 @Config
 public class sensorTest extends GorillabotsCentral {
 

@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
 
-
+@Disabled
 @TeleOp(group = "drive")
 @Config
 public class ceilingTest extends GorillabotsCentral { // 192.168.43.1:8080/dash
