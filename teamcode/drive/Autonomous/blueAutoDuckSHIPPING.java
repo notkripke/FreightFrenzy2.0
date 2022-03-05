@@ -45,14 +45,14 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 .build();
         Trajectory duck4 = drive.trajectoryBuilder(duck3.end())
                 //.lineToLinearHeading(new Pose2d(-45, -51, Math.toRadians(90)))//-45x
-                .splineToLinearHeading(new Pose2d(-64, 43, Math.toRadians(90)), Math.toRadians(140))
+                .splineToLinearHeading(new Pose2d(-61, 42, Math.toRadians(90)), Math.toRadians(140))
                 .build();
 
         Trajectory hub1 = drive.trajectoryBuilder(duck4.end())
                 .lineToLinearHeading(new Pose2d(-35, 30, Math.toRadians(90)))
                 .build();
         Trajectory hub2a = drive.trajectoryBuilder(hub1.end())
-                .lineToLinearHeading(new Pose2d(-31, 25, Math.toRadians(100)))
+                .lineToLinearHeading(new Pose2d(-28.5, 22, Math.toRadians(89)))
                 .build();
 
         Trajectory hub2b = drive.trajectoryBuilder(hub1.end())
@@ -60,11 +60,11 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 .build();
 
         Trajectory hub2c = drive.trajectoryBuilder(hub1.end())
-                .lineToLinearHeading(new Pose2d(-36.5, 25, Math.toRadians(100)))//-55.5y
+                .lineToLinearHeading(new Pose2d(-32, 24, Math.toRadians(89)))//-55.5y
                 .build();
 
         Trajectory park2 = drive.trajectoryBuilder(hub2c.end())
-                .lineToLinearHeading(new Pose2d(-63, 37, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-63, 38, Math.toRadians(90)))
                 //.splineToSplineHeading(new Pose2d(-63, -31, Math.toRadians(90)), Math.toRadians(90))
                 .build();
 
@@ -101,14 +101,12 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
-                robot.Intake1.setPower(-1);
-                robot.Intake2.setPower(1);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(hub1);
                 sleep(SLEEP_TIME);
@@ -120,7 +118,7 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(1600);
                 robot.lift.setPower(0);*/
                 robot.lift.setPower(.8);
-                sleep(670);
+                sleep(620);
                 robot.lift.setPower(0);
                 sleep(400);
                 robot.outtake.setPosition(OUTTAKE_DOWN);
@@ -128,7 +126,7 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(630);
+                sleep(590);
                 robot.lift.setPower(0);
                 sleep(400);
                 drive.followTrajectory(park2);
@@ -142,9 +140,9 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);
@@ -180,9 +178,9 @@ public class blueAutoDuckSHIPPING extends GorillabotsCentral {// 192.168.43.1:80
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck3);
                 sleep(SLEEP_TIME);
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(650);//550
-                robot.duck.setPower(0.4);
+                robot.duck.setPower(-0.4);
                 sleep(1600);//1600
                 robot.duck.setPower(0);
                 drive.followTrajectory(duck4);

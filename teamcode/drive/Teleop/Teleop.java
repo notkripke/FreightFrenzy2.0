@@ -39,8 +39,14 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
         ElapsedTime duckPower = new ElapsedTime();
 
-        String duck_trigger = "off";
+        String duck = "off";
+        double r = 5.5;
+        double u = 0.626;
 
+        double k = Math.PI/lemniscate;
+
+        double max = Math.sqrt(6.13/r);
+        double time = 1000*Math.asin(1/max)/(k*max);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -75,13 +81,13 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             }
 
             if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
-                duck_trigger = "red";
+                duck = "red";
             }
             if(gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4){
-                duck_trigger = "blue";
+                duck = "blue";
             }
             if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
-                duck_trigger = "off";
+                duck = "off";
             }
 
             if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && sensors.liftBot.getState()){//liftpos - ceiling < ceiling
@@ -132,25 +138,25 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     break;
             }
 
-            switch(duck_trigger){
+            switch(duck){
                 case "off":
                     robot.duck.setPower(0);
                     duckPower.reset();
                     break;
                 case "red":
-                    if(duckPower.milliseconds() < 795) {
-                        robot.duck.setPower(duckPower.milliseconds()/800);//500
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
                     }
-                    if(duckPower.milliseconds() >= 795){
-                        robot.duck.setPower(1);
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(0.60);
                     }
                     break;
                 case "blue":
-                    if(duckPower.milliseconds() < 795) {
-                        robot.duck.setPower(-duckPower.milliseconds()/800);//500
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(-0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
                     }
-                    if(duckPower.milliseconds() >= 795){
-                        robot.duck.setPower(-1);
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(-0.60);
                     }
                     break;
             }
