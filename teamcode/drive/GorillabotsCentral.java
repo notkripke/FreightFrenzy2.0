@@ -52,17 +52,14 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public RobotHardware robot;
 
     public double lemniscate = 2.6220575542;
-
-<<<<<<< HEAD
+    
     OpenGLMatrix targetPose     = null;
     String targetName           = "";
     boolean targetFound     = false;    // Set to true when a target is detected by Vuforia
     double  targetRange     = 0;        // Distance from camera to target in Inches
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
     public static int LIFT_CEILING = 2430;
-=======
-    public static int LIFT_CEILING = 2999;
->>>>>>> main
+
     public static double LIFT_SPEED = .8;
     public static double OUTTAKE_TILT = .36;
     public static double OUTTAKE_UP = .315;
