@@ -39,7 +39,16 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
         ElapsedTime duckPower = new ElapsedTime();
 
-        String duck_trigger = "off";
+        String duck = "off";
+        double r = 5.5;
+        double u = 0.626;
+
+        double k = Math.PI/lemniscate;
+
+        double max = Math.sqrt(6.13/r);
+        double time = 1000*Math.asin(1/max)/(k*max);
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         final double LIFT_INIT = robot.lift.getCurrentPosition();
 
@@ -72,22 +81,22 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             }
 
             if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
-                duck_trigger = "red";
+                duck = "red";
             }
             if(gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4){
-                duck_trigger = "blue";
+                duck = "blue";
             }
             if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
-                duck_trigger = "off";
+                duck = "off";
             }
 
-            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2){//liftpos - ceiling < ceiling
+            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && sensors.liftBot.getState()){//liftpos - ceiling < ceiling
                 Lift_state = "down";
             }
             if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && LIFT_POS < CEILING  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
             }
-            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 || LIFT_POS > CEILING && Lift_state != "down"){
+            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 && Lift_state != "down"){
                 Lift_state = "stop";
             }
 
@@ -103,38 +112,51 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
             if(gamepad2.b){
                 robot.outtake.setPosition(OUTTAKE_DOWN);
             }
+            if(gamepad2.x){
+                robot.outtake.setPosition(OUTTAKE_TILT);
+            }
 
             switch (Lift_state){
                 case "stop":
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    robot.lift.setPower(-gamepad2.left_trigger);
+                    if(sensors.liftBot.getState()) {
+                        robot.lift.setPower(-gamepad2.left_trigger);
+                    }
+                    if(!sensors.liftBot.getState()){
+                        robot.lift.setPower(0);
+                    }
                     break;
                 case "up":
-                    robot.lift.setPower(gamepad2.right_trigger);
+                    if(LIFT_POS >= CEILING) {
+                        robot.lift.setPower(0);
+                    }
+                    if(LIFT_POS < LIFT_CEILING) {
+                        robot.lift.setPower(gamepad2.right_trigger);
+                    }
                     break;
             }
 
-            switch(duck_trigger){
+            switch(duck){
                 case "off":
                     robot.duck.setPower(0);
                     duckPower.reset();
                     break;
                 case "red":
-                    if(duckPower.milliseconds() < 475) {
-                        robot.duck.setPower(duckPower.milliseconds()/500);
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
                     }
-                    if(duckPower.milliseconds() >= 475){
-                        robot.duck.setPower(1);
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(0.60);
                     }
                     break;
                 case "blue":
-                    if(duckPower.milliseconds() < 475) {
-                        robot.duck.setPower(-duckPower.milliseconds()/500);
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(-0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
                     }
-                    if(duckPower.milliseconds() >= 475){
-                        robot.duck.setPower(-1);
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(-0.60);
                     }
                     break;
             }

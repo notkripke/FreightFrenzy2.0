@@ -15,18 +15,21 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Sensors
 {
    // DigitalChannel LimitSwitch;
+
     public Rev2mDistanceSensor dist;
+    public DigitalChannel liftBot;
     public Rev2mDistanceSensor sidedist;
     public DigitalChannel flLED;
     public DigitalChannel frLED;
     public DigitalChannel blLED;
     public DigitalChannel brLED;
-    //public RevTouchSensor touch;
+
 
     public Sensors(HardwareMap hardwareMap, Telemetry telemetry)
     {
-        //LimitSwitch = hardwareMap.get(DigitalChannel.class, "switch");
-        //LimitSwitch.setMode(DigitalChannel.Mode.INPUT);
+
+        liftBot = hardwareMap.get(DigitalChannel.class,"liftBot");
+        liftBot.setMode(DigitalChannel.Mode.INPUT);
         dist = hardwareMap.get(Rev2mDistanceSensor.class, "dist");
         sidedist = hardwareMap.get(Rev2mDistanceSensor.class, "sidedist");
         frLED = hardwareMap.get(DigitalChannel.class, "frLED");

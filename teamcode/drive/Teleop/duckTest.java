@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Teleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 
 @TeleOp(group="main", name="duckTest")
-
+@Disabled
 @Config
 public class duckTest extends GorillabotsCentral {
 
@@ -29,10 +30,16 @@ public class duckTest extends GorillabotsCentral {
         double angAcc = 0;
 
         double maxVelCaro = 435*0.10472*0.2135;
-        double r = 0.15;
+        double r = 5.5;
         double u = 0.626;
 
-        String mode = "measure";
+        double k = Math.PI/lemniscate;
+
+        double max = 0.8*Math.sqrt(6.13/r);
+        double time = 1000*Math.asin(1/max)/(k*max);
+
+        String duck = "off";
+        String mode = "sine";
 
         double sinConst = Math.sqrt(9.8*u/r);
 
@@ -61,7 +68,7 @@ public class duckTest extends GorillabotsCentral {
                 telemetry.update();
             }
 
-            if(mode == "test") {
+            if(mode == "lemntest") {
                 if (gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4) {
                     double speed = sinlemn(sinConst * duckPower.milliseconds());
                     if(speed < 0.95) {
@@ -87,13 +94,49 @@ public class duckTest extends GorillabotsCentral {
                     telemetry.addData("Time: ", duckPower.milliseconds());
                 }
             }
+            if(mode == "sine"){
+                if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
+                    duck = "red";
+                }
+                if(gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4){
+                    duck = "blue";
+                }
+                if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
+                    duck = "off";
+                }
 
+                switch(duck){
+                    case "off":
+                        robot.duck.setPower(0);
+                        duckPower.reset();
+                        break;
+                    case "red":
+                        if(duckPower.milliseconds() < time) {
+                            robot.duck.setPower(max*Math.sin(max*k*duckPower.milliseconds()/1000));
+                        }
+                        if(duckPower.milliseconds() >= time){
+                            robot.duck.setPower(1);
+                        }
+                        break;
+                    case "blue":
+                        if(duckPower.milliseconds() < time) {
+                            robot.duck.setPower(-max*Math.sin(max*k*duckPower.milliseconds()/1000));
+                        }
+                        if(duckPower.milliseconds() >= time){
+                            robot.duck.setPower(-1);
+                        }
+                        break;
+                }
+            }
+
+            /*
             if(gamepad1.a) {
                 mode = "test";
             }
             if(gamepad1.b){
                 mode = "measure";
             }
+            */
 
            drive.setWeightedDrivePower(
                    new Pose2d(

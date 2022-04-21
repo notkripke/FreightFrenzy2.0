@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLoc
 /*
  * This is a simple routine to test turning capabilities.
  */
+@Disabled
 @Config
 @Autonomous(group = "drive")
 public class TurnTest extends LinearOpMode {

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 @TeleOp(group="main", name="sensorTest")
-
+@Disabled
 @Config
 public class sensorTest extends GorillabotsCentral {
 
@@ -36,7 +36,13 @@ public class sensorTest extends GorillabotsCentral {
             if(freightCheck() != "LOADED"){
                 LED("none");
             }
-            telemetry.addData("Touch: ", sensors.getDistanceDist()); //6 threshold
+            if (sensors.liftBot.getState()){
+                telemetry.addData("touch", "is pressed");
+            }
+            if (!sensors.liftBot.getState()){
+                telemetry.addData("touch", "is not pressed");
+            }
+            telemetry.addData("touch", sensors.liftBot.getState());
             telemetry.update();
         }
     }}
