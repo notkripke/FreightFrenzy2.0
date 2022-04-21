@@ -52,7 +52,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public RobotHardware robot;
 
     public double lemniscate = 2.6220575542;
-    
+
     OpenGLMatrix targetPose     = null;
     String targetName           = "";
     boolean targetFound     = false;    // Set to true when a target is detected by Vuforia
