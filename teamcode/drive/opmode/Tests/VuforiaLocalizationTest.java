@@ -46,6 +46,7 @@ public class VuforiaLocalizationTest extends GorillabotsCentral {
                 drive.update();
                 sleep(150);
                 VuforiaScan(Scan_Time, vision);
+                drive.setPoseEstimate(VuforiaLocalizedPose2d());
             }
 
 
@@ -62,7 +63,7 @@ public class VuforiaLocalizationTest extends GorillabotsCentral {
             }
 
             if(gamepad1.a && gamepad1.y){
-                Trajectory MoveToWaypoint = drive.trajectoryBuilder(VuforiaLocalizedPose2d()).lineToLinearHeading(Waypoint).build();
+                Trajectory MoveToWaypoint = drive.trajectoryBuilder(drive.getPoseEstimate()).lineToLinearHeading(Waypoint).build();
                 drive.followTrajectory(MoveToWaypoint);
             }
 
