@@ -143,7 +143,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public VuforiaTrackables targets   = null ;
 
 
-    public void VuforiaScan(double time){
+    public void VuforiaScan(double time, boolean activated){
         ElapsedTime vuforiaclock = new ElapsedTime();
         vuforiaclock.reset();
         OpenGLMatrix lastLocation   = null;
@@ -176,7 +176,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
         targets.activate();
-        while (!isStopRequested() && vuforiaclock.time() <= time) {
+        while (!isStopRequested() && (vuforiaclock.time() <= time || activated)) {
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -207,8 +207,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
-                
-                vuforiaScanPos_HEADING = rotation.thirdAngle;
+
+                vuforiaScanPos_HEADING = rotation.thirdAngle + 180;
 
             }
             else {
@@ -227,6 +227,10 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         targetName = "";
         targetRange = 0;
         targetPose = null;
+    }
+
+    public Pose2d VuforiaLocalizedPose2d(){
+        return new Pose2d(vuforiaScanPos_X, vuforiaScanPos_Y, Math.toRadians(vuforiaScanPos_HEADING));
     }
 
     public void LED(String leds){
