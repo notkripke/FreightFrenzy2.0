@@ -82,6 +82,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public VuforiaLocalizer vuforia    = null;
     public boolean targetVisible       = false;
 
+    public float vuforiaScanPos_X;
+    public float vuforiaScanPos_Y;
+    public float vuforiaScanPos_HEADING; // In Degrees
+
+
 
     public String loadState = "NOTHING LOADED";
 
@@ -194,12 +199,17 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
             if (targetVisible) {
                 // express position (translation) of robot in inches.
                 VectorF translation = lastLocation.getTranslation();
-                telemetry.addData("Pos (inches)", "{X, Y, Z} = %.1f, %.1f, %.1f",
-                        translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+                telemetry.addData("Pos (inches)", "{X, Y, Z} = %.1f, %.1f, %.1f",  translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
+
+                vuforiaScanPos_X = translation.get(0) / mmPerInch;
+                vuforiaScanPos_Y = translation.get(1) / mmPerInch;
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+                
+                vuforiaScanPos_HEADING = rotation.thirdAngle;
+
             }
             else {
                 telemetry.addData("Visible Target", "none");
