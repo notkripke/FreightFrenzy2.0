@@ -32,6 +32,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.outoftheboxrobotics.neutrinoi2c.Rev2mDistanceSensor.AsyncRev2MSensor;
 
 import static java.lang.Math.abs;
 
@@ -347,11 +348,14 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     }
 
     public String freightCheck() {
-        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
+        AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
+        asyncSensor.setSensorAccuracyMode(AsyncRev2MSensor.AccuracyMode.MODE_HIGH_SPEED);
+
+        if(asyncSensor.getDistance(DistanceUnit.INCH) >= 5.5){
             loadState = "NOTHING LOADED";
 
         }
-        if(sensors.dist.getDistance(DistanceUnit.INCH) < 5.5){
+        if(asyncSensor.getDistance(DistanceUnit.INCH) < 5.5){
             loadState = "LOADED";
         }
 
