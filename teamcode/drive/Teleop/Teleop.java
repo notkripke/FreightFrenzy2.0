@@ -49,16 +49,19 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
         double time = 1000*Math.asin(1/max)/(k*max);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        final double LIFT_INIT = robot.lift.getCurrentPosition();
-
-        final double CEILING = LIFT_INIT + LIFT_CEILING;
+        double LIFT_INIT = robot.lift.getCurrentPosition();
 
         double LIFT_POS;
 
         waitForStart();
 
         while (!isStopRequested()) {
+
+            final double CEILING = LIFT_INIT + LIFT_CEILING;
+
+            if(gamepad2.y){
+                LIFT_INIT = robot.lift.getCurrentPosition();
+            }
 
             LIFT_POS = robot.lift.getCurrentPosition();
 

@@ -66,7 +66,8 @@ public class VuforiaLocalizationTest extends GorillabotsCentral {
                 Trajectory MoveToWaypoint = drive.trajectoryBuilder(drive.getPoseEstimate()).lineToLinearHeading(Waypoint).build();
                 drive.followTrajectory(MoveToWaypoint);
             }
-
+            telemetry.addData("VuforiaPose2d (X,Y,R): ", VuforiaLocalizedPose2d());
+            telemetry.update();
 
 
         }
