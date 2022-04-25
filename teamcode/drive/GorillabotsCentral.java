@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.outoftheboxrobotics.neutrinoi2c.Rev2mDistanceSensor.AsyncRev2MSensor;
+
 
 import static java.lang.Math.abs;
 
