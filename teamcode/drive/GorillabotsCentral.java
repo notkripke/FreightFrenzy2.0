@@ -60,6 +60,9 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
     public static int LIFT_CEILING = 2430;
 
+    public final int intake_to_dist_period = 8;
+    public int intake_to_dist_increment = 0;
+
     public static double LIFT_SPEED = .8;
     public static double OUTTAKE_TILT = .36;
     public static double OUTTAKE_UP = .315;
@@ -89,6 +92,9 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
     public String loadState = "NOTHING LOADED";
+
+    protected GorillabotsCentral() {
+    }
 
     public void initializeComponents()
     {
@@ -359,13 +365,22 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     }
 
     public void intakeToDist() {
-        if(freightCheck() == "NOTHING LOADED"){
+        intake_to_dist_increment += 1;
+
+        if(intake_to_dist_increment < intake_to_dist_period){
             robot.Intake1.setPower(1);
             robot.Intake2.setPower(-1);
         }
-        if(freightCheck() == "LOADED"){
-            robot.Intake1.setPower(0);
-            robot.Intake2.setPower(0);
+        else{
+            intake_to_dist_increment = 0;
+            if(freightCheck() == "NOTHING LOADED"){
+                robot.Intake1.setPower(1);
+                robot.Intake2.setPower(-1);
+            }
+            if(freightCheck() == "LOADED"){
+                robot.Intake1.setPower(0);
+                robot.Intake2.setPower(0);
+            }
         }
     }
 
