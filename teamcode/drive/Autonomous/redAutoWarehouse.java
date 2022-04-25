@@ -182,7 +182,7 @@ public class redAutoWarehouse extends GorillabotsCentral {// 192.168.43.1:8080/d
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(1485);
+                sleep(1375);
                 robot.lift.setPower(0);
                 sleep(200);
                 drive.followTrajectory(park1b);

@@ -32,6 +32,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.outoftheboxrobotics.neutrinoi2c.Rev2mDistanceSensor.AsyncRev2MSensor;
 
 import static java.lang.Math.abs;
 
@@ -58,7 +59,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     boolean targetFound     = false;    // Set to true when a target is detected by Vuforia
     double  targetRange     = 0;        // Distance from camera to target in Inches
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
-    public static int LIFT_CEILING = 2430;
+    public static int LIFT_CEILING = 2900;
 
     public final int intake_to_dist_period = 8;
     public int intake_to_dist_increment = 0;
@@ -353,6 +354,9 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     }
 
     public String freightCheck() {
+       // AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
+        //asyncSensor.setSensorAccuracyMode(AsyncRev2MSensor.AccuracyMode.MODE_HIGH_SPEED);
+
         if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
             loadState = "NOTHING LOADED";
 
