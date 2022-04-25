@@ -59,7 +59,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     boolean targetFound     = false;    // Set to true when a target is detected by Vuforia
     double  targetRange     = 0;        // Distance from camera to target in Inches
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
-    public static int LIFT_CEILING = 2430;
+    public static int LIFT_CEILING = 2900;
 
     public static double LIFT_SPEED = .8;
     public static double OUTTAKE_TILT = .36;
@@ -348,14 +348,14 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     }
 
     public String freightCheck() {
-        AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
-        asyncSensor.setSensorAccuracyMode(AsyncRev2MSensor.AccuracyMode.MODE_HIGH_SPEED);
+       // AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
+        //asyncSensor.setSensorAccuracyMode(AsyncRev2MSensor.AccuracyMode.MODE_HIGH_SPEED);
 
-        if(asyncSensor.getDistance(DistanceUnit.INCH) >= 5.5){
+        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
             loadState = "NOTHING LOADED";
 
         }
-        if(asyncSensor.getDistance(DistanceUnit.INCH) < 5.5){
+        if(sensors.dist.getDistance(DistanceUnit.INCH) < 5.5){
             loadState = "LOADED";
         }
 
