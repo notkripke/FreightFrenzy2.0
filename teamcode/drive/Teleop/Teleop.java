@@ -53,6 +53,8 @@ public class Teleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
         double LIFT_POS;
 
+        intake_to_dist_increment = 0;
+
         waitForStart();
 
         while (!isStopRequested()) {
