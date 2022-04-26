@@ -27,6 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.internal.android.dx.util.Output;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.CVPipeline;
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.DuckPipeline;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.RobotHardware;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components.Sensors;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -50,6 +51,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public OpenCvCamera webcam;
     //public Servos servos;
     public CVPipeline Pipeline;
+    public DuckPipeline PipelineD;
     public RobotHardware robot;
 
     public double lemniscate = 2.6220575542;

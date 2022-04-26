@@ -48,7 +48,7 @@ public class duckTest extends GorillabotsCentral {
         waitForStart();
 
         while (opModeIsActive()) {
-            if(mode == "measure") {
+            if(mode == "measure") {//
                 boolean stopCheck = false;
 
                 if (gamepad1.left_trigger > .4 && gamepad1.right_trigger < .4 && !stopCheck) {
