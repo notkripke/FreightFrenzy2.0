@@ -383,8 +383,10 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         else{
             intake_to_dist_increment = 0;
             if(freightCheck() == "NOTHING LOADED" && intake_disabler == false){
-                robot.Intake1.setPower(1);
-                robot.Intake2.setPower(-1);
+                if(intake_disabler == false) {
+                    robot.Intake1.setPower(1);
+                    robot.Intake2.setPower(-1);
+                }
             }
             if(freightCheck() == "LOADED" || intake_disabler == true){
                 robot.Intake1.setPower(0);

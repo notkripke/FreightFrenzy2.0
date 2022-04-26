@@ -24,7 +24,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 
-@TeleOp(group = "AAAAAAAAAA", name = "visionTest")
+@TeleOp(group = "AAAAAAAAAA", name = "DuckPipelineTest")
 
 public class DuckPipelineTest extends LinearOpMode {
     public void runOpMode() {
