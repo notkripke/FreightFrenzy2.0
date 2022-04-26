@@ -54,6 +54,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public DuckPipeline PipelineD;
     public RobotHardware robot;
 
+    public boolean intake_disabler = false;
+
     public double lemniscate = 2.6220575542;
 
     OpenGLMatrix targetPose     = null;
@@ -361,10 +363,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
         if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
             loadState = "NOTHING LOADED";
-
+            intake_disabler = false;
         }
         if(sensors.dist.getDistance(DistanceUnit.INCH) < 5.5){
             loadState = "LOADED";
+            intake_disabler = true;
         }
 
         return loadState;
@@ -379,11 +382,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         }
         else{
             intake_to_dist_increment = 0;
-            if(freightCheck() == "NOTHING LOADED"){
+            if(freightCheck() == "NOTHING LOADED" && intake_disabler == false){
                 robot.Intake1.setPower(1);
                 robot.Intake2.setPower(-1);
             }
-            if(freightCheck() == "LOADED"){
+            if(freightCheck() == "LOADED" || intake_disabler == true){
                 robot.Intake1.setPower(0);
                 robot.Intake2.setPower(0);
             }
