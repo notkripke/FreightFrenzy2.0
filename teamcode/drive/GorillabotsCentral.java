@@ -112,11 +112,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
         //servos = new Servos(hardwareMap, telemetry);
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        //int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
         //pipeline = new EOCVtest();
-        Pipeline = new CVPipeline();
-        webcam.setPipeline(Pipeline);
+        //Pipeline = new CVPipeline();
+        //webcam.setPipeline(Pipeline);
 
         robot.outtake.setPosition(OUTTAKE_UP);
 
@@ -124,6 +124,11 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
     public void startVisionProcessing() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        //pipeline = new EOCVtest();
+        Pipeline = new CVPipeline();
+        webcam.setPipeline(Pipeline);
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -151,6 +156,12 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
     public void VuforiaScan(double time, boolean activated){
+        webcam.closeCameraDeviceAsync(new OpenCvCamera.AsyncCameraCloseListener() {
+            @Override
+            public void onClose() {
+
+            }
+        });
         ElapsedTime vuforiaclock = new ElapsedTime();
         vuforiaclock.reset();
         OpenGLMatrix lastLocation   = null;
@@ -175,6 +186,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         OpenGLMatrix cameraLocationOnRobot = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XZY, DEGREES, 90, 90, 0));
+
 
 
         for (VuforiaTrackable trackable : allTrackables) {
