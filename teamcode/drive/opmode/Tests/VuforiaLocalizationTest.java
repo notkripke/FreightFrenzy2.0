@@ -23,6 +23,8 @@ public class VuforiaLocalizationTest extends GorillabotsCentral {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        initializeComponents();
+
         boolean vision = false;
 
         final double Scan_Time = 3.00;

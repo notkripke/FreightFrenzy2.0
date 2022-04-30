@@ -55,6 +55,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public RobotHardware robot;
 
     public boolean intake_disabler = false;
+    public boolean intake_disabler2 = false;
 
     public double lemniscate = 2.6220575542;
 
@@ -145,6 +146,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
     void    identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz) {
+        initializeComponents();
         VuforiaTrackable aTarget = targets.get(targetIndex);
         aTarget.setName(targetName);
         aTarget.setLocation(OpenGLMatrix.translation(dx, dy, dz)
@@ -155,6 +157,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
     public void VuforiaScan(double time, boolean activated){
+        initializeComponents();
         ElapsedTime vuforiaclock = new ElapsedTime();
         vuforiaclock.reset();
         OpenGLMatrix lastLocation   = null;
@@ -364,6 +367,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
             loadState = "NOTHING LOADED";
             intake_disabler = false;
+            intake_disabler2 = false;
         }
         if(sensors.dist.getDistance(DistanceUnit.INCH) < 5.5){
             loadState = "LOADED";
