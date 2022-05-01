@@ -121,13 +121,13 @@ public class  EthanTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                 robot.Intake1.setPower(0);
             }
 
-            if(gamepad1.left_bumper && !gamepad1.right_bumper){
+            if(gamepad1.x && !gamepad1.b){
                 duck = "red";
             }
-            if(gamepad1.right_bumper && !gamepad1.left_bumper){
+            if(gamepad1.b && !gamepad1.x){
                 duck = "blue";
             }
-            if(gamepad1.right_bumper && gamepad1.left_bumper){
+            if(!gamepad1.x && !gamepad1.b){
                 duck = "off";
             }
 
