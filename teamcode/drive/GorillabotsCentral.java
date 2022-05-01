@@ -376,12 +376,12 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
        // AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
         //asyncSensor.setSensorAccuracyMode(AsyncRev2MSensor.AccuracyMode.MODE_HIGH_SPEED);
 
-        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 5.5){
+        if(sensors.dist.getDistance(DistanceUnit.INCH) >= 6.5){
             loadState = "NOTHING LOADED";
             intake_disabler = false;
             intake_disabler2 = false;
         }
-        if(sensors.dist.getDistance(DistanceUnit.INCH) < 5.5){
+        if(sensors.dist.getDistance(DistanceUnit.INCH) < 6.5){
             loadState = "LOADED";
             intake_disabler = true;
         }
