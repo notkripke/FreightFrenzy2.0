@@ -157,6 +157,29 @@ public class  EthanTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                 robot.outtake.setPosition(OUTTAKE_TILT);
             }
 
+            switch(duck){
+                case "off":
+                    robot.duck.setPower(0);
+                    duckPower.reset();
+                    break;
+                case "red":
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
+                    }
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(0.60);
+                    }
+                    break;
+                case "blue":
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(-0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
+                    }
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(-0.60);
+                    }
+                    break;
+            }
+
             switch (Lift_state){
                 case "stop":
                     robot.lift.setPower(0);
