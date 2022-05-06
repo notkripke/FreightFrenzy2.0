@@ -76,7 +76,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = false;
     private static final String VUFORIA_KEY =
-            " --- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+            "AYLQAH3/////AAABmSoSKoYZ0EQipFFJeSpGkIAAANdc2PvmNNHn5v9WrHajUc8Qkk7mqoScqSRhvoFnVNsJ87jyWWuoX+57RbBWL/Ns1SY5X/p/5PTX+PwSBoVHzKhjFoKrKLuFlBEQ/QZqP8ayH3j957ocoTcWV65KfgnwVmzvaYGKWrK5bo82RUQHKC8APD664jMeCi/A2jKfX4sxXwgl/DdPRtcYHq1JvQDDeaCA4R0YmRxtb5vE/KuB2Gfxwao2krsqRF9FibyZR1QkfaZQ2RVEnq0wzZ8q5kMBOjxbeVRw2yKjVESBZeUPHj66/YxkzdmEwQ5j8ERpToBsqZcwx/4w0kiecHztxzkqVemUoTn5e2CAAI1DpK7t";
     public final float CAMERA_FORWARD_DISPLACEMENT  = -17.0f * mmPerInch;   // eg: Enter the forward distance from the center of the robot to the camera lens
     public final float CAMERA_VERTICAL_DISPLACEMENT = 15.0f * mmPerInch;   // eg: Camera is 6 Inches above ground
     public final float CAMERA_LEFT_DISPLACEMENT     = 1.0f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
