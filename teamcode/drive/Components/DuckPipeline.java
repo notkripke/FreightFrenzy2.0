@@ -46,12 +46,12 @@ public class DuckPipeline extends OpenCvPipeline
      */
 
     //1280 by 720
-    static Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(5,100);
-    static Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(325,100);
-    static Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(645,100);
-    static Point REGION4_TOPLEFT_ANCHOR_POINT = new Point(965,100);
+    static Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(5,300);
+    static Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(325,300);
+    static Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(645,300);
+    static Point REGION4_TOPLEFT_ANCHOR_POINT = new Point(965,300);
     static int REGION_WIDTH = 310;
-    static int REGION_HEIGHT = 600;
+    static int REGION_HEIGHT = 400;
 
 
     Point region1_pointA = new Point(

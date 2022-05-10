@@ -149,6 +149,71 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         });
     }
 
+    public void startDuckVision() {
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        //pipeline = new EOCVtest();
+        PipelineD = new DuckPipeline();
+        webcam.setPipeline(PipelineD);
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                webcam.startStreaming(1280,720, OpenCvCameraRotation.UPSIDE_DOWN);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+
+            }
+        });
+    }
+
+    /*
+    //-56, -56, 70 degrees
+    Trajectory duckIntake1 = drive.trajectoryBuilder(startPose)
+                .lineToLinearHeading(new Pose2d(-45, -66, Math.toRadians(95)))
+                .build();
+        Trajectory duckIntake2 = drive.trajectoryBuilder(duck1.end())
+                .lineToLinearHeading(new Pose2d(-52, -66, Math.toRadians(85)))
+                .build();
+        Trajectory duckIntake3 = drive.trajectoryBuilder(duck2.end())
+                .lineToLinearHeading(new Pose2d(-59, -66, Math.toRadians(80)))
+                .build();
+        Trajectory duckIntake4 = drive.trajectoryBuilder(duck3.end())
+                .lineToLinearHeading(new Pose2d(-66, -66, Math.toRadians(76)))
+                .build();
+
+    void duckSwitch() {
+        switch(PipelineD.getPos()){
+            case 1:
+                robot.Intake1.setPower(1);
+                robot.Intake2.setPower(-1);
+                drive.followTrajectory(duckIntake1);
+                robot.Intake1.setPower(0);
+                robot.Intake2.setPower(0);
+            case 2:
+                robot.Intake1.setPower(1);
+                robot.Intake2.setPower(-1);
+                drive.followTrajectory(duckIntake2);
+                robot.Intake1.setPower(0);
+                robot.Intake2.setPower(0);
+            case 3:
+                robot.Intake1.setPower(1);
+                robot.Intake2.setPower(-1);
+                drive.followTrajectory(duckIntake3);
+                robot.Intake1.setPower(0);
+                robot.Intake2.setPower(0);
+            case 4:
+                robot.Intake1.setPower(1);
+                robot.Intake2.setPower(-1);
+                drive.followTrajectory(duckIntake4);
+                robot.Intake1.setPower(0);
+                robot.Intake2.setPower(0);
+        }
+    }
+    */
 
     void    identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz) {
         initializeComponents();

@@ -35,16 +35,16 @@ public class VisionDuckTest extends GorillabotsCentral {// 192.168.43.1:8080/das
 
 
         Trajectory leftOut = drive.trajectoryBuilder(startPose)
-                .back(4.5)
+                .lineToLinearHeading(new Pose2d(-54, -54, Math.toRadians(55)))
                 .build();
         Trajectory leftIn = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-62, 55, Math.toRadians(315)))
+                .lineToLinearHeading(new Pose2d(-56, -54, Math.toRadians(52)))
                 .build();
         Trajectory rightIn = drive.trajectoryBuilder(startPose)
-                .back(4.5)
+                .lineToLinearHeading(new Pose2d(-58, -54, Math.toRadians(49)))
                 .build();
         Trajectory rightOut = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-62, 55, Math.toRadians(315)))
+                .lineToLinearHeading(new Pose2d(-60, -54, Math.toRadians(46)))
                 .build();
 
         startVisionProcessing();
@@ -77,13 +77,17 @@ public class VisionDuckTest extends GorillabotsCentral {// 192.168.43.1:8080/das
 
         switch(PipelineD.getPos()){
             case 1:
-
+                drive.followTrajectory(leftOut);
+                break;
             case 2:
-
+                drive.followTrajectory(leftIn);
+                break;
             case 3:
-
+                drive.followTrajectory(rightIn);
+                break;
             case 4:
-
+                drive.followTrajectory(rightOut);
+                break;
         }
 
     }
