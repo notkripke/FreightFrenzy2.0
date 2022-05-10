@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@TeleOp(group = "AAAAAAAAAA", name = "visionTest")
+@TeleOp(group = "AAAAAAAAAA", name = "IsolatedVuforiaTest")
 
 public class IsolatedVuforiaTest extends LinearOpMode {
 

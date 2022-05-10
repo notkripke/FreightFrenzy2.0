@@ -162,13 +162,6 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
 
     public void VuforiaScan(double time, boolean activated){
-        initializeComponents();
-        webcam.closeCameraDeviceAsync(new OpenCvCamera.AsyncCameraCloseListener() {
-            @Override
-            public void onClose() {
-
-            }
-        });
         ElapsedTime vuforiaclock = new ElapsedTime();
         vuforiaclock.reset();
         OpenGLMatrix lastLocation   = null;
