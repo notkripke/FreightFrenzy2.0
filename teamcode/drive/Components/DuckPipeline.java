@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Components;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
@@ -269,6 +272,22 @@ public class DuckPipeline extends OpenCvPipeline
             pos = 4;
         }
         return pos;
+    }
+    public Pose2d duck_pos(){
+        Pose2d poop = new Pose2d();
+        if (position == BarcodePosition.LEFT_OUT){
+            poop = new Pose2d(-45, -65, Math.toRadians(90));
+        }
+        if (position == BarcodePosition.LEFT_IN){
+            poop = new Pose2d(-48, -65, Math.toRadians(90));
+        }
+        if(position == BarcodePosition.RIGHT_IN){
+            poop = new Pose2d(-51, -65, Math.toRadians(90));
+        }
+        if(position == BarcodePosition.RIGHT_OUT){
+            poop = new Pose2d(-43.5, -65, Math.toRadians(80));
+        }
+        return poop;
     }
     public int getAvg1(){
         return avg1;

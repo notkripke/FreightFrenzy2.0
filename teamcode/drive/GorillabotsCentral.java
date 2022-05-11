@@ -53,6 +53,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public CVPipeline Pipeline;
     public DuckPipeline PipelineD;
     public RobotHardware robot;
+    public Pose2d duck_pos;
 
     public boolean intake_disabler = false;
     public boolean intake_disabler2 = false;
@@ -150,8 +151,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     }
 
     public void startDuckVision() {
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        //int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        //webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
         //pipeline = new EOCVtest();
         PipelineD = new DuckPipeline();
         webcam.setPipeline(PipelineD);
