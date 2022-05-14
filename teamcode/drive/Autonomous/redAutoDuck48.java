@@ -129,10 +129,26 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(dump1b);
                 sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(700);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(650);
+                robot.lift.setPower(0);
                 drive.followTrajectory(duck_approach1);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(duck_approach2);
                 sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(650);//550
+                robot.duck.setPower(0.4);
+                sleep(1600);//1600
+                robot.duck.setPower(0);
                 drive.followTrajectory(find_duck);
                 startDuckVision();
                 poop_storage_containment_service = PipelineD.duck_pos();
@@ -172,6 +188,17 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(dump2);
                 sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(950);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(900);
+                robot.lift.setPower(0);
                 drive.followTrajectory(park);
                 break;
 
