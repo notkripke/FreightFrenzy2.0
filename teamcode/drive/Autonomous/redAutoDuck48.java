@@ -43,7 +43,7 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .lineToLinearHeading(new Pose2d(-32,-28,Math.toRadians(80)))//dump 1 final allignment (low+mid)
                 .build();
 
-        Trajectory dump1c = drive.trajectoryBuilder(dump1b.end())
+        Trajectory dump1c = drive.trajectoryBuilder(dump1a.end())
                 .lineToLinearHeading(new Pose2d(-36.5,-25,Math.toRadians(80)))//dump 1 final allignment (high)
                 .build();
 
@@ -57,6 +57,43 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         Trajectory find_duck = drive.trajectoryBuilder(duck_approach2.end())//Position for robot to detect duck location
                 .splineToLinearHeading(new Pose2d(-50, -45, Math.toRadians(70)), Math.toRadians(85))
+                .build();
+
+        //------------------------------------------------------------------------------------------------------
+        Trajectory duck_approach1c = drive.trajectoryBuilder(dump1c.end())
+                .splineToLinearHeading(new Pose2d(-57.5, -61, Math.toRadians(45)), Math.toRadians(190))//approach duck
+                .build();
+
+        Trajectory duck_approach2c = drive.trajectoryBuilder(duck_approach1c.end())
+                .splineToLinearHeading(new Pose2d(-58, -61, Math.toRadians(45)), Math.toRadians(190))//ensures duck contact
+                .build();
+
+        Trajectory find_duckc = drive.trajectoryBuilder(duck_approach2c.end())//Position for robot to detect duck location
+                .splineToLinearHeading(new Pose2d(-50, -45, Math.toRadians(70)), Math.toRadians(85))
+                .build();
+
+        Trajectory duck_intake1c = drive.trajectoryBuilder(find_duckc.end())
+                .lineToLinearHeading(new Pose2d(-45, -65, Math.toRadians(90)))
+                .build();
+
+        Trajectory duck_intake2c = drive.trajectoryBuilder(find_duckc.end())
+                .lineToLinearHeading(new Pose2d(-48, -65, Math.toRadians(90)))
+                .build();
+
+        Trajectory duck_intake3c = drive.trajectoryBuilder(find_duckc.end())
+                .lineToLinearHeading(new Pose2d(-51, -65, Math.toRadians(90)))
+                .build();
+
+        Trajectory duck_intake4c = drive.trajectoryBuilder(find_duckc.end())
+                .lineToLinearHeading(new Pose2d(-53.5, -65, Math.toRadians(80)))
+                .build();
+
+        Trajectory dump2c = drive.trajectoryBuilder(poop_storage_containment_service)//dump duck
+                .splineToSplineHeading(new Pose2d(-36.5, -25, Math.toRadians(80)), Math.toRadians(0))
+                .build();
+
+        Trajectory parkc = drive.trajectoryBuilder(dump2c.end())//park in storage unti
+                .lineToLinearHeading(new Pose2d(-63, -37, Math.toRadians(90)))
                 .build();
 
         /****************  DUCK INTAKES. NUMBERED 1-4 FROM LEFT TO RIGHT RELATIVE TO CAMERA   *************/
@@ -202,14 +239,162 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 drive.followTrajectory(park);
                 break;
 
-            /*case 2:
+            case 2:
                 sleep(INITIAL_PAUSE);
-
+                drive.followTrajectory(dump1a);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(dump1c);
+                sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(950);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(900);
+                robot.lift.setPower(0);
+                drive.followTrajectory(duck_approach1c);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck_approach2c);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(650);//550
+                robot.duck.setPower(0.4);
+                sleep(1600);//1600
+                robot.duck.setPower(0);
+                drive.followTrajectory(find_duckc);
+                startDuckVision();
+                poop_storage_containment_service = PipelineD.duck_pos();
+                switch(PipelineD.getPos()){
+                    case 1:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake1c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                    case 2:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake2c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                    case 3:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake3c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                    case 4:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake4c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                }
+                sleep(500);
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(dump2c);
+                sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(950);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(900);
+                robot.lift.setPower(0);
+                drive.followTrajectory(parkc);
                 break;
             case 3:
                 sleep(INITIAL_PAUSE);
-
-                break;*/
+                drive.followTrajectory(dump1a);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(dump1c);
+                sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(1495);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(1490);
+                robot.lift.setPower(0);
+                drive.followTrajectory(duck_approach1c);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(duck_approach2c);
+                sleep(SLEEP_TIME);
+                robot.duck.setPower(0.4);
+                sleep(650);//550
+                robot.duck.setPower(0.4);
+                sleep(1600);//1600
+                robot.duck.setPower(0);
+                drive.followTrajectory(find_duckc);
+                startDuckVision();
+                poop_storage_containment_service = PipelineD.duck_pos();
+                switch(PipelineD.getPos()){
+                    case 1:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake1c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                    case 2:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake2c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                    case 3:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake3c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                    case 4:
+                        robot.Intake1.setPower(1);
+                        robot.Intake2.setPower(-1);
+                        drive.followTrajectory(duck_intake4c);
+                        robot.Intake1.setPower(0);
+                        robot.Intake2.setPower(0);
+                        break;
+                }
+                sleep(500);
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
+                sleep(SLEEP_TIME);
+                drive.followTrajectory(dump2c);
+                sleep(SLEEP_TIME);
+                robot.lift.setPower(.8);
+                sleep(950);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
+                sleep(1000);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(900);
+                robot.lift.setPower(0);
+                drive.followTrajectory(parkc);
+                break;
 
         }
 
