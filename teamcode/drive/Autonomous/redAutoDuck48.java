@@ -48,11 +48,11 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .build();
 
         Trajectory duck_approach1 = drive.trajectoryBuilder(dump1b.end())
-                .splineToLinearHeading(new Pose2d(-57.5, -61, Math.toRadians(45)), Math.toRadians(190))//approach duck
+                .splineToLinearHeading(new Pose2d(-57.5, -61, Math.toRadians(55)), Math.toRadians(190))//approach duck
                 .build();
 
         Trajectory duck_approach2 = drive.trajectoryBuilder(duck_approach1.end())
-                .splineToLinearHeading(new Pose2d(-58, -61, Math.toRadians(45)), Math.toRadians(190))//ensures duck contact
+                .splineToLinearHeading(new Pose2d(-58, -62.5, Math.toRadians(55)), Math.toRadians(190))//ensures duck contact
                 .build();
 
         Trajectory find_duck = drive.trajectoryBuilder(duck_approach2.end())//Position for robot to detect duck location
@@ -61,11 +61,11 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         //------------------------------------------------------------------------------------------------------
         Trajectory duck_approach1c = drive.trajectoryBuilder(dump1c.end())
-                .splineToLinearHeading(new Pose2d(-57.5, -61, Math.toRadians(45)), Math.toRadians(190))//approach duck
+                .splineToLinearHeading(new Pose2d(-57.5, -61, Math.toRadians(55)), Math.toRadians(190))//approach duck
                 .build();
 
         Trajectory duck_approach2c = drive.trajectoryBuilder(duck_approach1c.end())
-                .splineToLinearHeading(new Pose2d(-58, -61, Math.toRadians(45)), Math.toRadians(190))//ensures duck contact
+                .splineToLinearHeading(new Pose2d(-58, -62.5, Math.toRadians(55)), Math.toRadians(190))//ensures duck contact
                 .build();
 
         Trajectory find_duckc = drive.trajectoryBuilder(duck_approach2c.end())//Position for robot to detect duck location
@@ -117,7 +117,7 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 .build();
 
         Trajectory dump2 = drive.trajectoryBuilder(poop_storage_containment_service)//dump duck
-                .splineToSplineHeading(new Pose2d(-36.5, -25, Math.toRadians(80)), Math.toRadians(0))
+                .lineToSplineHeading(new Pose2d(-42.5, -26.5, Math.toRadians(90)))//x = -36.5
                 .build();
 
         Trajectory park = drive.trajectoryBuilder(dump2.end())//park in storage unti
@@ -226,7 +226,7 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 drive.followTrajectory(dump2);
                 sleep(SLEEP_TIME);
                 robot.lift.setPower(.8);
-                sleep(950);
+                sleep(1495);
                 robot.lift.setPower(0);
                 sleep(400);
                 robot.outtake.setPosition(OUTTAKE_DOWN*1.1);
@@ -234,7 +234,7 @@ public class redAutoDuck48 extends GorillabotsCentral {// 192.168.43.1:8080/dash
                 robot.outtake.setPosition(OUTTAKE_UP);
                 sleep(200);
                 robot.lift.setPower(-0.8);
-                sleep(900);
+                sleep(1150);
                 robot.lift.setPower(0);
                 drive.followTrajectory(park);
                 break;
