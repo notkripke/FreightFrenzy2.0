@@ -376,60 +376,6 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         }
     }
 
-    public void raiseLift(int net_height, double speed){
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        final int lift_target = net_height + robot.lift.getCurrentPosition();
-
-        robot.lift.setTargetPosition(lift_target);
-        while(robot.lift.getCurrentPosition() < (lift_target * 0.8)){
-            robot.lift.setPower(speed);
-            telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
-        }
-        while(robot.lift.getCurrentPosition() < lift_target){
-            robot.lift.setPower(speed * 0.75);
-            telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
-        }
-        robot.lift.setPower(0);
-        telemetry.update();
-    }
-
-    public void lowerLift(double speed,int height_estimate){
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        final int target = robot.lift.getCurrentPosition() - height_estimate;
-
-        while(robot.lift.getCurrentPosition() > (target * .65) /*&& sensors.checkSwitch() == false*/){
-            robot.lift.setPower(-speed);
-        }
-        while(robot.lift.getCurrentPosition() > (target * .92) /*&& sensors.checkSwitch() == false*/){
-            robot.lift.setPower(-speed * 0.68);
-        }
-        robot.lift.setPower(0);
-    }
-
-    public void raiseLiftTeleop(int init_height){
-        double s = 94*(Math.sqrt(2) * sensors.getDistanceSideDist()+ (2*Math.sqrt(2))); //S   C   A   L   E
-        double target = init_height + s +150;
-        int targetint = (int) Math.round(target);
-        robot.lift.setTargetPosition(targetint);
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        while((robot.lift.getCurrentPosition() < targetint) && (target < 2450) && !LIFT_OVERRIDE){
-            robot.outtake.setPosition(OUTTAKE_UP);
-            if(gamepad2.left_trigger > .2 || gamepad2.right_trigger > .2 || gamepad2.y){
-               LIFT_OVERRIDE = true;
-            }
-            robot.lift.setPower(0.85);
-            telemetry.addData("target: ", targetint);
-            telemetry.addData("currpos: ", robot.lift.getCurrentPosition());
-            telemetry.update();
-        }
-        robot.lift.setPower(0);
-        robot.outtake.setPosition(OUTTAKE_DOWN);
-    }
 
     public String freightCheck() {
        // AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
