@@ -36,6 +36,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,12 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     boolean targetFound     = false;    // Set to true when a target is detected by Vuforia
     double  targetRange     = 0;        // Distance from camera to target in Inches
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
+
     public static int LIFT_CEILING = 2900;
+    public static int LIFT_HIGH = 2800;
+    public static int LIFT_MID = 2000;
+    public static int LIFT_LOW = 1300;
+    public static int LIFT_BASE = 0;
 
     public final int intake_to_dist_period = 8;
     public int intake_to_dist_increment = 0;
@@ -171,50 +177,22 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         });
     }
 
-    /*
-    //-56, -56, 70 degrees
-    Trajectory duckIntake1 = drive.trajectoryBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(-45, -66, Math.toRadians(95)))
-                .build();
-        Trajectory duckIntake2 = drive.trajectoryBuilder(duck1.end())
-                .lineToLinearHeading(new Pose2d(-52, -66, Math.toRadians(85)))
-                .build();
-        Trajectory duckIntake3 = drive.trajectoryBuilder(duck2.end())
-                .lineToLinearHeading(new Pose2d(-59, -66, Math.toRadians(80)))
-                .build();
-        Trajectory duckIntake4 = drive.trajectoryBuilder(duck3.end())
-                .lineToLinearHeading(new Pose2d(-66, -66, Math.toRadians(76)))
-                .build();
+    public void setLift(int position, double max_speed, double offset){
+        int lift_init = robot.lift.getCurrentPosition();
+        int lift_pos = lift_init;
+        int target = position - robot.lift.getCurrentPosition();
+        int error = target - lift_pos;
+        double power = 0;
 
-    void duckSwitch() {
-        switch(PipelineD.getPos()){
-            case 1:
-                robot.Intake1.setPower(1);
-                robot.Intake2.setPower(-1);
-                drive.followTrajectory(duckIntake1);
-                robot.Intake1.setPower(0);
-                robot.Intake2.setPower(0);
-            case 2:
-                robot.Intake1.setPower(1);
-                robot.Intake2.setPower(-1);
-                drive.followTrajectory(duckIntake2);
-                robot.Intake1.setPower(0);
-                robot.Intake2.setPower(0);
-            case 3:
-                robot.Intake1.setPower(1);
-                robot.Intake2.setPower(-1);
-                drive.followTrajectory(duckIntake3);
-                robot.Intake1.setPower(0);
-                robot.Intake2.setPower(0);
-            case 4:
-                robot.Intake1.setPower(1);
-                robot.Intake2.setPower(-1);
-                drive.followTrajectory(duckIntake4);
-                robot.Intake1.setPower(0);
-                robot.Intake2.setPower(0);
+        while(Math.abs(error) > 100){
+            lift_pos = robot.lift.getCurrentPosition();
+            if(error < 1){ offset =- offset; max_speed =- max_speed;}
+            power = (error / target)  + offset;
+            if(power > max_speed){ power = max_speed;}
+            robot.lift.setPower(power);
         }
+        robot.lift.setPower(0);
     }
-    */
 
     void    identifyTarget(int targetIndex, String targetName, float dx, float dy, float dz, float rx, float ry, float rz) {
         initializeComponents();
@@ -375,7 +353,6 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
             sensors.blLED.setState(false);
         }
     }
-
 
     public String freightCheck() {
        // AsyncRev2MSensor asyncSensor = new AsyncRev2MSensor(sensors.dist);
