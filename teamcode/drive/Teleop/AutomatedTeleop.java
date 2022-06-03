@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -13,21 +12,15 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
 
-@Disabled
+
 @TeleOp(group = "drive")
 @Config
-public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
+public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         initializeComponents();
-
-        ElapsedTime drive_timer = new ElapsedTime();
-
-        boolean drive_check = false;
-
-        String drive_state = "normal";
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry()); // telemetry uses
         // FTC app and Dashboard
@@ -36,63 +29,122 @@ public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/d
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setLocalizer(new StandardTrackingWheelLocalizer(hardwareMap));
 
+        ElapsedTime drive_timer = new ElapsedTime();
+
+        String drive_state = "normal";
+
         String Lift_state = "stop";
 
         ElapsedTime duckPower = new ElapsedTime();
 
-        String duck_trigger = "off";
+        String duck = "off";
+        double r = 5.5;
+        double u = 0.626;
 
+        double k = Math.PI/lemniscate;
+
+        double max = Math.sqrt(6.13/r);
+        double time = 1000*Math.asin(1/max)/(k*max);
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        final int LIFT_INIT = robot.lift.getCurrentPosition();
-
-        final double CEILING = LIFT_INIT + LIFT_CEILING;
+        robot.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        double LIFT_INIT = robot.lift.getCurrentPosition();
 
         double LIFT_POS;
+
+        double lift_power = 0;
+
+        boolean isLiftAuto = false;
+
+        double lift_target = LIFT_INIT;
+
+        intake_to_dist_increment = 0;
+
+        boolean Ltrigger_activated = false;
+
+        boolean Rtrigger_activated = false;
 
         waitForStart();
 
         while (!isStopRequested()) {
 
+            final double CEILING = LIFT_INIT + LIFT_CEILING;
+
+            if(gamepad1.left_trigger >= 0.3){
+                Ltrigger_activated = true;
+            }
+
+            if(gamepad1.right_trigger >= 0.3){
+                Rtrigger_activated = true;
+            }
+
+            if(gamepad1.left_trigger < 0.3){
+                Ltrigger_activated = false;
+            }
+
+            if(gamepad1.right_trigger < 0.3){
+                Rtrigger_activated = false;
+            }
+
+            if(Ltrigger_activated && !gamepad1.a){
+                drive_state = "intake";
+            }
+
+            if(!Ltrigger_activated && !Rtrigger_activated){
+                drive_state = "normal";
+            }
+
+            if(!Ltrigger_activated && Rtrigger_activated){
+                drive_state = "gap";
+            }
+
+            if(Ltrigger_activated && Rtrigger_activated){
+                drive_state = "intake + gap";
+            }
+
+            if(gamepad2.y){
+                LIFT_INIT = robot.lift.getCurrentPosition();
+            }
+
             LIFT_POS = robot.lift.getCurrentPosition();
 
-            if(gamepad1.left_bumper){
+            if(!Ltrigger_activated){
+                intake_disabler = false; // BOOOM
+            }
+
+            if(Ltrigger_activated && intake_disabler == false){
                 intakeToDist();
+            }
+            if(intake_disabler == true){
+                robot.Intake2.setPower(0);
+                robot.Intake1.setPower(0);
             }
             if(gamepad1.right_bumper){
                 robot.Intake1.setPower(-1);
                 robot.Intake2.setPower(1);
             }
-            if(!gamepad1.left_bumper && !gamepad1.right_bumper){
+            if(!Ltrigger_activated && !gamepad1.right_bumper){
                 robot.Intake2.setPower(0);
                 robot.Intake1.setPower(0);
             }
 
-            if(gamepad1.left_trigger >.4 && gamepad1.right_trigger < .4){
-                duck_trigger = "red";
+            if(gamepad1.x && !gamepad1.b){
+                duck = "red";
             }
-            if(gamepad1.right_trigger > .4 && gamepad1.left_trigger < .4){
-                duck_trigger = "blue";
+            if(gamepad1.b && !gamepad1.x){
+                duck = "blue";
             }
-            if(gamepad1.right_trigger < .4 && gamepad1.left_trigger < .4){
-                duck_trigger = "off";
+            if(!gamepad1.x && !gamepad1.b){
+                duck = "off";
             }
 
-            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2){//liftpos - ceiling < ceiling
+            if(gamepad2.left_trigger >= .2 && gamepad2.right_trigger <= .2 && sensors.liftBot.getState()){//liftpos - ceiling < ceiling
                 Lift_state = "down";
-                LIFT_OVERRIDE = true;
             }
-            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && CEILING > LIFT_POS  /*sensors.checkSwitch() == false*/){
+            if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && LIFT_POS < CEILING  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
-                LIFT_OVERRIDE = true;
             }
-            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 || CEILING < LIFT_POS && Lift_state != "down"){
+            if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 && Lift_state != "down"){
                 Lift_state = "stop";
-                LIFT_OVERRIDE = false;
-            }
-
-            if(gamepad2.x){
-                raiseLiftTeleop(LIFT_INIT);
             }
 
             if(gamepad2.left_bumper){
@@ -107,60 +159,89 @@ public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/d
             if(gamepad2.b){
                 robot.outtake.setPosition(OUTTAKE_DOWN);
             }
-
-            switch (Lift_state){
-                case "stop":
-                    robot.lift.setPower(0);
-                    break;
-                case "down":
-                    robot.lift.setPower(-gamepad2.left_trigger);
-                    break;
-                case "up":
-                    robot.lift.setPower(gamepad2.right_trigger);
-                    break;
+            if(gamepad2.x){
+                robot.outtake.setPosition(OUTTAKE_TILT);
             }
 
-            switch(duck_trigger){
+            if(gamepad2.dpad_up && !isLiftAuto){
+                isLiftAuto = true;
+                lift_target = LIFT_HIGH;
+            }
+
+            if ((gamepad2.dpad_left || gamepad2.dpad_right) && !isLiftAuto) {
+                isLiftAuto = true;
+                lift_target = LIFT_MID;
+            }
+
+            switch(duck){
                 case "off":
                     robot.duck.setPower(0);
                     duckPower.reset();
                     break;
                 case "red":
-                    if(duckPower.milliseconds() < 625) {
-                        robot.duck.setPower(duckPower.milliseconds()/650);
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
                     }
-                    if(duckPower.milliseconds() >= 625){
-                        robot.duck.setPower(1);
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(0.60);
                     }
                     break;
                 case "blue":
-                    if(duckPower.milliseconds() < 625) {
-                        robot.duck.setPower(-duckPower.milliseconds()/650);
+                    if(duckPower.milliseconds() < time/1.5) {
+                        robot.duck.setPower(-0.60*max*Math.sin(1.5*max*k*duckPower.milliseconds()/1000));
                     }
-                    if(duckPower.milliseconds() >= 625){
-                        robot.duck.setPower(-1);
+                    if(duckPower.milliseconds() >= time/1.5){
+                        robot.duck.setPower(-0.60);
                     }
                     break;
             }
 
+            switch (Lift_state){
+                case "stop":
+                    if(!isLiftAuto) {
+                        lift_power = 0;
+                    }
+                    break;
+                case "down":
+                    if(sensors.liftBot.getState()) {
+                        lift_power =- gamepad2.left_trigger;
+                    }
+                    if(!sensors.liftBot.getState()){
+                        lift_power = 0;
+                    }
+                    isLiftAuto = false;
+                    break;
+                case "up":
+                    if(LIFT_POS >= CEILING) {
+                        lift_power = 0;
+                    }
+                    if(LIFT_POS < LIFT_CEILING) {
+                        lift_power = gamepad2.right_trigger;
+                    }
+                    isLiftAuto = false;
+                    break;
+            }
+
+            if(isLiftAuto){
+                if(Math.abs(lift_target - LIFT_POS) < 150){
+                    lift_power = 1;
+                }
+                else {
+                    lift_power = 0;
+                    isLiftAuto = false;
+                }
+            }
+
+
             telemetry.addData("Outtake Pos: ", robot.outtake.getPosition());
-            telemetry.addData("lift height: ", robot.lift.getCurrentPosition());
+            telemetry.addData("lift height: ", LIFT_POS);
             telemetry.addData("Freight? ", freightCheck());
-            telemetry.addData("Distance from init: ", Math.abs(LIFT_POS - LIFT_INIT));
+            telemetry.addData("Distance from init: ", LIFT_POS - LIFT_INIT);
             telemetry.addData("Lift state: ", Lift_state);
+            telemetry.addData("Ceiling", CEILING);
+            telemetry.addData("look here: ",intake_disabler);
             telemetry.update();
 
-            if(gamepad1.a && drive_timer.time() >= 0.4){
-                drive_timer.reset();
-                drive_check =! drive_check;
-            }
-
-            if(drive_check){
-                drive_state = "gap";
-            }
-            if(!drive_check){
-                drive_state = "normal";
-            }
 
             switch(drive_state){
                 case "normal":
@@ -184,12 +265,32 @@ public class AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/d
                     );
 
                     drive.update();
+                    break;
+                case "intake":
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    -gamepad1.left_stick_y * 0.4,
+                                    -gamepad1.left_stick_x * 0.4,
+                                    -gamepad1.right_stick_x * 0.55
+                            )
+                    );
+
+                    drive.update();
+                    break;
+                case "intake+gap":
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    -gamepad1.left_stick_y * 0.55,
+                                    -gamepad1.left_stick_x * 0.55 + 0.35,
+                                    -gamepad1.right_stick_x * 0.65
+                            )
+                    );
+
+                    drive.update();
+                    break;
             }
-            double s = 94 * (Math.sqrt(2) * sensors.getDistanceSideDist() +
-                    (2 * Math.sqrt(2))); //S   C   A   L   E
-            double target = LIFT_INIT + s;
-            int targetint = (int) Math.round(target);
-            telemetry.addData("Target: ", targetint);
+            robot.lift.setPower(lift_power);
+            telemetry.addData("Lift power: ", lift_power);
             telemetry.addData("Drive state: ", drive_state);
             telemetry.update();
 
