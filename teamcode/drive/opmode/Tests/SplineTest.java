@@ -15,7 +15,7 @@ import org.opencv.core.Mat;
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Disabled
+
 @Autonomous(group = "drive")
 public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
@@ -26,30 +26,33 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         if (isStopRequested()) return;
 
-        Pose2d startPose = new Pose2d(12, -63.5, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(0));
+
+        Pose2d localization_variable = new Pose2d();
 
         drive.setPoseEstimate(startPose);
+        
 
-
+        //test 1 (driivng through barrier test)
         Trajectory traj = drive.trajectoryBuilder(startPose)
+                .lineToConstantHeading(new Vector2d(20, 5))
+                .build();
+        //
 
-                .back(30)
-                .build();
-        Trajectory traj2 = drive.trajectoryBuilder(traj.end())
-                .strafeRight(24)
-                .build();
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end())
-                .lineToLinearHeading(new Pose2d(0, 30, Math.toRadians(180)))
-                .splineToConstantHeading(new Vector2d(6, 30), Math.toRadians(180))
-                .build();
+
+
 
 
 
         drive.followTrajectory(traj);
-        sleep(500);
-        drive.followTrajectory(traj2);
-        sleep(500);
-        drive.followTrajectory(traj3);
+
+        //drive.setWeightedDrivePower(new Pose2d(.5,.5,0));
+        //localization_variable = drive.getCurrentPosition();
+        //Trajectory traj1 = drive.trajectoryBuilder(localization_variable)
+        //.lineToConstantHeading(new Vector2d(10, 10))
+        //.build();
+
+
 
     }
 }
