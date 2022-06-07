@@ -68,7 +68,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
 
     public static int LIFT_CEILING = 2900;
-    public static int LIFT_HIGH = 2800;
+    public static int LIFT_HIGH = 2850;
+    public static int LIFT_SHARED = 1600; // 1700
     public static int LIFT_MID = 2000;
     public static int LIFT_LOW = 1300;
     public static int LIFT_BASE = 0;
@@ -80,6 +81,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public static double OUTTAKE_TILT = .36;
     public static double OUTTAKE_UP = .315;
     public static double OUTTAKE_DOWN = 0.18;
+    public static double OUTTAKE_SHARED = 0.08;
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = false;
     private static final String VUFORIA_KEY =
@@ -184,7 +186,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         int error = target - lift_pos;
         double power = 0;
 
-        while(Math.abs(error) > 100){
+        while(Math.abs(error) > position * 0.01){ // > 100
             lift_pos = robot.lift.getCurrentPosition();
             if(error < 1){ offset =- offset; max_speed =- max_speed;}
             power = (error / target)  + offset;
