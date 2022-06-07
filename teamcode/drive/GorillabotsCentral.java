@@ -90,6 +90,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public final float CAMERA_VERTICAL_DISPLACEMENT = 15.0f * mmPerInch;   // eg: Camera is 6 Inches above ground
     public final float CAMERA_LEFT_DISPLACEMENT     = 1.0f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
 
+    public Pose2d offsetPose = new Pose2d(0, 0, 0);
 
     public static final float mmPerInch        = 25.4f;
     public static final float mmTargetHeight   = 6 * mmPerInch;          // the height of the center of the target image above the floor
@@ -103,8 +104,6 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public float vuforiaScanPos_X;
     public float vuforiaScanPos_Y;
     public float vuforiaScanPos_HEADING; // In Degrees
-
-
 
     public String loadState = "NOTHING LOADED";
 
@@ -422,6 +421,38 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
                 drive.update();
             }
         }
+        robot.Intake2.setPower(0);
+        robot.Intake1.setPower(0);
+    }
+
+    public void creepIntakeOffset(String direction, double timer){
+        ElapsedTime intake_timer = new ElapsedTime();
+        intake_timer.reset();
+        while(freightCheck() == "NOTHING LOADED" && intake_timer.milliseconds() <= timer){
+            robot.Intake1.setPower(1);
+            robot.Intake2.setPower(-1);
+            if(direction == "forwards"){
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                0.18,
+                                0,
+                                0
+                        )
+                );
+                drive.update();
+            }
+            if(direction == "backwards"){
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -0.18,
+                                0,
+                                0
+                        )
+                );
+                drive.update();
+            }
+        }
+        offsetPose = drive.getPoseEstimate();
         robot.Intake2.setPower(0);
         robot.Intake1.setPower(0);
     }

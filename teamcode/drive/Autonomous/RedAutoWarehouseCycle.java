@@ -98,11 +98,6 @@ public class RedAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:8
                 sleep(500);
                 creepIntake("forwards", 1000);
                 sleep(500);
-                Trajectory test = drive.trajectoryBuilder(drive.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d())
-                        .build();
-                sleep(500);
-                drive.followTrajectory(test);
                /*
                 robot.lift.setPower(.8);
                 sleep(700);
