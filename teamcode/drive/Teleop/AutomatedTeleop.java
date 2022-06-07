@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.Autonomous.liftTest;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.GorillabotsCentral;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLocalizer;
@@ -55,7 +56,11 @@ public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/
 
         boolean isLiftAuto = false;
 
+        boolean lift_lowering = false;
+
         double lift_target = LIFT_INIT;
+
+        double last_lifted_height = LIFT_INIT;
 
         intake_to_dist_increment = 0;
 
@@ -142,35 +147,35 @@ public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/
             }
             if(gamepad2.right_trigger >= .2 && gamepad2.left_trigger <= .2 && LIFT_POS < CEILING  /*sensors.checkSwitch() == false*/){
                 Lift_state = "up";
+                last_lifted_height = LIFT_POS;
             }
             if(gamepad2.left_trigger <= .2 && gamepad2.right_trigger <= .2 && Lift_state != "down"){
                 Lift_state = "stop";
             }
 
-            if(gamepad2.left_bumper){
-                robot.outtake.setPosition(robot.outtake.getPosition() - 0.005);
-            }
-            if(gamepad2.right_bumper){
-                robot.outtake.setPosition(robot.outtake.getPosition() + 0.005);
-            }
-            if(gamepad2.a){
+            if(gamepad2.a && !lift_lowering){
                 robot.outtake.setPosition(OUTTAKE_UP);
+                lift_target = LIFT_BASE;
+                lift_lowering = true;
             }
-            if(gamepad2.b){
-                robot.outtake.setPosition(OUTTAKE_DOWN);
-            }
-            if(gamepad2.x){
-                robot.outtake.setPosition(OUTTAKE_TILT);
+            if(gamepad2.b && !lift_lowering){
+                if(lift_target == SHARED_HEIGHT){
+                    robot.outtake.setPosition(OUTTAKE_SHARED);
+                }
+                else {
+                    robot.outtake.setPosition(OUTTAKE_DOWN);
+                }
             }
 
-            if(gamepad2.dpad_up && !isLiftAuto){
-                isLiftAuto = true;
+
+            if(gamepad2.left_bumper && isLiftAuto == false){
                 lift_target = LIFT_HIGH;
+                isLiftAuto = true;
             }
 
-            if ((gamepad2.dpad_left || gamepad2.dpad_right) && !isLiftAuto) {
+            if (gamepad2.right_bumper && isLiftAuto == false) {
+                lift_target = LIFT_SHARED;
                 isLiftAuto = true;
-                lift_target = LIFT_MID;
             }
 
             switch(duck){
@@ -198,15 +203,24 @@ public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/
 
             switch (Lift_state){
                 case "stop":
-                    if(!isLiftAuto) {
+                    if(!isLiftAuto && last_lifted_height - LIFT_POS < 60) {
                         lift_power = 0;
                     }
+                    if(!isLiftAuto && last_lifted_height - LIFT_POS > 30){
+                        lift_power = 0.045; // SPEED OF LIFT CREEP IF THING LOWERS DUE TO GRAVITY
+                    }
+                    if(gamepad2.left_bumper){
+                        isLiftAuto = true;
+                    }
+
                     break;
                 case "down":
                     if(sensors.liftBot.getState()) {
                         lift_power =- gamepad2.left_trigger;
                     }
                     if(!sensors.liftBot.getState()){
+                        last_lifted_height = 0;
+                        Lift_state = "stop";
                         lift_power = 0;
                     }
                     isLiftAuto = false;
@@ -223,15 +237,28 @@ public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/
             }
 
             if(isLiftAuto){
-                if(Math.abs(lift_target - LIFT_POS) < 150){
+                if(Math.abs(lift_target - LIFT_POS) > 150){
                     lift_power = 1;
                 }
                 else {
                     lift_power = 0;
                     isLiftAuto = false;
+                    last_lifted_height = LIFT_POS;
                 }
             }
 
+            if(lift_lowering){
+                if((Math.abs(LIFT_POS - lift_target) > 100) && sensors.liftBot.getState()){
+                    lift_power = -1;
+                }
+                else{
+                    lift_power = 0;
+                    lift_lowering = false;
+                    last_lifted_height = 0;
+                }
+            }
+
+            robot.lift.setPower(lift_power);
 
             telemetry.addData("Outtake Pos: ", robot.outtake.getPosition());
             telemetry.addData("lift height: ", LIFT_POS);
@@ -240,6 +267,10 @@ public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/
             telemetry.addData("Lift state: ", Lift_state);
             telemetry.addData("Ceiling", CEILING);
             telemetry.addData("look here: ",intake_disabler);
+            telemetry.addData("Drive state: ", drive_state);
+            telemetry.addData("isLiftAuto?: ", isLiftAuto);
+            telemetry.addData("target: ", lift_target);
+            telemetry.addData("Lift power: ", lift_power);
             telemetry.update();
 
 
@@ -289,10 +320,6 @@ public class  AutomatedTeleop extends GorillabotsCentral { // 192.168.43.1:8080/
                     drive.update();
                     break;
             }
-            robot.lift.setPower(lift_power);
-            telemetry.addData("Lift power: ", lift_power);
-            telemetry.addData("Drive state: ", drive_state);
-            telemetry.update();
 
         }
 
