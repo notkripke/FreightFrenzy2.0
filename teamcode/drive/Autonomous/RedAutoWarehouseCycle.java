@@ -103,7 +103,7 @@ public class RedAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:8
                         .build();
                 sleep(500);
                 drive.followTrajectory(test);
-               /* 
+               /*
                 robot.lift.setPower(.8);
                 sleep(700);
                 robot.lift.setPower(0);
