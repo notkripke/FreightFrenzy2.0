@@ -31,13 +31,15 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
         Pose2d localization_variable = new Pose2d();
 
         drive.setPoseEstimate(startPose);
-        
+
 
         //test 1 (driivng through barrier test)
         Trajectory traj = drive.trajectoryBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(20, 5))
+                .lineToConstantHeading(new Vector2d(25, 0))
                 .build();
         //
+
+        //drive.followTrajectory(drive.trajectoryBuilder(new Pose2d(drive.getPoseEstimate().getX(),drive.getPoseEstimate().getY(), drive.getPoseEstimate().getHeading())).lineToConstantHeading(new Vector2d(10,10)).build());
 
 
 
@@ -45,12 +47,16 @@ public class SplineTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
 
         drive.followTrajectory(traj);
+        sleep(300);
 
-        //drive.setWeightedDrivePower(new Pose2d(.5,.5,0));
-        //localization_variable = drive.getCurrentPosition();
+        //localization_variable = drive.getPoseEstimate();
         //Trajectory traj1 = drive.trajectoryBuilder(localization_variable)
-        //.lineToConstantHeading(new Vector2d(10, 10))
+        //.lineToConstantHeading(new Vector2d(35, 20))
         //.build();
+        Trajectory traj1 = drive.trajectoryBuilder(drive.getPoseEstimate())
+                .lineToConstantHeading(new Vector2d(35, 20))
+                .build();
+        drive.followTrajectory(traj1);
 
 
 

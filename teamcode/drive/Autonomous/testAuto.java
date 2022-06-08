@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLoc
 /*
  * This is an example of a more complex path to really test the tuning.
  */
-@Disabled
+
 @Autonomous(group = "drive")
 public class testAuto extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override

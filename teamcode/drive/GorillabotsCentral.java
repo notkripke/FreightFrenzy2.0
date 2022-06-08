@@ -79,9 +79,9 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
     public static double LIFT_SPEED = .8;
     public static double OUTTAKE_TILT = .36;
-    public static double OUTTAKE_UP = .315;
-    public static double OUTTAKE_DOWN = 0.18;
-    public static double OUTTAKE_SHARED = 0.08;
+    public static double OUTTAKE_UP = .37;
+    public static double OUTTAKE_DOWN = 0.26;
+    public static double OUTTAKE_SHARED = 0.1;
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = false;
     private static final String VUFORIA_KEY =
@@ -90,7 +90,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public final float CAMERA_VERTICAL_DISPLACEMENT = 15.0f * mmPerInch;   // eg: Camera is 6 Inches above ground
     public final float CAMERA_LEFT_DISPLACEMENT     = 1.0f * mmPerInch;   // eg: Enter the left distance from the center of the robot to the camera lens
 
-    public Pose2d offsetPose = new Pose2d(0, 0, 0);
+    public Pose2d offsetPose = new Pose2d();
 
     public static final float mmPerInch        = 25.4f;
     public static final float mmTargetHeight   = 6 * mmPerInch;          // the height of the center of the target image above the floor
@@ -452,6 +452,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
                 drive.update();
             }
         }
+        drive.setWeightedDrivePower(new Pose2d(0,0,0));
         offsetPose = drive.getPoseEstimate();
         robot.Intake2.setPower(0);
         robot.Intake1.setPower(0);
