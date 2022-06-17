@@ -26,15 +26,11 @@ public class liftTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
 
         waitForStart();
 
-        while(!isStopRequested()){
-
             //if(gamepad1.b){
             //    target += 500;
             //}
 
-            setLift(LIFT_MID, 0.7, 0.2);
-
-        }
+            realAutoDump("bottom");
 
     }
 }

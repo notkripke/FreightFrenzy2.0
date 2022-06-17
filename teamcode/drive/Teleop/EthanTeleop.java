@@ -41,6 +41,8 @@ public class  EthanTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
         double r = 5.5;
         double u = 0.626;
 
+        double last_lifted_height = 0;
+
         double k = Math.PI/lemniscate;
 
         double max = Math.sqrt(6.13/r);
@@ -185,8 +187,11 @@ public class  EthanTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     robot.lift.setPower(0);
                     break;
                 case "down":
-                    if(sensors.liftBot.getState()) {
+                    if(sensors.liftBot.getState() && LIFT_POS > (LIFT_INIT + (last_lifted_height*0.1))) {
                         robot.lift.setPower(-gamepad2.left_trigger);
+                    }
+                    if(sensors.liftBot.getState() && LIFT_POS < (LIFT_INIT + (last_lifted_height*0.1))) {
+                        robot.lift.setPower(-gamepad2.left_trigger * 0.2);
                     }
                     if(!sensors.liftBot.getState()){
                         robot.lift.setPower(0);
@@ -199,6 +204,7 @@ public class  EthanTeleop extends GorillabotsCentral { // 192.168.43.1:8080/dash
                     if(LIFT_POS < LIFT_CEILING) {
                         robot.lift.setPower(gamepad2.right_trigger);
                     }
+                    last_lifted_height = robot.lift.getCurrentPosition();
                     break;
             }
 

@@ -68,10 +68,10 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     double  targetBearing   = 0;        // Robot Heading, relative to target.  Positive degrees means target is to the right.
 
     public static int LIFT_CEILING = 2900;
-    public static int LIFT_HIGH = 2850;
+    public static int LIFT_HIGH = 2750;
     public static int LIFT_SHARED = 1600; // 1700
-    public static int LIFT_MID = 2000;
-    public static int LIFT_LOW = 1300;
+    public static int LIFT_MID = 1790;
+    public static int LIFT_LOW = 1100;
     public static int LIFT_BASE = 0;
 
     public final int intake_to_dist_period = 8;
@@ -295,6 +295,117 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
 
     public Pose2d VuforiaLocalizedPose2d(){
         return new Pose2d(vuforiaScanPos_X, vuforiaScanPos_Y, Math.toRadians(vuforiaScanPos_HEADING));
+    }
+
+    public void realAutoDump(String level){
+    final double LIFT_INIT = robot.lift.getCurrentPosition();
+    double LIFT_POS = robot.lift.getCurrentPosition();
+    double target = LIFT_INIT;
+    switch (level){
+        case "bottom":
+            target = LIFT_LOW + LIFT_INIT;
+            break;
+        case "low":
+            target = LIFT_LOW + LIFT_INIT;
+            break;
+        case "middle":
+            target = LIFT_MID + LIFT_INIT;
+            break;
+        case "high":
+            target = LIFT_HIGH + LIFT_INIT;
+            break;
+    }
+
+    while(robot.lift.getCurrentPosition() < (target)){
+        robot.lift.setPower(1);
+    }
+    robot.lift.setPower(0);
+    sleep(300);
+    robot.outtake.setPosition(OUTTAKE_DOWN *1.1);
+    sleep(700);
+    robot.outtake.setPosition(OUTTAKE_UP);
+    sleep(200);
+    double power = -1;
+    final double peak = robot.lift.getCurrentPosition() + LIFT_INIT;
+    while((robot.lift.getCurrentPosition() - LIFT_INIT) > -20 /*&& !sensors.liftBot.getState()*/){
+
+
+        power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
+
+            robot.lift.setPower(power);
+
+        telemetry.addData("sensor: ", sensors.liftBot.getState());
+        telemetry.addData("pos: ", robot.lift.getCurrentPosition() - LIFT_INIT);
+        telemetry.addData("power: ", power);
+        telemetry.update();
+        }
+    robot.lift.setPower(0);
+    //if above doesnt work, try this
+        /*
+        robot.lift.setPower(-1);
+        boolean isLoop = true;
+        while(isLoop){
+        if(robot.lift.getCurrentPosition() - LIFT_INIT > 100){
+        isLoop = false;
+        robot.lift.setPower(0);
+        }
+        }
+         */
+    // or even try robot.lift.setMode(run to pos) method maybe research it
+    }
+
+    public void lowerLift(){
+        final double LIFT_INIT = robot.lift.getCurrentPosition();
+        double LIFT_POS = robot.lift.getCurrentPosition();
+        final double target = 0;
+        while(sensors.liftBot.getState()){
+            robot.lift.setPower(-1);
+        }
+        robot.lift.setPower(0);
+    }
+
+    public void autoDump(String level) {
+        switch(level){
+            case "bottom":
+                robot.lift.setPower(.8);
+                sleep(650);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(540);
+                robot.lift.setPower(0);
+                break;
+            case "middle":
+                robot.lift.setPower(.8);
+                sleep(1100);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(750);
+                robot.lift.setPower(0);
+                break;
+            case "top":
+                robot.lift.setPower(.8);
+                sleep(1500);
+                robot.lift.setPower(0);
+                sleep(400);
+                robot.outtake.setPosition(OUTTAKE_DOWN);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                robot.lift.setPower(-0.8);
+                sleep(1200);
+                robot.lift.setPower(0);
+                break;
+        }
     }
 
     public void LED(String leds){
