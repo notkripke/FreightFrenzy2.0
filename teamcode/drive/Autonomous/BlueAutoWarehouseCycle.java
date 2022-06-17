@@ -32,7 +32,7 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
         final long INITIAL_PAUSE = 0;
         final long SLEEP_TIME = 150;
 
-        Pose2d startPose = new Pose2d(12, -63.5, Math.toRadians(90));
+        Pose2d startPose = new Pose2d(12, 63.5, Math.toRadians(90));
 
         drive.setPoseEstimate(startPose);
 
@@ -53,7 +53,7 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 .build();
 
         Trajectory hubAdjustTop = drive.trajectoryBuilder(hubApproachTop.end())
-                .lineToLinearHeading(new Pose2d(-3, -49, Math.toRadians(160)))
+                .lineToLinearHeading(new Pose2d(-3, 49, Math.toRadians(160)))
                 .build();
 
         Trajectory warehouse1 = drive.trajectoryBuilder(hubAdjust.end())
@@ -65,15 +65,15 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 .build();
 
         Trajectory warehouse1Top = drive.trajectoryBuilder(hubAdjustTop.end())
-                .splineToLinearHeading(new Pose2d(0, -65.5, Math.toRadians(180)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)), Math.toRadians(90))
                 .build();
 
         Trajectory warehouse2Top = drive.trajectoryBuilder(warehouse1Top.end())
-                .lineToConstantHeading(new Vector2d(35, -65.5))
+                .lineToConstantHeading(new Vector2d(35, 65.5))
                 .build();
 
-        Trajectory secondHubApproach = drive.trajectoryBuilder(new Pose2d(0, -65.5, Math.toRadians(180)))
-                .splineToLinearHeading(new Pose2d(0, -44, Math.toRadians(205)), Math.toRadians(90))
+        Trajectory secondHubApproach = drive.trajectoryBuilder(new Pose2d(0, 65.5, Math.toRadians(0)))
+                .splineToLinearHeading(new Pose2d(0, 44, Math.toRadians(155)), Math.toRadians(270))
                 .build();
 
         startVisionProcessing();
@@ -107,7 +107,7 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 creepIntakeOffset("backwards", 10000);
 
                 Trajectory warehouseExit1 = drive.trajectoryBuilder(offsetPose)
-                        .lineToLinearHeading(new Pose2d(0, -65.5, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)))
                         .build();
 
                 sleep(300);
@@ -139,7 +139,7 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 creepIntakeOffset("backwards", 10000);
 
                 Trajectory warehouseExit2 = drive.trajectoryBuilder(offsetPose)
-                        .lineToLinearHeading(new Pose2d(0, -65.5, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)))
                         .build();
 
                 sleep(300);
@@ -171,7 +171,7 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 creepIntakeOffset("backwards", 10000);
 
                 Trajectory warehouseExit3 = drive.trajectoryBuilder(offsetPose)
-                        .lineToLinearHeading(new Pose2d(0, -65.5, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)))
                         .build();
 
                 sleep(300);
