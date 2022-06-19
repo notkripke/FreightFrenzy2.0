@@ -41,39 +41,39 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 .build();
 
         Trajectory hubApproach = drive.trajectoryBuilder(initialOffset.end())
-                .splineToLinearHeading(new Pose2d(-3, 49, Math.toRadians(153)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-3, 49, Math.toRadians(333)), Math.toRadians(270))
                 .build();
 
         Trajectory hubAdjust = drive.trajectoryBuilder(hubApproach.end())
-                .lineToLinearHeading(new Pose2d(-3, 46, Math.toRadians(153)))
+                .lineToLinearHeading(new Pose2d(-3, 47, Math.toRadians(343)))
                 .build();
 
         Trajectory hubApproachTop = drive.trajectoryBuilder(initialOffset.end())
-                .splineToLinearHeading(new Pose2d(-3, 51, Math.toRadians(160)), Math.toRadians(270)) // maybe 140 heading
+                .splineToLinearHeading(new Pose2d(-3, 51, Math.toRadians(340)), Math.toRadians(270)) // maybe 140 heading
                 .build();
 
         Trajectory hubAdjustTop = drive.trajectoryBuilder(hubApproachTop.end())
-                .lineToLinearHeading(new Pose2d(-3, 49, Math.toRadians(160)))
+                .lineToLinearHeading(new Pose2d(-3, 49, Math.toRadians(342)))
                 .build();
 
         Trajectory warehouse1 = drive.trajectoryBuilder(hubAdjust.end())
-                .splineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(0, 66.5, Math.toRadians(0)), Math.toRadians(90))
                 .build();
 
         Trajectory warehouse2 = drive.trajectoryBuilder(warehouse1.end())
-                .lineToConstantHeading(new Vector2d(35, 65.5))
+                .lineToConstantHeading(new Vector2d(35, 67))
                 .build();
 
         Trajectory warehouse1Top = drive.trajectoryBuilder(hubAdjustTop.end())
-                .splineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(0, 67, Math.toRadians(0)), Math.toRadians(90))
                 .build();
 
         Trajectory warehouse2Top = drive.trajectoryBuilder(warehouse1Top.end())
-                .lineToConstantHeading(new Vector2d(35, 65.5))
+                .lineToConstantHeading(new Vector2d(35, 68))
                 .build();
 
         Trajectory secondHubApproach = drive.trajectoryBuilder(new Pose2d(0, 65.5, Math.toRadians(0)))
-                .splineToLinearHeading(new Pose2d(0, 44, Math.toRadians(155)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(0, 44, Math.toRadians(335)), Math.toRadians(270))
                 .build();
 
         startVisionProcessing();
@@ -95,16 +95,16 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
             case 1:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(hubApproach);
-                sleep(200);
+                //sleep(200);
                 drive.followTrajectory(hubAdjust);
                 sleep(200);
-                realAutoDump("bottom");
+                realAutoDump("bluelow");
                 sleep(200);
                 drive.followTrajectory(warehouse1);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(warehouse2);
                 sleep(SLEEP_TIME);
-                creepIntakeOffset("backwards", 10000);
+                creepIntakeOffset("forwards", 10000);
 
                 Trajectory warehouseExit1 = drive.trajectoryBuilder(offsetPose)
                         .lineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)))
@@ -121,22 +121,52 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 sleep(200);
                 drive.followTrajectory(warehouse2);
                 sleep(200);
-                creepIntake("backwards", 4000);
+                creepIntake("forwards", 4000);
                 break;
 
             case 2:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(hubApproach);
-                sleep(200);
+                //sleep(200);
                 drive.followTrajectory(hubAdjust);
                 sleep(200);
-                autoDump("middle");
+                //autoDump("middle");
+
+                double LIFT_INIT = robot.lift.getCurrentPosition();
+                double LIFT_POS = robot.lift.getCurrentPosition();
+                double target = LIFT_MID;
+                while(robot.lift.getCurrentPosition() < (target)){
+                    robot.lift.setPower(1);
+                }
+                robot.lift.setPower(0);
+                sleep(300);
+                robot.outtake.setPosition(OUTTAKE_DOWN *1.1);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                double power = -1;
+                double peak = robot.lift.getCurrentPosition() + LIFT_INIT;
+                while((robot.lift.getCurrentPosition() - LIFT_INIT) > 50 /*&& !sensors.liftBot.getState()*/){
+
+
+                    power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
+
+                    robot.lift.setPower(power);
+
+                    telemetry.addData("sensor: ", sensors.liftBot.getState());
+                    telemetry.addData("pos: ", robot.lift.getCurrentPosition() - LIFT_INIT);
+                    telemetry.addData("power: ", power);
+                    telemetry.update();
+                }
+                robot.lift.setPower(0);
+
+
                 sleep(200);
                 drive.followTrajectory(warehouse1);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(warehouse2);
                 sleep(SLEEP_TIME);
-                creepIntakeOffset("backwards", 10000);
+                creepIntakeOffset("forwards", 10000);
 
                 Trajectory warehouseExit2 = drive.trajectoryBuilder(offsetPose)
                         .lineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)))
@@ -148,27 +178,85 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 sleep(200);
                 drive.followTrajectory(secondHubApproach);
                 sleep(200);
-                autoDump("top");
+                //autoDump("top");
+
+                LIFT_INIT = robot.lift.getCurrentPosition();
+                LIFT_POS = robot.lift.getCurrentPosition();
+                target = LIFT_MID;
+                while(robot.lift.getCurrentPosition() < (target)){
+                    robot.lift.setPower(1);
+                }
+                robot.lift.setPower(0);
+                sleep(300);
+                robot.outtake.setPosition(OUTTAKE_DOWN *1.1);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                power = -1;
+                peak = robot.lift.getCurrentPosition() + LIFT_INIT;
+                while((robot.lift.getCurrentPosition() - LIFT_INIT) > 20 /*&& !sensors.liftBot.getState()*/){
+
+
+                    power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
+
+                    robot.lift.setPower(power);
+
+                    telemetry.addData("sensor: ", sensors.liftBot.getState());
+                    telemetry.addData("pos: ", robot.lift.getCurrentPosition() - LIFT_INIT);
+                    telemetry.addData("power: ", power);
+                    telemetry.update();
+                }
+                robot.lift.setPower(0);
+
                 sleep(200);
                 drive.followTrajectory(warehouse1);
                 sleep(200);
                 drive.followTrajectory(warehouse2);
                 sleep(200);
-                creepIntake("backwards", 4000);
+                creepIntake("forwards", 4000);
                 break;
             case 3:
                 sleep(INITIAL_PAUSE);
                 drive.followTrajectory(hubApproachTop);
-                sleep(200);
+                //sleep(200);
                 drive.followTrajectory(hubAdjustTop);
                 sleep(200);
-                autoDump("top");
+                //autoDump("top");
+
+                LIFT_INIT = robot.lift.getCurrentPosition();
+                LIFT_POS = robot.lift.getCurrentPosition();
+                target = LIFT_HIGH;
+                while(robot.lift.getCurrentPosition() < (target)){
+                    robot.lift.setPower(1);
+                }
+                robot.lift.setPower(0);
+                sleep(300);
+                robot.outtake.setPosition(OUTTAKE_DOWN *1.1);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                power = -1;
+                peak = robot.lift.getCurrentPosition() + LIFT_INIT;
+                while((robot.lift.getCurrentPosition() - LIFT_INIT) > 50 /*&& !sensors.liftBot.getState()*/){
+
+
+                    power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
+
+                    robot.lift.setPower(power);
+
+                    telemetry.addData("sensor: ", sensors.liftBot.getState());
+                    telemetry.addData("pos: ", robot.lift.getCurrentPosition() - LIFT_INIT);
+                    telemetry.addData("power: ", power);
+                    telemetry.update();
+                }
+                robot.lift.setPower(0);
+
                 sleep(200);
                 drive.followTrajectory(warehouse1Top);
                 sleep(SLEEP_TIME);
                 drive.followTrajectory(warehouse2Top);
                 sleep(SLEEP_TIME);
-                creepIntakeOffset("backwards", 10000);
+                creepIntakeOffset("forwards", 10000);
 
                 Trajectory warehouseExit3 = drive.trajectoryBuilder(offsetPose)
                         .lineToLinearHeading(new Pose2d(0, 65.5, Math.toRadians(0)))
@@ -180,13 +268,42 @@ public class BlueAutoWarehouseCycle extends GorillabotsCentral {// 192.168.43.1:
                 sleep(200);
                 drive.followTrajectory(secondHubApproach);
                 sleep(200);
-                autoDump("top");
+                //autoDump("top");
+
+                LIFT_INIT = robot.lift.getCurrentPosition();
+                LIFT_POS = robot.lift.getCurrentPosition();
+                target = LIFT_MID;
+                while(robot.lift.getCurrentPosition() < (target)){
+                    robot.lift.setPower(1);
+                }
+                robot.lift.setPower(0);
+                sleep(300);
+                robot.outtake.setPosition(OUTTAKE_DOWN *1.1);
+                sleep(700);
+                robot.outtake.setPosition(OUTTAKE_UP);
+                sleep(200);
+                power = -1;
+                peak = robot.lift.getCurrentPosition() + LIFT_INIT;
+                while((robot.lift.getCurrentPosition() - LIFT_INIT) > 20 /*&& !sensors.liftBot.getState()*/){
+
+
+                    power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
+
+                    robot.lift.setPower(power);
+
+                    telemetry.addData("sensor: ", sensors.liftBot.getState());
+                    telemetry.addData("pos: ", robot.lift.getCurrentPosition() - LIFT_INIT);
+                    telemetry.addData("power: ", power);
+                    telemetry.update();
+                }
+                robot.lift.setPower(0);
+
                 sleep(200);
                 drive.followTrajectory(warehouse1);
                 sleep(200);
                 drive.followTrajectory(warehouse2);
                 sleep(200);
-                creepIntake("backwards", 4000);
+                creepIntake("forwards", 4000);
                 break;
 
         }

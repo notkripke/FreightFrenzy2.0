@@ -70,7 +70,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public static int LIFT_CEILING = 2900;
     public static int LIFT_HIGH = 2750;
     public static int LIFT_SHARED = 1600; // 1700
-    public static int LIFT_MID = 1790;
+    public static int LIFT_MID = 1780;
     public static int LIFT_LOW = 1100;
     public static int LIFT_BASE = 0;
 
@@ -78,9 +78,9 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     public int intake_to_dist_increment = 0;
 
     public static double LIFT_SPEED = .8;
-    public static double OUTTAKE_TILT = .36;
-    public static double OUTTAKE_UP = .37;
-    public static double OUTTAKE_DOWN = 0.26;
+    public static double OUTTAKE_TILT = .34;
+    public static double OUTTAKE_UP = .46;
+    public static double OUTTAKE_DOWN = 0.309;
     public static double OUTTAKE_SHARED = 0.1;
     public static int SHARED_HEIGHT = 1250;
     public static boolean LIFT_OVERRIDE = false;
@@ -314,6 +314,8 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         case "high":
             target = LIFT_HIGH + LIFT_INIT;
             break;
+        case "bluelow":
+            target = LIFT_LOW + LIFT_INIT + 150;
     }
 
     while(robot.lift.getCurrentPosition() < (target)){
@@ -327,7 +329,7 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
     sleep(200);
     double power = -1;
     final double peak = robot.lift.getCurrentPosition() + LIFT_INIT;
-    while((robot.lift.getCurrentPosition() - LIFT_INIT) > -20 /*&& !sensors.liftBot.getState()*/){
+    while((robot.lift.getCurrentPosition() - LIFT_INIT) > -20 /*&& sensors.liftBot.getState()*/){
 
 
         power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
@@ -352,6 +354,63 @@ public abstract class GorillabotsCentral extends LinearOpMode {//testing
         }
          */
     // or even try robot.lift.setMode(run to pos) method maybe research it
+    }
+
+    public void realAutoDumpRed(String level){
+        final double LIFT_INIT = robot.lift.getCurrentPosition();
+        double LIFT_POS = robot.lift.getCurrentPosition();
+        double target = LIFT_INIT;
+        switch (level){
+            case "bottom":
+                target = LIFT_LOW + LIFT_INIT;
+                break;
+            case "low":
+                target = LIFT_LOW + LIFT_INIT;
+                break;
+            case "middle":
+                target = LIFT_MID + LIFT_INIT;
+                break;
+            case "high":
+                target = LIFT_HIGH + LIFT_INIT;
+                break;
+        }
+
+        while(robot.lift.getCurrentPosition() < (target)){
+            robot.lift.setPower(1);
+        }
+        robot.lift.setPower(0);
+        sleep(300);
+        robot.outtake.setPosition(OUTTAKE_DOWN *1.1);
+        sleep(700);
+        robot.outtake.setPosition(OUTTAKE_UP);
+        sleep(200);
+        double power = -1;
+        final double peak = robot.lift.getCurrentPosition() + LIFT_INIT;
+        while((robot.lift.getCurrentPosition() - LIFT_INIT) > -20 && sensors.liftBot.getState()){
+
+
+            power = -(Math.abs(robot.lift.getCurrentPosition() / peak)) - 0.35;
+
+            robot.lift.setPower(power);
+
+            telemetry.addData("sensor: ", sensors.liftBot.getState());
+            telemetry.addData("pos: ", robot.lift.getCurrentPosition() - LIFT_INIT);
+            telemetry.addData("power: ", power);
+            telemetry.update();
+        }
+        robot.lift.setPower(0);
+        //if above doesnt work, try this
+        /*
+        robot.lift.setPower(-1);
+        boolean isLoop = true;
+        while(isLoop){
+        if(robot.lift.getCurrentPosition() - LIFT_INIT > 100){
+        isLoop = false;
+        robot.lift.setPower(0);
+        }
+        }
+         */
+        // or even try robot.lift.setMode(run to pos) method maybe research it
     }
 
     public void lowerLift(){

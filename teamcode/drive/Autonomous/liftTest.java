@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcodeGIT.teamcode.drive.StandardTrackingWheelLoc
 public class liftTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
     @Override
     public void runOpMode() throws InterruptedException {
-        initializeComponents();
+        initializeComponents(); // .335  .194
 
         waitForStart();
 
@@ -30,7 +30,7 @@ public class liftTest extends GorillabotsCentral {// 192.168.43.1:8080/dash
             //    target += 500;
             //}
 
-            realAutoDump("bottom");
+            realAutoDump("middle");
 
     }
 }
